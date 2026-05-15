@@ -68,7 +68,7 @@ const config: Config = {
         brand: {
           DEFAULT: "#0B1F3A",
           deep: "#06122A",
-          accent: "#C8FF3C",
+          accent: "#277CFA",
           soft: "#F4F6FA",
         },
       },

@@ -19,16 +19,9 @@
 
             <tr>
               <td style="padding:28px 32px 0 32px;">
-                <table role="presentation" cellpadding="0" cellspacing="0">
-                  <tr>
-                    <td style="width:32px;height:32px;background-color:#0B1F3A;border-radius:8px;text-align:center;vertical-align:middle;">
-                      <span style="color:#FFFFFF;font-weight:900;font-size:14px;font-family:-apple-system,'Pretendard',sans-serif;letter-spacing:-0.5px;">P</span>
-                    </td>
-                    <td style="padding-left:10px;">
-                      <span style="font-size:16px;font-weight:700;color:#0B1F3A;letter-spacing:-0.5px;">PACKLESS</span>
-                    </td>
-                  </tr>
-                </table>
+                <a href="{{ .SiteURL }}" style="text-decoration:none;display:inline-block;">
+                  <img src="{{ .SiteURL }}/logo-packless.png" alt="PACKLESS 패클스" width="220" height="56" style="display:block;height:28px;width:auto;max-width:220px;border:0;outline:none;" />
+                </a>
               </td>
             </tr>
 
@@ -59,9 +52,9 @@
               <td style="padding:24px 32px 0 32px;">
                 <table role="presentation" cellpadding="0" cellspacing="0">
                   <tr>
-                    <td style="background-color:#C8FF3C;border-radius:10px;">
+                    <td style="background-color:#277CFA;border-radius:10px;">
                       <a href="{{ .ConfirmationURL }}"
-                         style="display:inline-block;padding:14px 28px;font-size:15px;font-weight:700;color:#0B1F3A !important;text-decoration:none;letter-spacing:-0.3px;">
+                         style="display:inline-block;padding:14px 28px;font-size:15px;font-weight:700;color:#FFFFFF !important;text-decoration:none;letter-spacing:-0.3px;">
                         패클스에 로그인 →
                       </a>
                     </td>

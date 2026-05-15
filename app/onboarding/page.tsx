@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getCurrentProfile, getCurrentUser } from "@/lib/auth";
+import { BrandLogo } from "@/components/brand-logo";
 import { OnboardingForm } from "./onboarding-form";
 
 export const metadata = { title: "프로필 설정" };
@@ -12,10 +13,13 @@ export default async function OnboardingPage() {
 
   return (
     <div className="container max-w-2xl py-10 md:py-16">
-      <div className="mb-8 space-y-2">
-        <p className="text-xs font-semibold text-muted-foreground tracking-wider uppercase">
-          PACKLESS · 온보딩
+      <div className="mb-8 flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
+        <BrandLogo className="h-9" />
+        <p className="text-xs font-semibold text-muted-foreground tracking-wider uppercase md:text-right">
+          온보딩
         </p>
+      </div>
+      <div className="mb-6 space-y-2">
         <h1 className="text-2xl md:text-3xl font-bold">
           몇 가지만 알려주시면, 더 맞는 콘텐츠를 보여드릴게요.
         </h1>

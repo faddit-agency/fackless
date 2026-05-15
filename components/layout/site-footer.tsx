@@ -1,17 +1,15 @@
 import Link from "next/link";
-import { SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { BrandLogo } from "@/components/brand-logo";
+import { SITE_TAGLINE } from "@/lib/constants";
 
 export function SiteFooter() {
   return (
     <footer className="mt-24 border-t bg-muted/30">
       <div className="container py-12 grid gap-10 md:grid-cols-4">
         <div className="space-y-3 md:col-span-1">
-          <div className="flex items-center gap-2 font-bold">
-            <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground text-xs font-black">
-              P
-            </span>
-            <span>{SITE_NAME}</span>
-          </div>
+          <Link href="/" className="inline-flex">
+            <BrandLogo className="h-7" />
+          </Link>
           <p className="text-sm text-muted-foreground">{SITE_TAGLINE}</p>
         </div>
         <FooterColumn

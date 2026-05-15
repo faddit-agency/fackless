@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Menu, Search } from "lucide-react";
 import { getCurrentProfile } from "@/lib/auth";
+import { BrandLogoLink } from "@/components/brand-logo";
 import { Button } from "@/components/ui/button";
 import { UserMenu } from "@/components/layout/user-menu";
-import { SITE_NAME } from "@/lib/constants";
 
 const NAV = [
   { href: "/news", label: "뉴스" },
@@ -19,12 +19,7 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/80 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       <div className="container flex h-16 items-center gap-6">
-        <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground text-xs font-black">
-            P
-          </span>
-          <span className="tracking-tight">{SITE_NAME}</span>
-        </Link>
+        <BrandLogoLink priority />
 
         <nav className="hidden md:flex items-center gap-1 text-sm">
           {NAV.map((item) => (

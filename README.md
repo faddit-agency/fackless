@@ -32,6 +32,9 @@ components/
   layout/                  # 헤더, 푸터, 모바일 하단 네비
   ui/                      # shadcn/ui 컴포넌트
   cards/                   # 게시글/자료 카드
+  brand-logo.tsx           # 공통 로고 이미지
+public/
+  logo-packless.png        # 헤더·이메일(사이트 URL)에서 참조하는 워드마크
 lib/
   supabase/                # 클라이언트, 서버, 미들웨어 클라이언트
   auth.ts                  # 현재 사용자/프로필 헬퍼

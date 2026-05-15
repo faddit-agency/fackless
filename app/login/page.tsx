@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { BrandLogo } from "@/components/brand-logo";
 import { EmailLoginForm } from "./email-login-form";
 import { getCurrentUser } from "@/lib/auth";
 // import { KakaoLoginButton } from "./kakao-login-button"; // 카카오 로그인 임시 비활성화
@@ -21,14 +22,14 @@ export default async function LoginPage({
   return (
     <div className="container max-w-md py-12 md:py-20">
       <div className="rounded-2xl border bg-card p-7 md:p-9 shadow-sm space-y-6">
-        <div className="space-y-2 text-center">
-          <p className="text-xs font-semibold text-muted-foreground tracking-wider uppercase">
-            PACKLESS
-          </p>
-          <h1 className="text-2xl font-bold">실무 커뮤니티에 합류하기</h1>
-          <p className="text-sm text-muted-foreground">
-            이메일로 로그인하세요.
-          </p>
+        <div className="flex flex-col items-center gap-3 text-center">
+          <BrandLogo className="h-9" />
+          <div className="space-y-2">
+            <h1 className="text-2xl font-bold">실무 커뮤니티에 합류하기</h1>
+            <p className="text-sm text-muted-foreground">
+              이메일로 로그인하세요.
+            </p>
+          </div>
         </div>
         <EmailLoginForm redirectTo={searchParams.redirectTo} />
         <p className="text-center text-sm text-muted-foreground">
