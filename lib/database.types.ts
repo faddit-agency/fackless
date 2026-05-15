@@ -39,6 +39,8 @@ export interface Profile {
   id: string;
   user_id: string;
   nickname: string;
+  username: string | null;
+  real_name: string | null;
   avatar_url: string | null;
   role_type: RoleType;
   bio: string | null;
