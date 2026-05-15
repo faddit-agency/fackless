@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { KakaoLoginButton } from "./kakao-login-button";
 import { EmailLoginForm } from "./email-login-form";
 import { getCurrentUser } from "@/lib/auth";
+// import { KakaoLoginButton } from "./kakao-login-button"; // 카카오 로그인 임시 비활성화
 
 export const metadata = {
   title: "로그인",
@@ -27,11 +27,9 @@ export default async function LoginPage({
           </p>
           <h1 className="text-2xl font-bold">실무 커뮤니티에 합류하기</h1>
           <p className="text-sm text-muted-foreground">
-            카카오 또는 이메일로 로그인하세요.
+            이메일로 로그인하세요.
           </p>
         </div>
-        <KakaoLoginButton redirectTo={searchParams.redirectTo} />
-        <Divider label="또는" />
         <EmailLoginForm redirectTo={searchParams.redirectTo} />
         <p className="text-center text-sm text-muted-foreground">
           아직 회원이 아니신가요?{" "}
@@ -58,12 +56,3 @@ export default async function LoginPage({
   );
 }
 
-function Divider({ label }: { label: string }) {
-  return (
-    <div className="flex items-center gap-3 text-[11px] uppercase text-muted-foreground">
-      <span className="h-px flex-1 bg-border" />
-      {label}
-      <span className="h-px flex-1 bg-border" />
-    </div>
-  );
-}

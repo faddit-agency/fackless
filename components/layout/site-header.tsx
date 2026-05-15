@@ -54,7 +54,7 @@ export async function SiteHeader() {
                 <Link href="/login">로그인</Link>
               </Button>
               <Button asChild size="sm" variant="accent">
-                <Link href="/login">시작하기</Link>
+                <Link href="/signup">회원가입</Link>
               </Button>
             </>
           )}

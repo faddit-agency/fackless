@@ -95,7 +95,7 @@ function HeroSection() {
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild size="xl" variant="accent">
-              <Link href="/login">3초 만에 가입하기</Link>
+              <Link href="/signup">무료로 가입하기</Link>
             </Button>
             <Button asChild size="xl" variant="outline">
               <Link href="/resources">무료 자료실 둘러보기</Link>
