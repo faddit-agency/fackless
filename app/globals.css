@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+    --primary: 219 71% 14%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 75 100% 62%;
+    --accent-foreground: 219 71% 14%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 219 71% 24%;
+
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html,
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv11";
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    min-height: 100vh;
+  }
+}
+
+.prose-packless {
+  @apply max-w-none text-foreground leading-relaxed text-[15px] md:text-base;
+}
+.prose-packless h2 {
+  @apply mt-8 mb-3 text-xl md:text-2xl font-bold;
+}
+.prose-packless h3 {
+  @apply mt-6 mb-2 text-lg font-semibold;
+}
+.prose-packless p {
+  @apply mb-4 text-[15px] md:text-base;
+}
+.prose-packless ul {
+  @apply list-disc pl-5 mb-4 space-y-1;
+}
+.prose-packless ol {
+  @apply list-decimal pl-5 mb-4 space-y-1;
+}
+.prose-packless code {
+  @apply rounded bg-muted px-1.5 py-0.5 text-[13px];
+}
+.prose-packless blockquote {
+  @apply border-l-4 border-brand pl-4 italic text-muted-foreground my-4;
+}

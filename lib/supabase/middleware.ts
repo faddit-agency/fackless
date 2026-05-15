@@ -1,0 +1,82 @@
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { NextResponse, type NextRequest } from "next/server";
+
+export async function updateSession(request: NextRequest) {
+  let response = NextResponse.next({ request });
+
+  if (
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  ) {
+    return response;
+  }
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(
+          cookiesToSet: { name: string; value: string; options: CookieOptions }[],
+        ) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value),
+          );
+          response = NextResponse.next({ request });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options),
+          );
+        },
+      },
+    },
+  );
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { pathname } = request.nextUrl;
+
+  const isProtected =
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/onboarding") ||
+    pathname.startsWith("/community/questions/new") ||
+    pathname.startsWith("/community/feedback/new") ||
+    pathname.startsWith("/community/networking/new");
+
+  if (isProtected && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    url.searchParams.set("redirectTo", pathname);
+    return NextResponse.redirect(url);
+  }
+
+  if (user && pathname !== "/onboarding" && !pathname.startsWith("/auth")) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_onboarded, is_admin")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (!profile?.is_onboarded && !pathname.startsWith("/login")) {
+      const writeIntents =
+        pathname.startsWith("/community") && pathname.includes("/new");
+      if (writeIntents || pathname.startsWith("/admin")) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/onboarding";
+        return NextResponse.redirect(url);
+      }
+    }
+
+    if (pathname.startsWith("/admin") && !profile?.is_admin) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/";
+      return NextResponse.redirect(url);
+    }
+  }
+
+  return response;
+}
