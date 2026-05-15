@@ -18,6 +18,7 @@ import {
 } from "@/lib/constants";
 import { completeOnboarding } from "./actions";
 import { cn } from "@/lib/utils";
+import { AvatarUploader } from "./avatar-uploader";
 
 const COMMON_INTERESTS = [
   "원단",
@@ -31,6 +32,7 @@ const COMMON_INTERESTS = [
 ];
 
 interface Props {
+  userId: string;
   initial: {
     nickname: string;
     avatar_url: string;
@@ -42,8 +44,9 @@ interface Props {
   };
 }
 
-export function OnboardingForm({ initial }: Props) {
+export function OnboardingForm({ userId, initial }: Props) {
   const [role, setRole] = useState<RoleType>(initial.role_type);
+  const [nickname, setNickname] = useState(initial.nickname);
 
   return (
     <form action={completeOnboarding} className="space-y-8">
@@ -72,21 +75,23 @@ export function OnboardingForm({ initial }: Props) {
 
       <section className="space-y-4">
         <h2 className="text-base font-semibold">공통 정보</h2>
+        <div className="space-y-1.5">
+          <Label className="text-sm">프로필 이미지</Label>
+          <AvatarUploader
+            userId={userId}
+            initialUrl={initial.avatar_url}
+            nickname={nickname}
+          />
+        </div>
         <Field label="닉네임" required>
           <Input
             name="nickname"
-            defaultValue={initial.nickname}
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
             placeholder="패클스에서 사용할 닉네임"
             required
             minLength={2}
             maxLength={24}
-          />
-        </Field>
-        <Field label="프로필 이미지 URL">
-          <Input
-            name="avatar_url"
-            defaultValue={initial.avatar_url}
-            placeholder="https://..."
           />
         </Field>
         <Field label="소개">

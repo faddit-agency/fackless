@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserAvatar } from "@/components/user-avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PostCard } from "@/components/cards/post-card";
@@ -56,17 +56,12 @@ export default async function ProfilePage({ params }: Props) {
   return (
     <div className="container max-w-3xl py-10">
       <section className="rounded-2xl border bg-card p-6 md:p-8 flex flex-col md:flex-row md:items-start gap-6">
-        <Avatar className="h-20 w-20">
-          {typedProfile.avatar_url ? (
-            <AvatarImage
-              src={typedProfile.avatar_url}
-              alt={typedProfile.nickname}
-            />
-          ) : null}
-          <AvatarFallback className="text-2xl">
-            {typedProfile.nickname.slice(0, 1)}
-          </AvatarFallback>
-        </Avatar>
+        <UserAvatar
+          nickname={typedProfile.nickname}
+          avatarUrl={typedProfile.avatar_url}
+          className="h-20 w-20"
+          fallbackClassName="text-2xl"
+        />
         <div className="flex-1 space-y-3">
           <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-2xl font-bold">{typedProfile.nickname}</h1>

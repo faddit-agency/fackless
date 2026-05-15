@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Eye, MessageCircle, ThumbsUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserAvatar } from "@/components/user-avatar";
 import { MarkdownContent } from "@/components/markdown-content";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
@@ -86,14 +86,12 @@ export default async function QuestionDetailPage({ params }: Props) {
         </h1>
         <div className="flex items-center gap-3 text-xs text-muted-foreground">
           <div className="flex items-center gap-2">
-            <Avatar className="h-7 w-7">
-              {author?.avatar_url ? (
-                <AvatarImage src={author.avatar_url} alt={author.nickname} />
-              ) : null}
-              <AvatarFallback>
-                {author?.nickname?.slice(0, 1) ?? "P"}
-              </AvatarFallback>
-            </Avatar>
+            <UserAvatar
+              nickname={author?.nickname}
+              avatarUrl={author?.avatar_url}
+              className="h-7 w-7"
+              fallbackClassName="text-[10px]"
+            />
             <Link
               href={`/profile/${author?.user_id ?? ""}`}
               className="font-medium text-foreground/80 hover:underline"
@@ -146,14 +144,12 @@ export default async function QuestionDetailPage({ params }: Props) {
                 data-accepted={comment.is_accepted ? "true" : undefined}
               >
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <Avatar className="h-6 w-6">
-                    {cAuthor?.avatar_url ? (
-                      <AvatarImage src={cAuthor.avatar_url} alt={cAuthor.nickname} />
-                    ) : null}
-                    <AvatarFallback>
-                      {cAuthor?.nickname?.slice(0, 1) ?? "P"}
-                    </AvatarFallback>
-                  </Avatar>
+                  <UserAvatar
+                    nickname={cAuthor?.nickname}
+                    avatarUrl={cAuthor?.avatar_url}
+                    className="h-6 w-6"
+                    fallbackClassName="text-[9px]"
+                  />
                   <span className="font-medium text-foreground/80">
                     {cAuthor?.nickname ?? "익명"}
                   </span>

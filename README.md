@@ -39,6 +39,7 @@ lib/
   constants.ts             # 직군/카테고리 등 상수
   database.types.ts        # DB 타입
 supabase/migrations/       # DB 스키마 + 시드 SQL
+supabase/email-templates/  # 브랜드 이메일 템플릿 (Auth용 HTML)
 middleware.ts              # 인증·온보딩·관리자 라우트 가드
 ```
 
@@ -51,10 +52,15 @@ middleware.ts              # 인증·온보딩·관리자 라우트 가드
    - `supabase/migrations/0001_init.sql` (스키마/RLS)
    - `supabase/migrations/0002_seed.sql` (카테고리·샘플 콘텐츠, 선택)
    - `supabase/migrations/0003_email_signup.sql` (이메일 회원가입용 컬럼·트리거)
+   - `supabase/migrations/0004_avatars_storage.sql` (프로필 이미지 Storage 버킷·정책)
 3. **Storage**에서 `post-attachments`, `resource-files` 버킷 생성 (선택)
+   - `avatars` 버킷은 `0004_avatars_storage.sql` 실행 시 자동 생성됨
 4. **Authentication → Email** Provider 가 활성화돼 있는지 확인 (기본 ON)
    - 개발 중에는 **Authentication → Providers → Email → Confirm email** 옵션을
      꺼두면 가입 직후 바로 로그인 상태가 됩니다.
+5. **Authentication → Email Templates** 에서 `supabase/email-templates/` 에 있는
+   PACKLESS 브랜드 HTML을 복사해 붙여넣어 주세요.
+   적용 방법은 `supabase/email-templates/README.md` 참고.
 
 ### 2. Kakao 로그인 설정
 

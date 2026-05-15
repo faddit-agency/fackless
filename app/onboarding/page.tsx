@@ -24,6 +24,7 @@ export default async function OnboardingPage() {
         </p>
       </div>
       <OnboardingForm
+        userId={user.id}
         initial={{
           nickname: profile?.nickname ?? "",
           avatar_url: profile?.avatar_url ?? "",

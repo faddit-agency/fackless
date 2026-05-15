@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserAvatar } from "@/components/user-avatar";
 import type { Profile } from "@/lib/database.types";
 import { createClient } from "@/lib/supabase/client";
 import { ROLE_TYPE_LABEL } from "@/lib/constants";
@@ -24,17 +24,15 @@ export function UserMenu({ profile }: { profile: Profile }) {
     router.refresh();
   };
 
-  const initials = profile.nickname?.slice(0, 1) ?? "P";
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center gap-2 rounded-full p-1 hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring">
-        <Avatar className="h-8 w-8">
-          {profile.avatar_url ? (
-            <AvatarImage src={profile.avatar_url} alt={profile.nickname} />
-          ) : null}
-          <AvatarFallback>{initials}</AvatarFallback>
-        </Avatar>
+        <UserAvatar
+          nickname={profile.nickname}
+          avatarUrl={profile.avatar_url}
+          className="h-8 w-8"
+          fallbackClassName="text-xs"
+        />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <div className="px-2 py-1.5">

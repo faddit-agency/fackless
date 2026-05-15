@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light only" />
+    <meta name="supported-color-schemes" content="light only" />
+    <title>PACKLESS · 초대장</title>
+  </head>
+  <body style="margin:0;padding:0;background-color:#F4F6FA;font-family:-apple-system,BlinkMacSystemFont,'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#0B1F3A;">
+    <div style="display:none;font-size:1px;color:#F4F6FA;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">
+      패클스에 초대되었습니다. 가입을 완료해주세요.
+    </div>
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F4F6FA;padding:24px 0;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#FFFFFF;border-radius:16px;border:1px solid #E4E7EE;overflow:hidden;">
+
+            <tr>
+              <td style="padding:28px 32px 0 32px;">
+                <table role="presentation" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="width:32px;height:32px;background-color:#0B1F3A;border-radius:8px;text-align:center;vertical-align:middle;">
+                      <span style="color:#FFFFFF;font-weight:900;font-size:14px;font-family:-apple-system,'Pretendard',sans-serif;letter-spacing:-0.5px;">P</span>
+                    </td>
+                    <td style="padding-left:10px;">
+                      <span style="font-size:16px;font-weight:700;color:#0B1F3A;letter-spacing:-0.5px;">PACKLESS</span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:28px 32px 8px 32px;">
+                <div style="display:inline-block;padding:4px 10px;background-color:#C8FF3C;border-radius:999px;font-size:11px;font-weight:700;color:#0B1F3A;letter-spacing:0.5px;">
+                  INVITATION
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:6px 32px 0 32px;">
+                <h1 style="margin:0;font-size:24px;line-height:1.35;font-weight:800;color:#0B1F3A;letter-spacing:-0.5px;">
+                  패클스에 초대되었어요.
+                </h1>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:12px 32px 0 32px;">
+                <p style="margin:0;font-size:14px;line-height:1.7;color:#475467;">
+                  패클스(PACKLESS)는 디자이너·패턴사·공장·브랜드가 모인<br/>
+                  <strong style="color:#0B1F3A;">패션 브랜드 실무 커뮤니티</strong>입니다.<br/>
+                  아래 버튼을 눌러 가입을 완료하면 바로 참여할 수 있어요.
+                </p>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:24px 32px 0 32px;">
+                <table role="presentation" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="background-color:#C8FF3C;border-radius:10px;">
+                      <a href="{{ .ConfirmationURL }}"
+                         style="display:inline-block;padding:14px 28px;font-size:15px;font-weight:700;color:#0B1F3A !important;text-decoration:none;letter-spacing:-0.3px;">
+                        초대 수락하기 →
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:24px 32px 0 32px;">
+                <p style="margin:0;font-size:12px;line-height:1.6;color:#98A1B0;">
+                  버튼이 동작하지 않는다면 아래 링크를 복사해서 브라우저에 붙여넣어주세요.
+                </p>
+                <p style="margin:6px 0 0 0;font-size:12px;line-height:1.5;color:#475467;word-break:break-all;">
+                  <a href="{{ .ConfirmationURL }}" style="color:#0B1F3A;text-decoration:underline;">
+                    {{ .ConfirmationURL }}
+                  </a>
+                </p>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:28px 32px 32px 32px;">
+                <p style="margin:0;font-size:11px;line-height:1.6;color:#98A1B0;">
+                  본 메일은 <strong style="color:#475467;">{{ .Email }}</strong> 로 발송된 초대장입니다.<br/>
+                  본인이 요청하지 않았거나 모르는 발신자라면 이 메일을 무시하셔도 됩니다.
+                </p>
+              </td>
+            </tr>
+          </table>
+
+          <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;margin-top:16px;">
+            <tr>
+              <td align="center" style="padding:0 32px;">
+                <p style="margin:0;font-size:11px;color:#98A1B0;line-height:1.7;">
+                  © PACKLESS · 패션 브랜드 실무 커뮤니티<br/>
+                  문의 hello@packless.app
+                </p>
+              </td>
+            </tr>
+          </table>
+
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
