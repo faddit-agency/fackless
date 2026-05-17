@@ -63,11 +63,6 @@ function HeroSection() {
               <Link href="/resources">무료 자료실 둘러보기</Link>
             </Button>
           </div>
-          <ul className="grid grid-cols-3 gap-4 pt-6">
-            <Stat label="실무 콘텐츠" value="50+" />
-            <Stat label="질문/답변" value="실시간" />
-            <Stat label="템플릿" value="무료" />
-          </ul>
         </div>
         <div className="rounded-2xl border bg-card p-6 shadow-sm">
           <p className="text-sm font-semibold text-muted-foreground">
@@ -93,15 +88,6 @@ function HeroSection() {
         </div>
       </div>
     </section>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <li className="rounded-xl border bg-background p-3">
-      <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="text-lg font-bold">{value}</p>
-    </li>
   );
 }
 

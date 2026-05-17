@@ -4,7 +4,6 @@ import { getHeaderProfile } from "@/lib/auth";
 import { BrandLogoLink } from "@/components/brand-logo";
 import { Button } from "@/components/ui/button";
 import { HeaderNav } from "@/components/layout/header-nav";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { UserMenu } from "@/components/layout/user-menu";
 
 const NAV = [
@@ -26,7 +25,6 @@ export async function SiteHeader() {
         <HeaderNav items={NAV} />
 
         <div className="flex items-center justify-end gap-2">
-          <ThemeToggle />
           {profile ? (
             <UserMenu profile={profile} />
           ) : (
