@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { SiteHeader } from "@/components/layout/site-header";
 import { HeaderSkeleton } from "@/components/layout/header-skeleton";
@@ -31,6 +32,7 @@ export default function RootLayout({
         <main className="flex-1 pb-20 md:pb-0">{children}</main>
         <SiteFooter />
         <MobileBottomNav />
+        <Analytics />
       </body>
     </html>
   );
