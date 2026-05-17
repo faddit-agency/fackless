@@ -80,16 +80,16 @@ export default async function HomePage() {
 function HeroSection() {
   return (
     <section className="border-b bg-gradient-to-b from-brand-soft to-background">
-      <div className="container py-14 md:py-24 grid gap-10 md:grid-cols-2 items-center">
+      <div className="container py-14 md:py-24 grid gap-10 md:grid-cols-2 items-end">
         <div className="space-y-6">
-          <Badge variant="soft" className="rounded-full px-3 py-1">
-            패션 브랜드 실무 커뮤니티
-          </Badge>
-          <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-[1.15]">
+          <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-[1.5]">
             브랜드는 시작했지만,
-            <br className="hidden md:block" /> 생산에서 막히는 사람들을 위한 곳.
+            <br />
+            생산에서 막히는 사람들을 위한
+            <br />
+            패션 브랜드 실무 커뮤니티
           </h1>
-          <p className="text-base md:text-lg text-muted-foreground max-w-xl">
+          <p className="text-base md:text-lg text-muted-foreground max-w-xl leading-[1.5]">
             원단·공장·작업지시서·원가·브랜딩까지, 실무자에게 실제로 도움이 되는
             정보와 사람을 모았습니다.
           </p>
@@ -158,8 +158,8 @@ function HeroItem({
         <Icon className="h-4 w-4" />
       </span>
       <div>
-        <p className="text-sm font-semibold">{title}</p>
-        <p className="text-xs text-muted-foreground">{desc}</p>
+        <p className="text-sm font-semibold leading-[1.5]">{title}</p>
+        <p className="text-xs text-muted-foreground leading-[1.5]">{desc}</p>
       </div>
     </div>
   );

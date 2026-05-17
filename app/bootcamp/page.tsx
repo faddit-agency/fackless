@@ -89,7 +89,7 @@ export default function BootcampPage() {
 function HeroSection() {
   return (
     <section className="border-b bg-gradient-to-br from-primary via-primary to-brand-deep text-primary-foreground">
-      <div className="container py-16 md:py-28 grid gap-8 md:grid-cols-[1.4fr,1fr] items-center">
+      <div className="container py-16 md:py-28 grid gap-8 md:grid-cols-[1.4fr,1fr] items-end">
         <div className="space-y-6">
           <Badge
             variant="accent"
@@ -97,11 +97,11 @@ function HeroSection() {
           >
             패클스 부트캠프 · 6주 실전 과정
           </Badge>
-          <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-[1.15]">
+          <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-[1.5]">
             내 브랜드를 실제 생산 가능한 <br className="hidden md:block" />
             상태까지 만드는 6주 실전 과정.
           </h1>
-          <p className="text-base md:text-lg text-primary-foreground/80 max-w-xl">
+          <p className="text-base md:text-lg text-primary-foreground/80 max-w-xl leading-[1.5]">
             강의 + 실습 + 피드백 + 제작 연결까지, 브랜드를 진짜 시장에 내보낼
             준비를 함께 합니다.
           </p>

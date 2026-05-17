@@ -14,7 +14,7 @@ export default async function OnboardingPage() {
   return (
     <div className="container max-w-2xl py-10 md:py-16">
       <div className="mb-8 flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
-        <BrandLogo className="h-9" />
+        <BrandLogo className="h-[1.575rem]" />
         <p className="text-xs font-semibold text-muted-foreground tracking-wider uppercase md:text-right">
           온보딩
         </p>

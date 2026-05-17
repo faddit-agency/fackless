@@ -14,7 +14,7 @@ export default async function SignupPage() {
     <div className="container max-w-md py-12 md:py-16">
       <div className="rounded-2xl border bg-card p-7 md:p-9 shadow-sm space-y-6">
         <div className="flex flex-col items-center gap-3 text-center">
-          <BrandLogo className="h-9" />
+          <BrandLogo className="h-[1.575rem]" />
           <div className="space-y-2">
             <h1 className="text-2xl font-bold">패클스에 가입하기</h1>
             <p className="text-sm text-muted-foreground">

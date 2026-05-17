@@ -16,9 +16,9 @@ export function BrandLogo({
     <Image
       src={BRAND_LOGO_SRC}
       alt="PACKLESS 패클스"
-      width={280}
-      height={72}
-      className={cn("h-8 w-auto object-contain object-left", className)}
+      width={196}
+      height={50}
+      className={cn("h-[1.4rem] w-auto object-contain object-left", className)}
       priority={priority}
     />
   );

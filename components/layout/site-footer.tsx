@@ -8,7 +8,7 @@ export function SiteFooter() {
       <div className="container py-12 grid gap-10 md:grid-cols-4">
         <div className="space-y-3 md:col-span-1">
           <Link href="/" className="inline-flex">
-            <BrandLogo className="h-7" />
+            <BrandLogo className="h-[1.225rem]" />
           </Link>
           <p className="text-sm text-muted-foreground">{SITE_TAGLINE}</p>
         </div>
