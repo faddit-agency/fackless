@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Sparkles, Users, Wrench } from "lucide-react";
+import { Sparkles, Users, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Suspense } from "react";
@@ -7,7 +7,7 @@ import { HomeFeeds } from "@/components/home/home-feeds";
 import { HomeFeedsSkeleton } from "@/components/home/home-feeds-skeleton";
 import { WarmNewsCacheTrigger } from "@/components/news/warm-news-cache";
 import { JsonLd } from "@/components/seo/json-ld";
-import { FADDIT_URL, ROLE_TYPES, SITE_DESCRIPTION, SITE_TAGLINE } from "@/lib/constants";
+import { FADDIT_URL, SITE_DESCRIPTION, SITE_TAGLINE } from "@/lib/constants";
 import {
   createPageMetadata,
   organizationJsonLd,
@@ -29,7 +29,6 @@ export default function HomePage() {
       <WarmNewsCacheTrigger />
       <HeroSection />
       <div className="container space-y-16 mt-16">
-        <RoleEntry />
         <Suspense fallback={<HomeFeedsSkeleton />}>
           <HomeFeeds />
         </Suspense>
@@ -125,41 +124,6 @@ function HeroItem({
         <p className="text-xs text-muted-foreground leading-[1.5]">{desc}</p>
       </div>
     </div>
-  );
-}
-
-function RoleEntry() {
-  return (
-    <section className="rounded-2xl border bg-card p-6 md:p-8">
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-        <div>
-          <p className="text-sm font-semibold text-muted-foreground">
-            나에게 맞는 커뮤니티
-          </p>
-          <h2 className="text-xl md:text-2xl font-bold mt-1">
-            직군별 진입으로 빠르게 시작하세요
-          </h2>
-        </div>
-        <Link
-          href="/community"
-          className="text-sm font-medium inline-flex items-center gap-1 hover:underline"
-        >
-          커뮤니티 메인 <ArrowRight className="h-4 w-4" />
-        </Link>
-      </div>
-      <div className="mt-6 grid grid-cols-2 md:grid-cols-5 gap-3">
-        {ROLE_TYPES.map((role) => (
-          <Link
-            key={role.value}
-            href={`/community?role=${role.value}`}
-            className="rounded-xl border p-4 text-center transition hover:border-foreground/30 hover:bg-muted/40"
-          >
-            <p className="text-base font-semibold">{role.label}</p>
-            <p className="text-xs text-muted-foreground mt-1">진입하기</p>
-          </Link>
-        ))}
-      </div>
-    </section>
   );
 }
 

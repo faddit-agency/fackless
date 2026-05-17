@@ -1,5 +1,6 @@
 import { PostCard } from "@/components/cards/post-card";
 import { ResourceCard } from "@/components/cards/resource-card";
+import { HomeNews } from "@/components/home/home-news";
 import { SectionHeading } from "@/components/section-heading";
 import { getPosts, getResources } from "@/lib/queries";
 
@@ -41,6 +42,8 @@ export async function HomeFeeds() {
           )}
         </div>
       </section>
+
+      <HomeNews />
 
       <section>
         <SectionHeading
