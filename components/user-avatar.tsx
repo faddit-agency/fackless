@@ -22,13 +22,13 @@ export function UserAvatar({
   fallbackClassName,
 }: UserAvatarProps) {
   return (
-    <Avatar className={cn("bg-neutral-900", className)}>
+    <Avatar className={cn("bg-[#181818]", className)}>
       {avatarUrl ? (
         <AvatarImage src={avatarUrl} alt={nickname ?? "프로필"} />
       ) : null}
       <AvatarFallback
         className={cn(
-          "bg-neutral-900 text-white font-semibold uppercase",
+          "bg-[#181818] text-white font-semibold uppercase",
           fallbackClassName,
         )}
       >

@@ -57,9 +57,11 @@ middleware.ts              # 인증·온보딩·관리자 라우트 가드
    - `supabase/migrations/0003_email_signup.sql` (이메일 회원가입용 컬럼·트리거)
    - `supabase/migrations/0004_avatars_storage.sql` (프로필 이미지 Storage 버킷·정책)
    - `supabase/migrations/0005_resource_files_storage.sql` (자료 파일/썸네일 업로드 버킷·정책)
+   - `supabase/migrations/0006_news_ads.sql` (뉴스 광고 슬롯/이미지 버킷·정책)
 3. **Storage**에서 `post-attachments`, `resource-files` 버킷 생성 (선택)
    - `avatars` 버킷은 `0004_avatars_storage.sql` 실행 시 자동 생성됨
    - `resource-files` 버킷은 `0005_resource_files_storage.sql` 실행 시 자동 생성됨
+   - `news-ads` 버킷은 `0006_news_ads.sql` 실행 시 자동 생성됨
 4. **Authentication → Email** Provider 가 활성화돼 있는지 확인 (기본 ON)
    - 개발 중에는 **Authentication → Providers → Email → Confirm email** 옵션을
      꺼두면 가입 직후 바로 로그인 상태가 됩니다.

@@ -40,7 +40,7 @@ export function KakaoLoginButton({ redirectTo }: { redirectTo?: string }) {
         type="button"
         onClick={handleLogin}
         disabled={loading}
-        className="w-full h-12 rounded-md text-base font-semibold bg-[#FEE500] text-[#191919] hover:bg-[#FEE500]/90 shadow-none"
+        className="w-full h-12 rounded-md text-base font-semibold bg-[#FEE500] text-[#181818] hover:bg-[#FEE500]/90 shadow-none"
       >
         <svg
           aria-hidden

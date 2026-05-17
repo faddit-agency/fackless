@@ -27,7 +27,7 @@ export default function GlobalError({
           background: "#F4F6FA",
           fontFamily:
             "-apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', sans-serif",
-          color: "#0B1F3A",
+          color: "#181818",
           padding: "24px",
         }}
       >

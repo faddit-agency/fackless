@@ -3,6 +3,7 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CategoryTabs } from "@/components/category-tabs";
 import { PostCard } from "@/components/cards/post-card";
+import { Input } from "@/components/ui/input";
 import { getCategories, getPosts } from "@/lib/queries";
 
 export const revalidate = 60;
@@ -12,7 +13,7 @@ export const metadata = { title: "질문 게시판" };
 export default async function QuestionsPage({
   searchParams,
 }: {
-  searchParams: { category?: string };
+  searchParams: { category?: string; q?: string };
 }) {
   const [categories, posts] = await Promise.all([
     getCategories("question"),
@@ -23,6 +24,14 @@ export default async function QuestionsPage({
       pinnedFirst: true,
     }),
   ]);
+  const query = (searchParams.q ?? "").trim().toLowerCase();
+  const filteredPosts = query
+    ? posts.filter((post) => {
+        const haystack =
+          `${post.title} ${post.excerpt ?? ""} ${post.content ?? ""} ${post.category?.name ?? ""}`.toLowerCase();
+        return haystack.includes(query);
+      })
+    : posts;
 
   return (
     <div className="container py-10">
@@ -49,8 +58,19 @@ export default async function QuestionsPage({
           activeSlug={searchParams.category}
         />
       </div>
+      <form action="/community/questions" className="mb-6 flex gap-2">
+        {searchParams.category ? (
+          <input type="hidden" name="category" value={searchParams.category} />
+        ) : null}
+        <Input
+          name="q"
+          defaultValue={searchParams.q ?? ""}
+          placeholder="질문 게시판 검색"
+          className="max-w-md"
+        />
+      </form>
       <div className="grid gap-3">
-        {posts.length === 0 ? (
+        {filteredPosts.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-10">
             아직 등록된 질문이 없어요.{" "}
             <Link
@@ -61,7 +81,7 @@ export default async function QuestionsPage({
             </Link>
           </p>
         ) : (
-          posts.map((post) => (
+          filteredPosts.map((post) => (
             <PostCard
               key={post.id}
               post={post}

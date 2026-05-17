@@ -10,12 +10,13 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: "1rem",
+      padding: "1.25rem",
       screens: {
         sm: "640px",
         md: "768px",
         lg: "1024px",
-        xl: "1200px",
+        xl: "1440px",
+        "2xl": "1680px",
       },
     },
     extend: {
@@ -66,8 +67,8 @@ const config: Config = {
           foreground: "hsl(var(--card-foreground))",
         },
         brand: {
-          DEFAULT: "#0B1F3A",
-          deep: "#06122A",
+          DEFAULT: "#181818",
+          deep: "#181818",
           accent: "#277CFA",
           soft: "#F4F6FA",
         },

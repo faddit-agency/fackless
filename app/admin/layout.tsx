@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   MessageSquareWarning,
   PackageOpen,
+  Megaphone,
   Users,
 } from "lucide-react";
 import { getCurrentProfile } from "@/lib/auth";
@@ -17,6 +18,7 @@ const NAV = [
   { href: "/admin/users", label: "회원 관리", icon: Users },
   { href: "/admin/posts", label: "게시글 관리", icon: FileText },
   { href: "/admin/resources", label: "자료실 관리", icon: PackageOpen },
+  { href: "/admin/news-ads", label: "뉴스 광고 관리", icon: Megaphone },
   {
     href: "/admin/bootcamp-applications",
     label: "부트캠프 신청",

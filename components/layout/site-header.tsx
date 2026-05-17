@@ -1,8 +1,10 @@
 import Link from "next/link";
-import { Menu, Search } from "lucide-react";
+import { Menu } from "lucide-react";
 import { getCurrentProfile } from "@/lib/auth";
 import { BrandLogoLink } from "@/components/brand-logo";
 import { Button } from "@/components/ui/button";
+import { HeaderNav } from "@/components/layout/header-nav";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { UserMenu } from "@/components/layout/user-menu";
 
 const NAV = [
@@ -18,29 +20,13 @@ export async function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/80 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70">
-      <div className="container flex h-16 items-center gap-6">
+      <div className="container grid h-16 grid-cols-[auto,1fr,auto] items-center gap-4">
         <BrandLogoLink priority />
 
-        <nav className="hidden md:flex items-center gap-1 text-sm">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        <HeaderNav items={NAV} />
 
-        <div className="ml-auto flex items-center gap-2">
-          <Link
-            href="/search"
-            aria-label="검색"
-            className="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted"
-          >
-            <Search className="h-4 w-4" />
-          </Link>
+        <div className="flex items-center justify-end gap-2">
+          <ThemeToggle />
           {profile ? (
             <UserMenu profile={profile} />
           ) : (

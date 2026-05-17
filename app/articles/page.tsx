@@ -1,5 +1,6 @@
 import { CategoryTabs } from "@/components/category-tabs";
 import { PostCard } from "@/components/cards/post-card";
+import { Input } from "@/components/ui/input";
 import { getCategories, getPosts } from "@/lib/queries";
 
 export const revalidate = 60;
@@ -13,7 +14,7 @@ export const metadata = {
 export default async function ArticlesPage({
   searchParams,
 }: {
-  searchParams: { category?: string };
+  searchParams: { category?: string; q?: string };
 }) {
   const [categories, posts] = await Promise.all([
     getCategories("article"),
@@ -23,6 +24,14 @@ export default async function ArticlesPage({
       limit: 30,
     }),
   ]);
+  const query = (searchParams.q ?? "").trim().toLowerCase();
+  const filteredPosts = query
+    ? posts.filter((post) => {
+        const haystack =
+          `${post.title} ${post.excerpt ?? ""} ${post.content ?? ""} ${post.category?.name ?? ""}`.toLowerCase();
+        return haystack.includes(query);
+      })
+    : posts;
 
   return (
     <div className="container py-10">
@@ -42,13 +51,24 @@ export default async function ArticlesPage({
           activeSlug={searchParams.category}
         />
       </div>
+      <form action="/articles" className="mb-6 flex gap-2">
+        {searchParams.category ? (
+          <input type="hidden" name="category" value={searchParams.category} />
+        ) : null}
+        <Input
+          name="q"
+          defaultValue={searchParams.q ?? ""}
+          placeholder="실무 콘텐츠 검색"
+          className="max-w-md"
+        />
+      </form>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {posts.length === 0 ? (
+        {filteredPosts.length === 0 ? (
           <p className="col-span-full text-sm text-muted-foreground py-10 text-center">
             아직 등록된 실무 콘텐츠가 없어요.
           </p>
         ) : (
-          posts.map((post) => <PostCard key={post.id} post={post} />)
+          filteredPosts.map((post) => <PostCard key={post.id} post={post} />)
         )}
       </div>
     </div>

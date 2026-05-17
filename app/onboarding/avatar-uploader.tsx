@@ -119,7 +119,7 @@ export function AvatarUploader({ userId, initialUrl, nickname }: Props) {
             className="h-20 w-20 ring-1 ring-border"
             fallbackClassName="text-2xl"
           />
-          <span className="absolute inset-0 flex items-center justify-center rounded-full bg-black/45 text-white opacity-0 transition group-hover:opacity-100">
+          <span className="absolute inset-0 flex items-center justify-center rounded-full bg-[#181818]/45 text-white opacity-0 transition group-hover:opacity-100">
             {pending ? (
               <Loader2 className="h-5 w-5 animate-spin" />
             ) : (

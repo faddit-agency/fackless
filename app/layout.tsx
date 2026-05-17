@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { MobileBottomNav } from "@/components/layout/mobile-bottom-nav";
 import { SetupBanner } from "@/components/layout/setup-banner";
+import { ThemeProvider } from "@/components/theme-provider";
 import {
   SITE_DESCRIPTION,
   SITE_NAME,
@@ -41,11 +42,18 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className="min-h-screen bg-background flex flex-col">
-        <SetupBanner />
-        <SiteHeader />
-        <main className="flex-1 pb-20 md:pb-0">{children}</main>
-        <SiteFooter />
-        <MobileBottomNav />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SetupBanner />
+          <SiteHeader />
+          <main className="flex-1 pb-20 md:pb-0">{children}</main>
+          <SiteFooter />
+          <MobileBottomNav />
+        </ThemeProvider>
       </body>
     </html>
   );
