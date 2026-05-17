@@ -3,7 +3,13 @@ import { getCurrentProfile } from "@/lib/auth";
 import { getCategories } from "@/lib/queries";
 import { QuestionForm } from "./question-form";
 
-export const metadata = { title: "질문 작성" };
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "질문 작성",
+  path: "/community/questions/new",
+  noIndex: true,
+});
 
 export default async function NewQuestionPage() {
   const profile = await getCurrentProfile();

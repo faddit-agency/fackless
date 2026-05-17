@@ -40,9 +40,9 @@ export function PostCard({ post, hrefBuilder }: Props) {
       <h3 className="font-semibold text-[15px] md:text-base leading-snug">
         {post.title}
       </h3>
-      {post.excerpt || post.content ? (
+      {post.excerpt ? (
         <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
-          {truncate(post.excerpt ?? post.content.replace(/[#*`>]/g, ""), 130)}
+          {truncate(post.excerpt, 130)}
         </p>
       ) : null}
       <div className="mt-4 flex items-center gap-4 text-xs text-muted-foreground">

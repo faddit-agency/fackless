@@ -1,7 +1,14 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export const metadata = { title: "네트워킹 게시판" };
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "네트워킹 게시판",
+  description:
+    "디자이너, 패턴사, 공장, 브랜드 운영자를 연결하는 패션 네트워킹 게시판.",
+  path: "/community/networking",
+});
 
 export default function NetworkingComingSoon() {
   return (

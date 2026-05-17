@@ -11,6 +11,22 @@ export function hasSupabaseEnv() {
 const FALLBACK_URL = "http://localhost:54321";
 const FALLBACK_KEY = "public-anon-key";
 
+/** 공개 데이터 조회용 — unstable_cache 등 정적 캐시 스코프에서 사용 (cookies 미사용) */
+export function createPublicClient() {
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL ?? FALLBACK_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? FALLBACK_KEY,
+    {
+      cookies: {
+        getAll() {
+          return [];
+        },
+        setAll() {},
+      },
+    },
+  );
+}
+
 export function createClient() {
   const cookieStore = cookies();
   return createServerClient(

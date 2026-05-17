@@ -9,6 +9,7 @@ import { getCurrentProfile } from "@/lib/auth";
 import { ROLE_TYPE_LABEL } from "@/lib/constants";
 import type { Profile } from "@/lib/database.types";
 import type { PostListItem } from "@/lib/queries";
+import { createPageMetadata } from "@/lib/seo";
 import { formatRelativeTime } from "@/lib/utils";
 
 export const revalidate = 0;
@@ -21,10 +22,16 @@ export async function generateMetadata({ params }: Props) {
   const supabase = createClient();
   const { data } = await supabase
     .from("profiles")
-    .select("nickname")
+    .select("nickname, role_type")
     .eq("user_id", params.id)
     .maybeSingle();
-  return { title: data?.nickname ? `${data.nickname} 님의 프로필` : "프로필" };
+  const nickname = data?.nickname ?? "회원";
+  return createPageMetadata({
+    title: `${nickname} 님의 프로필`,
+    description: `${nickname}님의 PACKLESS 활동·게시글 프로필`,
+    path: `/profile/${params.id}`,
+    noIndex: true,
+  });
 }
 
 export default async function ProfilePage({ params }: Props) {

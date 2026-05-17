@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Menu } from "lucide-react";
-import { getCurrentProfile } from "@/lib/auth";
+import { getHeaderProfile } from "@/lib/auth";
 import { BrandLogoLink } from "@/components/brand-logo";
 import { Button } from "@/components/ui/button";
 import { HeaderNav } from "@/components/layout/header-nav";
@@ -16,7 +16,7 @@ const NAV = [
 ];
 
 export async function SiteHeader() {
-  const profile = await getCurrentProfile();
+  const profile = await getHeaderProfile();
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/80 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70">

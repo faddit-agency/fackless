@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { ArrowLeft, Eye, MessageCircle, ThumbsUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,11 +10,34 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/auth";
 import { formatNumber, formatRelativeTime } from "@/lib/utils";
 import { CommentForm } from "./comment-form";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  breadcrumbJsonLd,
+  createPageMetadata,
+  toMetaDescription,
+} from "@/lib/seo";
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 interface Props {
   params: { id: string };
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const supabase = createClient();
+  const { data: post } = await supabase
+    .from("posts")
+    .select("title, excerpt, content, type")
+    .eq("id", params.id)
+    .eq("type", "question")
+    .maybeSingle();
+  if (!post) return {};
+  return createPageMetadata({
+    title: post.title,
+    description: toMetaDescription(post.excerpt ?? post.content),
+    path: `/community/questions/${params.id}`,
+    ogType: "article",
+  });
 }
 
 export default async function QuestionDetailPage({ params }: Props) {
@@ -44,7 +68,7 @@ export default async function QuestionDetailPage({ params }: Props) {
     .order("is_accepted", { ascending: false })
     .order("created_at", { ascending: true });
 
-  await supabase
+  void supabase
     .from("posts")
     .update({ view_count: (post.view_count ?? 0) + 1 })
     .eq("id", params.id);
@@ -61,8 +85,17 @@ export default async function QuestionDetailPage({ params }: Props) {
       }
     | null;
 
+  const path = `/community/questions/${params.id}`;
+
   return (
     <article className="container max-w-3xl py-10">
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "홈", path: "/" },
+          { name: "질문 게시판", path: "/community/questions" },
+          { name: post.title, path },
+        ])}
+      />
       <Button asChild variant="ghost" size="sm" className="-ml-2 mb-4">
         <Link href="/community/questions">
           <ArrowLeft className="h-4 w-4" /> 질문 목록

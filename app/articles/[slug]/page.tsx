@@ -5,7 +5,14 @@ import { ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MarkdownContent } from "@/components/markdown-content";
+import { JsonLd } from "@/components/seo/json-ld";
 import { getPostBySlugOrId } from "@/lib/queries";
+import {
+  articleJsonLd,
+  breadcrumbJsonLd,
+  createPageMetadata,
+  toMetaDescription,
+} from "@/lib/seo";
 import { formatRelativeTime } from "@/lib/utils";
 import { FADDIT_URL } from "@/lib/constants";
 
@@ -17,11 +24,18 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPostBySlugOrId(params.slug);
-  if (!post) return {};
-  return {
+  if (!post || post.type !== "article") return {};
+  const path = `/articles/${post.slug ?? post.id}`;
+  return createPageMetadata({
     title: post.title,
-    description: post.excerpt ?? post.content.slice(0, 140),
-  };
+    description: toMetaDescription(post.excerpt ?? post.content),
+    path,
+    image: post.cover_image_url,
+    ogType: "article",
+    publishedTime: post.created_at,
+    modifiedTime: post.updated_at,
+    authors: post.author?.nickname ? [post.author.nickname] : undefined,
+  });
 }
 
 export default async function ArticleDetailPage({ params }: Props) {
@@ -30,9 +44,29 @@ export default async function ArticleDetailPage({ params }: Props) {
 
   const showFadditCta =
     post.category?.slug === "spec-sheet" || post.title.includes("작업지시서");
+  const path = `/articles/${post.slug ?? post.id}`;
+  const description = toMetaDescription(post.excerpt ?? post.content);
 
   return (
     <article className="container max-w-3xl py-10">
+      <JsonLd
+        data={[
+          articleJsonLd({
+            title: post.title,
+            description,
+            path,
+            publishedTime: post.created_at,
+            modifiedTime: post.updated_at,
+            authorName: post.author?.nickname,
+            image: post.cover_image_url,
+          }),
+          breadcrumbJsonLd([
+            { name: "홈", path: "/" },
+            { name: "실무 콘텐츠", path: "/articles" },
+            { name: post.title, path },
+          ]),
+        ]}
+      />
       <Button asChild variant="ghost" size="sm" className="mb-4 -ml-2">
         <Link href="/articles">
           <ArrowLeft className="h-4 w-4" /> 실무 콘텐츠

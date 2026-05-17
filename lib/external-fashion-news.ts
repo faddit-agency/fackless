@@ -1,4 +1,5 @@
 import "server-only";
+import { unstable_cache } from "next/cache";
 
 export interface ExternalFashionNewsItem {
   id: string;
@@ -92,6 +93,8 @@ const CURATED_ARTICLES = [
   },
 ];
 
+const FEED_POOL_SIZE = 72;
+
 function decodeHtml(input: string) {
   return input
     .replace(/<!\[CDATA\[|\]\]>/g, "")
@@ -111,102 +114,62 @@ function extractTag(block: string, tag: string) {
   return match ? decodeHtml(match[1].trim()) : "";
 }
 
-function makeUnsplashFallback(seed: string) {
-  const sig = Math.abs(
-    Array.from(seed).reduce((acc, ch) => (acc * 31 + ch.charCodeAt(0)) | 0, 7),
-  );
-  return `https://source.unsplash.com/1200x800/?korean,fashion,style&sig=${sig}`;
-}
-
 function pickFallbackQuery(title: string, summary: string) {
   const text = `${title} ${summary}`.toLowerCase();
   const matches = (keywords: string[]) => keywords.some((keyword) => text.includes(keyword));
 
   if (matches(["ai", "인공지능", "생성", "패션테크", "테크", "기술"])) {
-    return "ai,fashion,technology,digital";
+    return "ai,fashion,technology";
   }
   if (matches(["브랜드", "디자인", "런웨이", "컬렉션", "트렌드", "패션위크"])) {
-    return "fashion,runway,designer,style";
+    return "fashion,runway,designer";
   }
   if (matches(["투자", "실적", "매출", "시장", "성장", "리테일", "유통"])) {
-    return "business,retail,fashion,office";
+    return "business,retail,fashion";
   }
   if (matches(["채용", "커리어", "인재", "조직", "팀"])) {
-    return "team,office,collaboration,business";
+    return "team,office,business";
   }
   if (matches(["공장", "생산", "봉제", "원단", "제조", "섬유"])) {
-    return "garment,factory,textile,manufacturing";
-  }
-  if (matches(["협업", "파트너십", "제휴", "계약"])) {
-    return "partnership,collaboration,handshake,business";
+    return "garment,factory,textile";
   }
   if (matches(["패딧", "faddit", "작업지시서"])) {
-    return "fashion,saas,workflow,collaboration";
+    return "fashion,saas,workflow";
   }
   return "korean,fashion,industry";
 }
 
-function makeRelatedUnsplashFallback(
-  seed: string,
-  title: string,
-  summary: string,
-) {
+/** 네트워크 요청 없이 시드 기반 placeholder (picsum CDN) */
+function makeThumbnailFallback(seed: string, title: string, summary: string) {
   const sig = Math.abs(
-    Array.from(seed).reduce((acc, ch) => (acc * 31 + ch.charCodeAt(0)) | 0, 7),
+    Array.from(`${seed}::${pickFallbackQuery(title, summary)}`).reduce(
+      (acc, ch) => (acc * 31 + ch.charCodeAt(0)) | 0,
+      7,
+    ),
   );
-  const query = pickFallbackQuery(title, summary)
-    .split(",")
-    .map((part) => part.trim())
-    .filter(Boolean)
-    .join(",");
-  return `https://source.unsplash.com/1200x800/?${query}&sig=${sig}`;
+  return `https://picsum.photos/seed/${sig}/640/400`;
 }
 
-async function fetchOgImage(articleUrl: string): Promise<string | null> {
+const FEED_FETCH_TIMEOUT_MS = 4000;
+
+async function fetchFeedItems(url: string, sourceName: string) {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 5000);
+  const timeoutId = setTimeout(() => controller.abort(), FEED_FETCH_TIMEOUT_MS);
+  let response: Response;
   try {
-    const response = await fetch(articleUrl, {
+    response = await fetch(url, {
+      next: { revalidate: 1800 },
       signal: controller.signal,
       headers: {
         "user-agent":
           "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
       },
-      cache: "no-store",
     });
-    if (!response.ok) return null;
-    const html = await response.text();
-    const og =
-      html.match(
-        /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["'][^>]*>/i,
-      )?.[1] ??
-      html.match(
-        /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["'][^>]*>/i,
-      )?.[1] ??
-      html.match(
-        /<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["'][^>]*>/i,
-      )?.[1];
-    if (!og) return null;
-    try {
-      return new URL(og, articleUrl).toString();
-    } catch {
-      return og;
-    }
   } catch {
-    return null;
+    return [];
   } finally {
     clearTimeout(timeoutId);
   }
-}
-
-async function fetchFeedItems(url: string, sourceName: string) {
-  const response = await fetch(url, {
-    next: { revalidate: 1800 },
-    headers: {
-      "user-agent":
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    },
-  });
   if (!response.ok) return [];
   const xml = await response.text();
   const itemBlocks = xml.match(/<item[\s\S]*?<\/item>/gi) ?? [];
@@ -232,7 +195,7 @@ async function fetchFeedItems(url: string, sourceName: string) {
   });
 }
 
-export async function getExternalFashionNews(limit = 24): Promise<ExternalFashionNewsItem[]> {
+async function buildFashionNewsPool(): Promise<ExternalFashionNewsItem[]> {
   const fetchedItems = (
     await Promise.all(
       RSS_FEEDS.map((feed) =>
@@ -248,43 +211,64 @@ export async function getExternalFashionNews(limit = 24): Promise<ExternalFashio
       const text = `${item.title} ${item.summary}`.toLowerCase();
       return FASHION_KEYWORDS.some((keyword) => text.includes(keyword.toLowerCase()));
     })
-    .filter((item, index, arr) => arr.findIndex((x) => x.originalUrl === item.originalUrl) === index)
+    .filter(
+      (item, index, arr) =>
+        arr.findIndex((x) => x.originalUrl === item.originalUrl) === index,
+    )
     .sort((a, b) => {
-      const aIsCurated = CURATED_ARTICLES.some((curated) => curated.originalUrl === a.originalUrl);
-      const bIsCurated = CURATED_ARTICLES.some((curated) => curated.originalUrl === b.originalUrl);
+      const aIsCurated = CURATED_ARTICLES.some(
+        (curated) => curated.originalUrl === a.originalUrl,
+      );
+      const bIsCurated = CURATED_ARTICLES.some(
+        (curated) => curated.originalUrl === b.originalUrl,
+      );
       if (aIsCurated && !bIsCurated) return -1;
       if (!aIsCurated && bIsCurated) return 1;
       const aTime = new Date(a.publishedAt).getTime() || 0;
       const bTime = new Date(b.publishedAt).getTime() || 0;
       return bTime - aTime;
     })
-    .slice(0, Math.max(limit + 24, 120));
+    .slice(0, FEED_POOL_SIZE);
 
-  const withImages = await Promise.all(
-    filtered.map(async (item) => {
-      const og =
-        item.mediaImage ??
-        item.imageInDescription ??
-        (await fetchOgImage(item.originalUrl));
-      const thumbnailUrl =
-        og ??
-        makeRelatedUnsplashFallback(
-          `${item.title}::${item.publishedAt}`,
-          item.title,
-          item.summary,
-        ) ??
-        makeUnsplashFallback(item.title);
-      return {
-        id: `${item.originalUrl}::${item.publishedAt}`,
-        title: item.title,
-        summary: item.summary || "원문에서 전체 내용을 확인하세요.",
-        source: item.source,
-        originalUrl: item.originalUrl,
-        publishedAt: item.publishedAt,
-        thumbnailUrl,
-      } satisfies ExternalFashionNewsItem;
-    }),
-  );
+  return filtered.map((item) => {
+    const thumbnailUrl =
+      item.mediaImage ??
+      item.imageInDescription ??
+      makeThumbnailFallback(
+        `${item.title}::${item.publishedAt}`,
+        item.title,
+        item.summary,
+      );
+    return {
+      id: `${item.originalUrl}::${item.publishedAt}`,
+      title: item.title,
+      summary: item.summary || "원문에서 전체 내용을 확인하세요.",
+      source: item.source,
+      originalUrl: item.originalUrl,
+      publishedAt: item.publishedAt,
+      thumbnailUrl,
+    } satisfies ExternalFashionNewsItem;
+  });
+}
 
-  return withImages.slice(0, limit);
+const getCachedFashionNewsPool = unstable_cache(
+  buildFashionNewsPool,
+  ["external-fashion-news-pool"],
+  { revalidate: 1800, tags: ["fashion-news"] },
+);
+
+export async function getExternalFashionNews(
+  limit = 24,
+): Promise<ExternalFashionNewsItem[]> {
+  const pool = await getCachedFashionNewsPool();
+  return pool.slice(0, limit);
+}
+
+/** RSS 풀을 미리 채워 /news 첫 방문 TTFB를 줄임 */
+export async function warmFashionNewsCache(): Promise<void> {
+  try {
+    await getCachedFashionNewsPool();
+  } catch (error) {
+    console.warn("[warmFashionNewsCache]", error);
+  }
 }

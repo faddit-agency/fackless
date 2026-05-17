@@ -5,11 +5,14 @@ import { getCategories, getResources } from "@/lib/queries";
 
 export const revalidate = 60;
 
-export const metadata = {
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
   title: "무료 자료실",
   description:
-    "작업지시서, 원가계산, 생산 체크리스트, 원단 용어집 등 무료 템플릿.",
-};
+    "작업지시서, 원가계산, 생산 체크리스트, 원단 용어집 등 패션 브랜드 실무 템플릿을 무료로 다운로드하세요.",
+  path: "/resources",
+});
 
 export default async function ResourcesPage({
   searchParams,

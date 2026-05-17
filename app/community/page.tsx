@@ -13,11 +13,14 @@ import { getPosts } from "@/lib/queries";
 
 export const revalidate = 60;
 
-export const metadata = {
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
   title: "커뮤니티",
   description:
-    "패션 브랜드를 만드는 사람들의 질문, 피드백, 네트워킹 게시판.",
-};
+    "패션 브랜드를 만드는 디자이너·패턴사·공장·브랜드 운영자의 질문, 피드백, 네트워킹 게시판.",
+  path: "/community",
+});
 
 const BOARDS = [
   {

@@ -8,7 +8,14 @@ import { getCategories, getPosts } from "@/lib/queries";
 
 export const revalidate = 60;
 
-export const metadata = { title: "질문 게시판" };
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "질문 게시판",
+  description:
+    "원단, 공장, 작업지시서, 원가, 브랜딩 등 패션 브랜드 실무 질문에 답을 받아보세요.",
+  path: "/community/questions",
+});
 
 export default async function QuestionsPage({
   searchParams,
@@ -28,7 +35,7 @@ export default async function QuestionsPage({
   const filteredPosts = query
     ? posts.filter((post) => {
         const haystack =
-          `${post.title} ${post.excerpt ?? ""} ${post.content ?? ""} ${post.category?.name ?? ""}`.toLowerCase();
+          `${post.title} ${post.excerpt ?? ""} ${post.category?.name ?? ""}`.toLowerCase();
         return haystack.includes(query);
       })
     : posts;

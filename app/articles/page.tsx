@@ -5,11 +5,14 @@ import { getCategories, getPosts } from "@/lib/queries";
 
 export const revalidate = 60;
 
-export const metadata = {
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
   title: "실무 콘텐츠",
   description:
-    "브랜드 운영, 생산 실무, 원단 실무, 작업지시서, 원가 계산, 정부지원사업까지.",
-};
+    "브랜드 운영, 생산 실무, 원단·봉제, 작업지시서, 원가 계산, 정부지원사업까지. 패션 브랜드 현장에서 바로 쓰는 가이드.",
+  path: "/articles",
+});
 
 export default async function ArticlesPage({
   searchParams,
@@ -28,7 +31,7 @@ export default async function ArticlesPage({
   const filteredPosts = query
     ? posts.filter((post) => {
         const haystack =
-          `${post.title} ${post.excerpt ?? ""} ${post.content ?? ""} ${post.category?.name ?? ""}`.toLowerCase();
+          `${post.title} ${post.excerpt ?? ""} ${post.category?.name ?? ""}`.toLowerCase();
         return haystack.includes(query);
       })
     : posts;

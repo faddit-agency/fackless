@@ -10,8 +10,10 @@ import {
   Users,
 } from "lucide-react";
 import { getCurrentProfile } from "@/lib/auth";
+import { noIndexMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+export const metadata = noIndexMetadata;
 
 const NAV = [
   { href: "/admin", label: "대시보드", icon: LayoutDashboard },

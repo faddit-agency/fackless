@@ -4,7 +4,14 @@ import { BrandLogo } from "@/components/brand-logo";
 import { SignupForm } from "./signup-form";
 import { getCurrentUser } from "@/lib/auth";
 
-export const metadata = { title: "회원가입" };
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "회원가입",
+  description: "PACKLESS 패클스 무료 회원가입",
+  path: "/signup",
+  noIndex: true,
+});
 
 export default async function SignupPage() {
   const user = await getCurrentUser();

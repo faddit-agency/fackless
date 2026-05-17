@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export const metadata = { title: "피드백 게시판" };
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "피드백 게시판",
+  description: "패션 브랜드 실무자들의 작품·아이디어 피드백 게시판.",
+  path: "/community/feedback",
+});
 
 export default function FeedbackComingSoon() {
   return (

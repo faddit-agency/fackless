@@ -5,9 +5,14 @@ import { EmailLoginForm } from "./email-login-form";
 import { getCurrentUser } from "@/lib/auth";
 // import { KakaoLoginButton } from "./kakao-login-button"; // 카카오 로그인 임시 비활성화
 
-export const metadata = {
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
   title: "로그인",
-};
+  description: "PACKLESS 패클스 회원 로그인",
+  path: "/login",
+  noIndex: true,
+});
 
 export default async function LoginPage({
   searchParams,

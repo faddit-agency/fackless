@@ -3,7 +3,13 @@ import { getCurrentProfile, getCurrentUser } from "@/lib/auth";
 import { BrandLogo } from "@/components/brand-logo";
 import { OnboardingForm } from "./onboarding-form";
 
-export const metadata = { title: "프로필 설정" };
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "프로필 설정",
+  path: "/onboarding",
+  noIndex: true,
+});
 
 export default async function OnboardingPage() {
   const user = await getCurrentUser();

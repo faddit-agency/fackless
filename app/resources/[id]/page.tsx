@@ -1,9 +1,16 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { ArrowLeft, Download } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { JsonLd } from "@/components/seo/json-ld";
 import { getResourceById } from "@/lib/queries";
+import {
+  breadcrumbJsonLd,
+  createPageMetadata,
+  toMetaDescription,
+} from "@/lib/seo";
 import { getCurrentProfile } from "@/lib/auth";
 import { formatNumber, formatRelativeTime } from "@/lib/utils";
 import { FADDIT_URL, ROLE_TYPE_LABEL } from "@/lib/constants";
@@ -13,6 +20,19 @@ export const revalidate = 0;
 
 interface Props {
   params: { id: string };
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const resource = await getResourceById(params.id);
+  if (!resource) return {};
+  return createPageMetadata({
+    title: resource.title,
+    description: toMetaDescription(
+      resource.description ?? `${resource.title} — PACKLESS 무료 자료`,
+    ),
+    path: `/resources/${resource.id}`,
+    image: resource.thumbnail_url,
+  });
 }
 
 const TYPE_LABEL: Record<string, string> = {
@@ -30,8 +50,17 @@ export default async function ResourceDetailPage({ params }: Props) {
   const profile = await getCurrentProfile();
   const canDownload = !!profile && profile.is_onboarded;
 
+  const path = `/resources/${resource.id}`;
+
   return (
     <div className="container max-w-3xl py-10">
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "홈", path: "/" },
+          { name: "무료 자료실", path: "/resources" },
+          { name: resource.title, path },
+        ])}
+      />
       <Button asChild variant="ghost" size="sm" className="-ml-2 mb-4">
         <Link href="/resources">
           <ArrowLeft className="h-4 w-4" /> 자료실

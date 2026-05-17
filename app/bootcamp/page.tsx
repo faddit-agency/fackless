@@ -10,11 +10,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BootcampApplyForm } from "./apply-form";
 
-export const metadata = {
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
   title: "패클스 부트캠프",
   description:
-    "내 브랜드를 실제 생산 가능한 상태까지 만드는 6주 실전 과정.",
-};
+    "내 브랜드를 실제 생산 가능한 상태까지 만드는 6주 실전 과정. 작업지시서·원가·샘플 제작·공장 연결까지.",
+  path: "/bootcamp",
+});
 
 const PROBLEMS = [
   "브랜드는 시작했지만, 생산 단계에서 막힌다",

@@ -10,11 +10,11 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { UserAvatar } from "@/components/user-avatar";
-import type { Profile } from "@/lib/database.types";
+import type { HeaderProfile } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/client";
 import { ROLE_TYPE_LABEL } from "@/lib/constants";
 
-export function UserMenu({ profile }: { profile: Profile }) {
+export function UserMenu({ profile }: { profile: HeaderProfile }) {
   const router = useRouter();
 
   const handleSignOut = async () => {
