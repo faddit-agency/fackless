@@ -1,6 +1,6 @@
 import { CategoryTabs } from "@/components/category-tabs";
 import { PostCard } from "@/components/cards/post-card";
-import { Input } from "@/components/ui/input";
+import { LiveSearchInput } from "@/components/live-search-input";
 import { getCategories, getPosts } from "@/lib/queries";
 
 export const revalidate = 60;
@@ -51,17 +51,11 @@ export default async function ArticlesPage({
           activeSlug={searchParams.category}
         />
       </div>
-      <form action="/articles" className="mb-6 flex gap-2">
-        {searchParams.category ? (
-          <input type="hidden" name="category" value={searchParams.category} />
-        ) : null}
-        <Input
-          name="q"
-          defaultValue={searchParams.q ?? ""}
-          placeholder="실무 콘텐츠 검색"
-          className="max-w-md"
-        />
-      </form>
+      <LiveSearchInput
+        initialValue={searchParams.q ?? ""}
+        placeholder="실무 콘텐츠 검색"
+        className="mb-6"
+      />
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {filteredPosts.length === 0 ? (
           <p className="col-span-full text-sm text-muted-foreground py-10 text-center">

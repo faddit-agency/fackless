@@ -1,6 +1,6 @@
 import { CategoryTabs } from "@/components/category-tabs";
 import { ResourceCard } from "@/components/cards/resource-card";
-import { Input } from "@/components/ui/input";
+import { LiveSearchInput } from "@/components/live-search-input";
 import { getCategories, getResources } from "@/lib/queries";
 
 export const revalidate = 60;
@@ -48,17 +48,11 @@ export default async function ResourcesPage({
           activeSlug={searchParams.category}
         />
       </div>
-      <form action="/resources" className="mb-6 flex gap-2">
-        {searchParams.category ? (
-          <input type="hidden" name="category" value={searchParams.category} />
-        ) : null}
-        <Input
-          name="q"
-          defaultValue={searchParams.q ?? ""}
-          placeholder="자료실 검색"
-          className="max-w-md"
-        />
-      </form>
+      <LiveSearchInput
+        initialValue={searchParams.q ?? ""}
+        placeholder="자료실 검색"
+        className="mb-6"
+      />
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {filteredResources.length === 0 ? (
           <p className="col-span-full text-sm text-muted-foreground py-10 text-center">

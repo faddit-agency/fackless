@@ -3,7 +3,7 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CategoryTabs } from "@/components/category-tabs";
 import { PostCard } from "@/components/cards/post-card";
-import { Input } from "@/components/ui/input";
+import { LiveSearchInput } from "@/components/live-search-input";
 import { getCategories, getPosts } from "@/lib/queries";
 
 export const revalidate = 60;
@@ -58,17 +58,11 @@ export default async function QuestionsPage({
           activeSlug={searchParams.category}
         />
       </div>
-      <form action="/community/questions" className="mb-6 flex gap-2">
-        {searchParams.category ? (
-          <input type="hidden" name="category" value={searchParams.category} />
-        ) : null}
-        <Input
-          name="q"
-          defaultValue={searchParams.q ?? ""}
-          placeholder="질문 게시판 검색"
-          className="max-w-md"
-        />
-      </form>
+      <LiveSearchInput
+        initialValue={searchParams.q ?? ""}
+        placeholder="질문 게시판 검색"
+        className="mb-6"
+      />
       <div className="grid gap-3">
         {filteredPosts.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-10">

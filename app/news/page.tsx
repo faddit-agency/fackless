@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getExternalFashionNews } from "@/lib/external-fashion-news";
-import { Input } from "@/components/ui/input";
+import { LiveSearchInput } from "@/components/live-search-input";
 
 export const revalidate = 60;
 
@@ -124,17 +124,10 @@ export default async function NewsPage({
         </aside>
 
         <section className="space-y-4">
-          <form action="/news" className="flex gap-2">
-            {selectedCategory !== "all" ? (
-              <input type="hidden" name="category" value={selectedCategory} />
-            ) : null}
-            <Input
-              name="q"
-              defaultValue={query}
-              placeholder="뉴스 제목/요약/출처 검색"
-              className="max-w-md"
-            />
-          </form>
+          <LiveSearchInput
+            initialValue={query}
+            placeholder="뉴스 제목/요약/출처 검색"
+          />
           {pagedArticles.length === 0 ? (
             <p className="text-sm text-muted-foreground py-10 text-center border rounded-xl">
               지금은 불러온 뉴스가 없습니다. 잠시 후 다시 시도해주세요.
@@ -169,7 +162,7 @@ export default async function NewsPage({
                       rel="noreferrer"
                       className="block hover:underline"
                     >
-                      <h2 className="line-clamp-2 text-[18px] md:text-[19px] font-black tracking-tight leading-[1.3]">
+                      <h2 className="line-clamp-2 text-[16px] md:text-[17px] font-bold tracking-tight leading-[1.3]">
                         {article.title}
                       </h2>
                     </Link>
