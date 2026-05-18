@@ -1,14 +1,7 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  HelpCircle,
-  Layers,
-  Users as UsersIcon,
-} from "lucide-react";
 import { PostCard } from "@/components/cards/post-card";
 import { SectionHeading } from "@/components/section-heading";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { getPosts } from "@/lib/queries";
 
 export const revalidate = 60;
@@ -21,29 +14,6 @@ export const metadata = createPageMetadata({
     "패션 브랜드를 만드는 디자이너·패턴사·공장·브랜드 운영자의 질문, 피드백, 네트워킹 게시판.",
   path: "/community",
 });
-
-const BOARDS = [
-  {
-    href: "/community/questions",
-    icon: HelpCircle,
-    label: "질문 게시판",
-    description: "생산·원단·공장·브랜딩 무엇이든 물어보세요.",
-  },
-  {
-    href: "/community/feedback",
-    icon: Layers,
-    label: "피드백 게시판",
-    description: "작업지시서·디자인·샘플에 실무자 피드백을 받아보세요.",
-    soon: true,
-  },
-  {
-    href: "/community/networking",
-    icon: UsersIcon,
-    label: "네트워킹 게시판",
-    description: "함께할 디자이너·패턴사·공장·파트너를 찾아보세요.",
-    soon: true,
-  },
-];
 
 export default async function CommunityPage() {
   const [questions, feedback, networking] = await Promise.all([
@@ -63,35 +33,6 @@ export default async function CommunityPage() {
           실무자와 브랜드 운영자들이 모여 묻고 답하는 공간이에요.
         </p>
       </header>
-
-      <section className="grid gap-3 md:grid-cols-3">
-        {BOARDS.map((board) => (
-          <Link
-            key={board.href}
-            href={board.href}
-            className="group rounded-2xl border bg-card p-5 hover:border-foreground/30 hover:shadow-sm transition"
-          >
-            <div className="flex items-center gap-3">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-soft text-primary">
-                <board.icon className="h-5 w-5" />
-              </span>
-              <div className="flex-1">
-                <p className="font-semibold">{board.label}</p>
-                <p className="text-xs text-muted-foreground">
-                  {board.description}
-                </p>
-              </div>
-              {board.soon ? (
-                <Badge variant="outline" className="text-[10px]">
-                  곧 오픈
-                </Badge>
-              ) : (
-                <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-0.5 transition" />
-              )}
-            </div>
-          </Link>
-        ))}
-      </section>
 
       <section>
         <SectionHeading
