@@ -49,9 +49,6 @@ export function UserMenu({ profile }: { profile: HeaderProfile }) {
         <DropdownMenuItem asChild>
           <Link href="/community/questions/new">질문 작성</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/resources">무료 자료실</Link>
-        </DropdownMenuItem>
         {profile.is_admin ? (
           <DropdownMenuItem asChild>
             <Link href="/admin">관리자</Link>

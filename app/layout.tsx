@@ -5,7 +5,6 @@ import "./globals.css";
 import { SiteHeader } from "@/components/layout/site-header";
 import { HeaderSkeleton } from "@/components/layout/header-skeleton";
 import { SiteFooter } from "@/components/layout/site-footer";
-import { MobileBottomNav } from "@/components/layout/mobile-bottom-nav";
 import { SetupBanner } from "@/components/layout/setup-banner";
 import { rootMetadata } from "@/lib/seo";
 
@@ -29,9 +28,8 @@ export default function RootLayout({
         <Suspense fallback={<HeaderSkeleton />}>
           <SiteHeader />
         </Suspense>
-        <main className="flex-1 pb-20 md:pb-0">{children}</main>
+        <main className="flex-1">{children}</main>
         <SiteFooter />
-        <MobileBottomNav />
         <Analytics />
       </body>
     </html>

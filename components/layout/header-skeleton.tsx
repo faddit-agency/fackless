@@ -16,10 +16,11 @@ export function HeaderSkeleton() {
         <BrandLogoLink priority />
         <HeaderNav items={NAV} />
         <div className="flex items-center justify-end gap-2">
-          <div className="hidden sm:flex gap-2">
+          <div className="hidden md:flex gap-2">
             <div className="h-8 w-14 rounded-md bg-muted animate-pulse" />
             <div className="h-8 w-20 rounded-md bg-muted animate-pulse" />
           </div>
+          <div className="md:hidden h-9 w-9 rounded-md bg-muted animate-pulse" />
         </div>
       </div>
     </header>

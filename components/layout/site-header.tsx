@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { Menu } from "lucide-react";
 import { getHeaderProfile } from "@/lib/auth";
 import { BrandLogoLink } from "@/components/brand-logo";
 import { Button } from "@/components/ui/button";
 import { HeaderNav } from "@/components/layout/header-nav";
+import { MobileNavMenu } from "@/components/layout/mobile-nav-menu";
 import { UserMenu } from "@/components/layout/user-menu";
 
 const NAV = [
@@ -26,24 +26,30 @@ export async function SiteHeader() {
 
         <div className="flex items-center justify-end gap-2">
           {profile ? (
-            <UserMenu profile={profile} />
+            <div className="hidden md:block">
+              <UserMenu profile={profile} />
+            </div>
           ) : (
             <>
-              <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+                className="hidden md:inline-flex"
+              >
                 <Link href="/login">로그인</Link>
               </Button>
-              <Button asChild size="sm" variant="accent">
+              <Button
+                asChild
+                size="sm"
+                variant="accent"
+                className="hidden md:inline-flex"
+              >
                 <Link href="/signup">회원가입</Link>
               </Button>
             </>
           )}
-          <Link
-            href="/menu"
-            aria-label="메뉴"
-            className="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted"
-          >
-            <Menu className="h-5 w-5" />
-          </Link>
+          <MobileNavMenu navItems={NAV} profile={profile} />
         </div>
       </div>
     </header>
