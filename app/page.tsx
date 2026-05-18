@@ -44,7 +44,7 @@ function HeroSection() {
     <section className="border-b bg-gradient-to-b from-brand-soft to-background">
       <div className="container py-14 md:py-24 grid gap-10 md:grid-cols-2 items-end">
         <div className="space-y-6">
-          <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-[1.2] md:!leading-[1.2]">
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.2] md:!leading-[1.2]">
             브랜드는 시작했지만,
             <br />
             생산에서 막히는 사람들을 위한
