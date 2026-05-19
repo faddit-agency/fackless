@@ -91,6 +91,17 @@ const CURATED_ARTICLES = [
     mediaImage: null as string | null,
     imageInDescription: null as string | null,
   },
+  {
+    title:
+      "패션 테크 패딧, 패션 제조 공정 DX 솔루션 출시…글로벌 바이어·공장 협업 겨냥",
+    originalUrl: "https://besuccess.com/?p=180072",
+    summary:
+      "작업지시서·패턴 통합 DX 솔루션을 공식 출시하고 글로벌 생산 협업을 목표로 한다는 패딧 소식.",
+    publishedAt: "Sun, 17 May 2026 13:15:00 +0900",
+    source: "beSUCCESS",
+    mediaImage: null as string | null,
+    imageInDescription: null as string | null,
+  },
 ];
 
 const FEED_POOL_SIZE = 72;
@@ -205,16 +216,27 @@ async function buildFashionNewsPool(): Promise<ExternalFashionNewsItem[]> {
   ).flat();
   const allItems = [...CURATED_ARTICLES, ...fetchedItems];
 
-  const filtered = allItems
-    .filter((item) => {
-      if (!item.title || !item.originalUrl) return false;
-      const text = `${item.title} ${item.summary}`.toLowerCase();
-      return FASHION_KEYWORDS.some((keyword) => text.includes(keyword.toLowerCase()));
-    })
-    .filter(
+  const dedupeByUrl = <T extends { originalUrl: string }>(items: T[]) =>
+    items.filter(
       (item, index, arr) =>
         arr.findIndex((x) => x.originalUrl === item.originalUrl) === index,
-    )
+    );
+
+  const matchesFashionKeywords = (item: {
+    title: string;
+    summary: string;
+  }) => {
+    const text = `${item.title} ${item.summary}`.toLowerCase();
+    return FASHION_KEYWORDS.some((keyword) =>
+      text.includes(keyword.toLowerCase()),
+    );
+  };
+
+  const validItems = allItems.filter((item) => item.title && item.originalUrl);
+
+  const filtered = dedupeByUrl(
+    validItems.filter((item) => matchesFashionKeywords(item)),
+  )
     .sort((a, b) => {
       const aIsCurated = CURATED_ARTICLES.some(
         (curated) => curated.originalUrl === a.originalUrl,
@@ -227,10 +249,20 @@ async function buildFashionNewsPool(): Promise<ExternalFashionNewsItem[]> {
       const aTime = new Date(a.publishedAt).getTime() || 0;
       const bTime = new Date(b.publishedAt).getTime() || 0;
       return bTime - aTime;
-    })
-    .slice(0, FEED_POOL_SIZE);
+    });
 
-  return filtered.map((item) => {
+  const filteredUrls = new Set(filtered.map((item) => item.originalUrl));
+  const backfill = dedupeByUrl(
+    validItems.filter((item) => !filteredUrls.has(item.originalUrl)),
+  ).sort(
+    (a, b) =>
+      (new Date(b.publishedAt).getTime() || 0) -
+      (new Date(a.publishedAt).getTime() || 0),
+  );
+
+  const merged = [...filtered, ...backfill].slice(0, FEED_POOL_SIZE);
+
+  return merged.map((item) => {
     const thumbnailUrl =
       item.mediaImage ??
       item.imageInDescription ??
@@ -253,7 +285,7 @@ async function buildFashionNewsPool(): Promise<ExternalFashionNewsItem[]> {
 
 const getCachedFashionNewsPool = unstable_cache(
   buildFashionNewsPool,
-  ["external-fashion-news-pool"],
+  ["external-fashion-news-pool", "v2"],
   { revalidate: 1800, tags: ["fashion-news"] },
 );
 
