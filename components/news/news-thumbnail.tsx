@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { canOptimizeNewsImage } from "@/lib/news-image";
+import { canOptimizeNewsImage, normalizeNewsImageUrl } from "@/lib/news-image";
 
 interface NewsThumbnailProps {
   src: string;
@@ -10,14 +10,15 @@ interface NewsThumbnailProps {
 }
 
 export function NewsThumbnail({ src, alt, priority = false }: NewsThumbnailProps) {
+  const normalizedSrc = normalizeNewsImageUrl(src);
   const className =
     "h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]";
 
-  if (!canOptimizeNewsImage(src)) {
+  if (!canOptimizeNewsImage(normalizedSrc)) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
-        src={src}
+        src={normalizedSrc}
         alt={alt}
         className={className}
         loading={priority ? "eager" : "lazy"}
@@ -28,7 +29,7 @@ export function NewsThumbnail({ src, alt, priority = false }: NewsThumbnailProps
 
   return (
     <Image
-      src={src}
+      src={normalizedSrc}
       alt={alt}
       fill
       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 320px"

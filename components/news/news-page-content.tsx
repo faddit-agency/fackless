@@ -1,4 +1,7 @@
-import { getExternalFashionNews } from "@/lib/external-fashion-news";
+import {
+  getExternalFashionNews,
+  FASHION_NEWS_TOTAL_COUNT,
+} from "@/lib/external-fashion-news";
 import { NewsFeed } from "@/components/news/news-feed";
 
 const CATEGORY_OPTIONS = [
@@ -52,7 +55,7 @@ export async function NewsPageContent({
   category,
   page: pageParam,
 }: NewsPageContentProps) {
-  const articles = await getExternalFashionNews(72);
+  const articles = await getExternalFashionNews(FASHION_NEWS_TOTAL_COUNT);
   const selectedCategory = (category ?? "all") as CategorySlug;
   const page = Math.max(1, Number(pageParam ?? "1") || 1);
 

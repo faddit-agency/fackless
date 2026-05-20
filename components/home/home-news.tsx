@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { SectionHeading } from "@/components/section-heading";
 import { NewsThumbnail } from "@/components/news/news-thumbnail";
-import { getExternalFashionNews } from "@/lib/external-fashion-news";
+import {
+  getExternalFashionNews,
+  FASHION_NEWS_TOTAL_COUNT,
+} from "@/lib/external-fashion-news";
 
 export async function HomeNews() {
-  const articles = await getExternalFashionNews(4);
+  const articles = await getExternalFashionNews(FASHION_NEWS_TOTAL_COUNT);
 
   return (
     <section>
@@ -21,7 +24,7 @@ export async function HomeNews() {
           </Link>
         </p>
       ) : (
-        <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           {articles.map((article, index) => (
             <article key={article.id} className="space-y-3">
               <Link
@@ -34,7 +37,7 @@ export async function HomeNews() {
                   <NewsThumbnail
                     src={article.thumbnailUrl}
                     alt={article.title}
-                    priority={index < 2}
+                    priority={index < 5}
                   />
                 </div>
               </Link>

@@ -6,9 +6,7 @@ import { LiveSearchInput } from "@/components/live-search-input";
 import { NewsThumbnail } from "@/components/news/news-thumbnail";
 import type { ExternalFashionNewsItem } from "@/lib/external-fashion-news";
 
-const PAGE_ROWS = 5;
-const PAGE_COLUMNS = 4;
-const PAGE_SIZE = PAGE_ROWS * PAGE_COLUMNS;
+const PAGE_SIZE = 15;
 
 export type NewsArticleMeta = ExternalFashionNewsItem & {
   category: string;

@@ -1,5 +1,10 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
+import { enrichItemsWithOgImages } from "@/lib/news-og-image";
+import { normalizeNewsImageUrl } from "@/lib/news-image";
+
+/** 수집·노출하는 패션 뉴스 전체 개수 */
+export const FASHION_NEWS_TOTAL_COUNT = 30;
 
 export interface ExternalFashionNewsItem {
   id: string;
@@ -11,6 +16,7 @@ export interface ExternalFashionNewsItem {
   thumbnailUrl: string;
 }
 
+/** 한국어 패션·의류 뉴스 RSS (영문/해외 피드 제외) */
 const RSS_FEEDS = [
   {
     name: "한국면세뉴스 패션",
@@ -33,30 +39,54 @@ const RSS_FEEDS = [
     url: "https://www.mk.co.kr/rss/30100041/",
   },
   {
-    name: "Fibre2Fashion Apparel",
-    url: "https://feeds.feedburner.com/fibre2fashion/apparelnews",
+    name: "무신사 뉴스",
+    url: "https://fashioncord.github.io/musinsa/news.xml",
   },
 ];
 
+/** 패션·의류 도메인 키워드 (일반 경제·브랜드 뉴스 제외) */
 const FASHION_KEYWORDS = [
   "패션",
   "의류",
-  "브랜드",
-  "디자이너",
-  "섬유",
   "K패션",
   "패션업계",
-  "스타일",
-  "럭셔리",
   "패션테크",
+  "패션브랜드",
+  "패션산업",
+  "패션위크",
   "패딧",
   "faddit",
-  "작업지시서",
+  "의상",
   "봉제",
-  "생산",
-  "리테일",
-  "md",
+  "원단",
+  "섬유",
+  "런웨이",
+  "작업지시서",
+  "의류제조",
+  "패션스타트업",
+  "룩북",
+  "스타일링",
+  "무신사",
   "동대문",
+  "봉제공장",
+  "의류브랜드",
+];
+
+const KOREAN_MEDIA_HOSTS = [
+  "yna.co.kr",
+  "mk.co.kr",
+  "kdfnews.com",
+  "mt.co.kr",
+  "besuccess.com",
+  "venturesquare.net",
+  "munhwa.com",
+  "hankyung.com",
+  "sedaily.com",
+  "fashionbiz.co.kr",
+  "platum.io",
+  "newspatch.co.kr",
+  "fashioncord.github.io",
+  "musinsa.com",
 ];
 
 const CURATED_ARTICLES = [
@@ -104,7 +134,19 @@ const CURATED_ARTICLES = [
   },
 ];
 
-const FEED_POOL_SIZE = 72;
+const CURATED_URLS = new Set(CURATED_ARTICLES.map((item) => item.originalUrl));
+
+const FEED_POOL_SIZE = FASHION_NEWS_TOTAL_COUNT;
+
+type RawNewsItem = {
+  title: string;
+  originalUrl: string;
+  summary: string;
+  publishedAt: string;
+  source: string;
+  mediaImage: string | null;
+  imageInDescription: string | null;
+};
 
 function decodeHtml(input: string) {
   return input
@@ -123,6 +165,47 @@ function stripTags(input: string) {
 function extractTag(block: string, tag: string) {
   const match = block.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, "i"));
   return match ? decodeHtml(match[1].trim()) : "";
+}
+
+function extractFirstImageUrl(block: string): string | null {
+  const candidates = [
+    block.match(/<media:content[^>]+url=["']([^"']+)["'][^>]*>/i)?.[1],
+    block.match(/<media:thumbnail[^>]+url=["']([^"']+)["'][^>]*>/i)?.[1],
+    block.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]*type=["']image/i)?.[1],
+    block.match(/<enclosure[^>]+type=["']image[^"']*["'][^>]+url=["']([^"']+)["']/i)?.[1],
+    block.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i)?.[1],
+  ];
+  for (const raw of candidates) {
+    if (!raw) continue;
+    const url = raw.trim().replace(/&amp;/g, "&");
+    if (/^https?:\/\//i.test(url) && !/favicon|pixel|1x1/i.test(url)) {
+      return normalizeNewsImageUrl(url);
+    }
+  }
+  return null;
+}
+
+function hasHangul(text: string) {
+  return /[\uAC00-\uD7A3]/.test(text);
+}
+
+function isKoreanArticle(item: { title: string; originalUrl: string }) {
+  if (!hasHangul(item.title)) return false;
+  try {
+    const host = new URL(item.originalUrl).hostname.toLowerCase().replace(/^www\./, "");
+    if (host.endsWith(".kr")) return true;
+    return KOREAN_MEDIA_HOSTS.some(
+      (allowed) => host === allowed || host.endsWith(`.${allowed}`),
+    );
+  } catch {
+    return false;
+  }
+}
+
+function isFashionArticle(item: { title: string; summary: string; originalUrl: string }) {
+  if (CURATED_URLS.has(item.originalUrl)) return true;
+  const text = `${item.title} ${item.summary}`.toLowerCase();
+  return FASHION_KEYWORDS.some((keyword) => text.includes(keyword.toLowerCase()));
 }
 
 function pickFallbackQuery(title: string, summary: string) {
@@ -150,7 +233,7 @@ function pickFallbackQuery(title: string, summary: string) {
   return "korean,fashion,industry";
 }
 
-/** 네트워크 요청 없이 시드 기반 placeholder (picsum CDN) */
+/** RSS·OG 모두 없을 때만 사용하는 placeholder */
 function makeThumbnailFallback(seed: string, title: string, summary: string) {
   const sig = Math.abs(
     Array.from(`${seed}::${pickFallbackQuery(title, summary)}`).reduce(
@@ -187,21 +270,20 @@ async function fetchFeedItems(url: string, sourceName: string) {
   return itemBlocks.map((block) => {
     const title = stripTags(extractTag(block, "title"));
     const originalUrl = extractTag(block, "link");
-    const summary = stripTags(extractTag(block, "description"));
+    const description =
+      extractTag(block, "description") || extractTag(block, "content:encoded");
+    const summary = stripTags(description);
     const publishedAt = extractTag(block, "pubDate");
     const itemSource = stripTags(extractTag(block, "source")) || sourceName;
-    const mediaImage =
-      block.match(/<media:content[^>]+url=["']([^"']+)["'][^>]*>/i)?.[1] ?? null;
-    const imageInDescription =
-      block.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/i)?.[1] ?? null;
+    const rssImage = extractFirstImageUrl(block);
     return {
       title,
       originalUrl,
       summary,
       publishedAt,
       source: itemSource,
-      mediaImage,
-      imageInDescription,
+      mediaImage: rssImage,
+      imageInDescription: rssImage,
     };
   });
 }
@@ -214,7 +296,7 @@ async function buildFashionNewsPool(): Promise<ExternalFashionNewsItem[]> {
       ),
     )
   ).flat();
-  const allItems = [...CURATED_ARTICLES, ...fetchedItems];
+  const allItems: RawNewsItem[] = [...CURATED_ARTICLES, ...fetchedItems];
 
   const dedupeByUrl = <T extends { originalUrl: string }>(items: T[]) =>
     items.filter(
@@ -222,55 +304,38 @@ async function buildFashionNewsPool(): Promise<ExternalFashionNewsItem[]> {
         arr.findIndex((x) => x.originalUrl === item.originalUrl) === index,
     );
 
-  const matchesFashionKeywords = (item: {
-    title: string;
-    summary: string;
-  }) => {
-    const text = `${item.title} ${item.summary}`.toLowerCase();
-    return FASHION_KEYWORDS.some((keyword) =>
-      text.includes(keyword.toLowerCase()),
-    );
-  };
-
-  const validItems = allItems.filter((item) => item.title && item.originalUrl);
-
   const filtered = dedupeByUrl(
-    validItems.filter((item) => matchesFashionKeywords(item)),
-  )
-    .sort((a, b) => {
-      const aIsCurated = CURATED_ARTICLES.some(
-        (curated) => curated.originalUrl === a.originalUrl,
-      );
-      const bIsCurated = CURATED_ARTICLES.some(
-        (curated) => curated.originalUrl === b.originalUrl,
-      );
-      if (aIsCurated && !bIsCurated) return -1;
-      if (!aIsCurated && bIsCurated) return 1;
-      const aTime = new Date(a.publishedAt).getTime() || 0;
-      const bTime = new Date(b.publishedAt).getTime() || 0;
-      return bTime - aTime;
-    });
+    allItems.filter(
+      (item) =>
+        item.title &&
+        item.originalUrl &&
+        isKoreanArticle(item) &&
+        isFashionArticle(item),
+    ),
+  ).sort((a, b) => {
+    const aIsCurated = CURATED_URLS.has(a.originalUrl);
+    const bIsCurated = CURATED_URLS.has(b.originalUrl);
+    if (aIsCurated && !bIsCurated) return -1;
+    if (!aIsCurated && bIsCurated) return 1;
+    const aTime = new Date(a.publishedAt).getTime() || 0;
+    const bTime = new Date(b.publishedAt).getTime() || 0;
+    return bTime - aTime;
+  });
 
-  const filteredUrls = new Set(filtered.map((item) => item.originalUrl));
-  const backfill = dedupeByUrl(
-    validItems.filter((item) => !filteredUrls.has(item.originalUrl)),
-  ).sort(
-    (a, b) =>
-      (new Date(b.publishedAt).getTime() || 0) -
-      (new Date(a.publishedAt).getTime() || 0),
-  );
-
-  const merged = [...filtered, ...backfill].slice(0, FEED_POOL_SIZE);
+  const merged = filtered.slice(0, FEED_POOL_SIZE);
+  const ogImages = await enrichItemsWithOgImages(merged);
 
   return merged.map((item) => {
-    const thumbnailUrl =
+    const rawThumbnail =
       item.mediaImage ??
       item.imageInDescription ??
+      ogImages.get(item.originalUrl) ??
       makeThumbnailFallback(
         `${item.title}::${item.publishedAt}`,
         item.title,
         item.summary,
       );
+    const thumbnailUrl = normalizeNewsImageUrl(rawThumbnail);
     return {
       id: `${item.originalUrl}::${item.publishedAt}`,
       title: item.title,
@@ -285,12 +350,12 @@ async function buildFashionNewsPool(): Promise<ExternalFashionNewsItem[]> {
 
 const getCachedFashionNewsPool = unstable_cache(
   buildFashionNewsPool,
-  ["external-fashion-news-pool", "v2"],
+  ["external-fashion-news-pool", "v5"],
   { revalidate: 1800, tags: ["fashion-news"] },
 );
 
 export async function getExternalFashionNews(
-  limit = 24,
+  limit = FASHION_NEWS_TOTAL_COUNT,
 ): Promise<ExternalFashionNewsItem[]> {
   const pool = await getCachedFashionNewsPool();
   return pool.slice(0, limit);
