@@ -25,7 +25,7 @@ export default async function SignupPage() {
           <div className="space-y-2">
             <h1 className="text-2xl font-bold">패클스에 가입하기</h1>
             <p className="text-sm text-muted-foreground">
-              패션 브랜드 실무자들이 모인 커뮤니티에 합류하세요.
+              이메일을 아이디로 사용해 가입합니다.
             </p>
           </div>
         </div>

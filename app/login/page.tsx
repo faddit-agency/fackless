@@ -32,7 +32,7 @@ export default async function LoginPage({
           <div className="space-y-2">
             <h1 className="text-2xl font-bold">실무 커뮤니티에 합류하기</h1>
             <p className="text-sm text-muted-foreground">
-              이메일로 로그인하세요.
+              가입한 이메일(아이디)과 비밀번호로 로그인하세요.
             </p>
           </div>
         </div>

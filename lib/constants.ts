@@ -1,3 +1,6 @@
+/** 수집·노출하는 패션 뉴스 전체 개수 */
+export const FASHION_NEWS_TOTAL_COUNT = 30;
+
 export const SITE_NAME = "PACKLESS";
 export const SITE_TAGLINE = "패션 브랜드 실무 커뮤니티";
 export const SITE_DESCRIPTION =

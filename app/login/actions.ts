@@ -5,7 +5,10 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 
 const schema = z.object({
-  email: z.string().email("이메일을 정확히 입력해주세요."),
+  email: z
+    .string()
+    .min(1, "아이디(이메일)를 입력해주세요")
+    .email("이메일 형식으로 입력해주세요"),
   password: z.string().min(1, "비밀번호를 입력해주세요."),
   redirectTo: z.string().optional(),
 });
@@ -27,12 +30,13 @@ export async function emailLogin(formData: FormData): Promise<LoginResult> {
     };
   }
   const supabase = createClient();
+  const email = parsed.data.email.trim().toLowerCase();
   const { error } = await supabase.auth.signInWithPassword({
-    email: parsed.data.email,
+    email,
     password: parsed.data.password,
   });
   if (error) {
-    return { ok: false, error: "이메일 또는 비밀번호가 올바르지 않습니다." };
+    return { ok: false, error: "아이디(이메일) 또는 비밀번호가 올바르지 않습니다." };
   }
 
   const {

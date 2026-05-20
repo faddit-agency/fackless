@@ -31,13 +31,13 @@ export function EmailLoginForm({ redirectTo }: { redirectTo?: string }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       <div className="space-y-1.5">
-        <Label className="text-sm">이메일</Label>
+        <Label className="text-sm">아이디 (이메일)</Label>
         <Input
           name="email"
           type="email"
           required
           autoComplete="email"
-          placeholder="hello@packless.app"
+          placeholder="hello@email.com"
         />
       </div>
       <div className="space-y-1.5">

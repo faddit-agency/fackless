@@ -59,14 +59,13 @@ export function SignupForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <Field label="아이디" required>
+      <Field label="아이디 (이메일)" required hint="로그인 시 사용할 이메일 주소입니다">
         <Input
-          name="username"
+          name="email"
+          type="email"
           required
-          minLength={4}
-          maxLength={15}
-          placeholder="4~15자 영문/숫자/_"
-          autoComplete="username"
+          placeholder="hello@email.com"
+          autoComplete="email"
         />
       </Field>
       <Field label="비밀번호" required>
@@ -87,15 +86,6 @@ export function SignupForm() {
           minLength={6}
           placeholder="비밀번호를 다시 입력해주세요"
           autoComplete="new-password"
-        />
-      </Field>
-      <Field label="이메일" required>
-        <Input
-          name="email"
-          type="email"
-          required
-          placeholder="hello@packless.app"
-          autoComplete="email"
         />
       </Field>
       <Field label="실명" required>

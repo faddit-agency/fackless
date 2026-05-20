@@ -1,10 +1,10 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
+import { FASHION_NEWS_TOTAL_COUNT } from "@/lib/constants";
 import { enrichItemsWithOgImages } from "@/lib/news-og-image";
 import { normalizeNewsImageUrl } from "@/lib/news-image";
 
-/** 수집·노출하는 패션 뉴스 전체 개수 */
-export const FASHION_NEWS_TOTAL_COUNT = 30;
+export { FASHION_NEWS_TOTAL_COUNT };
 
 export interface ExternalFashionNewsItem {
   id: string;
