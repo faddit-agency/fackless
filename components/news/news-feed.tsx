@@ -4,11 +4,10 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { LiveSearchInput } from "@/components/live-search-input";
 import { NewsThumbnail } from "@/components/news/news-thumbnail";
-import { FASHION_NEWS_TOTAL_COUNT } from "@/lib/constants";
 import type { ExternalFashionNewsItem } from "@/lib/external-fashion-news";
 
-/** 5열 그리드에 맞춘 페이지 크기 (30 = 6행 × 5열) */
-const PAGE_SIZE = FASHION_NEWS_TOTAL_COUNT;
+/** 4열 그리드 기준: 20개 = 5행 × 4열 */
+const PAGE_SIZE = 20;
 
 export type NewsArticleMeta = ExternalFashionNewsItem & {
   category: string;
@@ -104,7 +103,7 @@ export function NewsFeed({
               : "지금은 불러온 뉴스가 없습니다. 잠시 후 다시 시도해주세요."}
           </p>
         ) : (
-          <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+          <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {pagedArticles.map((article, index) => (
               <article key={article.id} className="space-y-3">
                 <Link
