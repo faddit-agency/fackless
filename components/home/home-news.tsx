@@ -1,13 +1,12 @@
 import Link from "next/link";
 import { SectionHeading } from "@/components/section-heading";
 import { NewsThumbnail } from "@/components/news/news-thumbnail";
-import {
-  getExternalFashionNews,
-  FASHION_NEWS_TOTAL_COUNT,
-} from "@/lib/external-fashion-news";
+import { HOME_NEWS_DISPLAY_COUNT } from "@/lib/constants";
+import { getExternalFashionNews } from "@/lib/external-fashion-news";
+import { cn } from "@/lib/utils";
 
 export async function HomeNews() {
-  const articles = await getExternalFashionNews(FASHION_NEWS_TOTAL_COUNT);
+  const articles = await getExternalFashionNews(HOME_NEWS_DISPLAY_COUNT);
 
   return (
     <section>
@@ -24,9 +23,12 @@ export async function HomeNews() {
           </Link>
         </p>
       ) : (
-        <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
           {articles.map((article, index) => (
-            <article key={article.id} className="space-y-3">
+            <article
+              key={article.id}
+              className={cn("space-y-3", index >= 4 && "hidden lg:block")}
+            >
               <Link
                 href={article.originalUrl}
                 target="_blank"
@@ -37,7 +39,7 @@ export async function HomeNews() {
                   <NewsThumbnail
                     src={article.thumbnailUrl}
                     alt={article.title}
-                    priority={index < 5}
+                    priority={index < 4}
                   />
                 </div>
               </Link>
