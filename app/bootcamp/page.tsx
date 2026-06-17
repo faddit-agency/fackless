@@ -203,7 +203,7 @@ function ProcessStrip() {
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-3 md:gap-x-0 md:justify-between">
           {PROCESS.map((item, index) => (
             <div key={item.step} className="flex items-center gap-3 md:gap-4">
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2.5 rounded-full bg-muted/40 px-3 py-2 hover:bg-muted/50 transition">
                 <span className="text-xs font-bold tabular-nums text-accent">
                   {item.step}
                 </span>
