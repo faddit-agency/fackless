@@ -15,15 +15,27 @@ export default async function AdminPostsPage({
   const supabase = createClient();
   let query = supabase
     .from("posts")
-    .select(
-      "id, type, title, status, created_at, view_count, comment_count, author:profiles!posts_author_id_fkey(nickname)",
-    )
+    .select("id, type, title, status, created_at, view_count, comment_count, author_id")
     .order("created_at", { ascending: false })
     .limit(100);
   if (searchParams.type) query = query.eq("type", searchParams.type);
   if (searchParams.status) query = query.eq("status", searchParams.status);
 
   const { data: posts } = await query;
+
+  const authorIds = [
+    ...new Set((posts ?? []).map((p) => p.author_id).filter(Boolean)),
+  ] as string[];
+  const { data: profiles } =
+    authorIds.length > 0
+      ? await supabase
+          .from("profiles")
+          .select("user_id, nickname")
+          .in("user_id", authorIds)
+      : { data: [] };
+  const authorMap = new Map(
+    (profiles ?? []).map((p) => [p.user_id, p.nickname]),
+  );
 
   return (
     <div className="space-y-6">
@@ -90,7 +102,7 @@ export default async function AdminPostsPage({
                   </Badge>
                 </td>
                 <td className="px-4 py-3 text-muted-foreground">
-                  {(p.author as { nickname?: string } | null)?.nickname ?? "—"}
+                  {p.author_id ? authorMap.get(p.author_id) ?? "—" : "—"}
                 </td>
                 <td className="px-4 py-3">
                   <Badge variant="outline">{p.status}</Badge>

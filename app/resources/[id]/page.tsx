@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return createPageMetadata({
     title: resource.title,
     description: toMetaDescription(
-      resource.description ?? `${resource.title} — PACKLESS 무료 자료`,
+      resource.description ?? `${resource.title} — FACKLESS 무료 자료`,
     ),
     path: `/resources/${resource.id}`,
     image: resource.thumbnail_url,

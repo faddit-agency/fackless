@@ -4,13 +4,15 @@ import { SITE_TAGLINE } from "@/lib/constants";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t bg-muted/30">
-      <div className="container py-12 grid gap-10 md:grid-cols-4">
-        <div className="space-y-3 md:col-span-1">
+    <footer className="mt-auto border-t bg-muted/20">
+      <div className="container py-14 md:py-16 grid gap-10 md:grid-cols-4">
+        <div className="space-y-4 md:col-span-1">
           <Link href="/" className="inline-flex">
             <BrandLogo className="h-[1.225rem]" />
           </Link>
-          <p className="text-sm text-muted-foreground">{SITE_TAGLINE}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {SITE_TAGLINE}
+          </p>
         </div>
         <FooterColumn
           title="콘텐츠"
@@ -32,15 +34,28 @@ export function SiteFooter() {
           title="패클스"
           links={[
             { label: "부트캠프", href: "/bootcamp" },
-            { label: "패딧 바로가기", href: "/faddit" },
-            { label: "운영 정책", href: "/policy" },
+            { label: "회원가입", href: "/signup" },
+            { label: "로그인", href: "/login" },
           ]}
         />
       </div>
-      <div className="border-t">
-        <div className="container py-4 text-xs text-muted-foreground flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} PACKLESS. All rights reserved.</p>
-          <p>패션 브랜드 실무 커뮤니티 · 문의 hello@packless.app</p>
+      <div className="border-t bg-background">
+        <div className="container py-5 space-y-3">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+            <Link href="/policy/terms" className="underline hover:text-foreground">
+              이용약관
+            </Link>
+            <Link href="/policy/privacy" className="underline hover:text-foreground">
+              개인정보처리방침
+            </Link>
+          </div>
+          <div className="text-[11px] text-muted-foreground leading-relaxed space-y-1">
+            <p>
+              상호명: 패클스(FACKLESS) · 대표 이메일: hello@fackless.app · 문의:
+              hello@fackless.app
+            </p>
+            <p>© {new Date().getFullYear()} FACKLESS. All rights reserved.</p>
+          </div>
         </div>
       </div>
     </footer>
@@ -56,11 +71,11 @@ function FooterColumn({
 }) {
   return (
     <div className="space-y-3">
-      <p className="text-sm font-semibold">{title}</p>
-      <ul className="space-y-2 text-sm text-muted-foreground">
+      <p className="text-sm font-bold tracking-tight">{title}</p>
+      <ul className="space-y-2.5 text-sm text-muted-foreground">
         {links.map((link) => (
           <li key={link.href}>
-            <Link className="hover:text-foreground" href={link.href}>
+            <Link className="hover:text-foreground transition" href={link.href}>
               {link.label}
             </Link>
           </li>

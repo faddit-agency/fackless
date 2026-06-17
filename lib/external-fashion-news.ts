@@ -1,6 +1,7 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { FASHION_NEWS_TOTAL_COUNT } from "@/lib/constants";
+import { classifyFashionArticle } from "@/lib/news-classify";
 import { enrichItemsWithOgImages } from "@/lib/news-og-image";
 import { normalizeNewsImageUrl } from "@/lib/news-image";
 
@@ -14,6 +15,8 @@ export interface ExternalFashionNewsItem {
   originalUrl: string;
   publishedAt: string;
   thumbnailUrl: string;
+  category: string;
+  tags: string[];
 }
 
 /** 한국어 패션·의류 뉴스 RSS (영문/해외 피드 제외) */
@@ -298,11 +301,14 @@ async function buildFashionNewsPool(): Promise<ExternalFashionNewsItem[]> {
   ).flat();
   const allItems: RawNewsItem[] = [...CURATED_ARTICLES, ...fetchedItems];
 
-  const dedupeByUrl = <T extends { originalUrl: string }>(items: T[]) =>
-    items.filter(
-      (item, index, arr) =>
-        arr.findIndex((x) => x.originalUrl === item.originalUrl) === index,
-    );
+  const dedupeByUrl = <T extends { originalUrl: string }>(items: T[]) => {
+    const seen = new Set<string>();
+    return items.filter((item) => {
+      if (seen.has(item.originalUrl)) return false;
+      seen.add(item.originalUrl);
+      return true;
+    });
+  };
 
   const filtered = dedupeByUrl(
     allItems.filter(
@@ -336,6 +342,7 @@ async function buildFashionNewsPool(): Promise<ExternalFashionNewsItem[]> {
         item.summary,
       );
     const thumbnailUrl = normalizeNewsImageUrl(rawThumbnail);
+    const { category, tags } = classifyFashionArticle(item.title, item.summary);
     return {
       id: `${item.originalUrl}::${item.publishedAt}`,
       title: item.title,
@@ -344,13 +351,15 @@ async function buildFashionNewsPool(): Promise<ExternalFashionNewsItem[]> {
       originalUrl: item.originalUrl,
       publishedAt: item.publishedAt,
       thumbnailUrl,
+      category,
+      tags,
     } satisfies ExternalFashionNewsItem;
   });
 }
 
 const getCachedFashionNewsPool = unstable_cache(
   buildFashionNewsPool,
-  ["external-fashion-news-pool", "v5"],
+  ["external-fashion-news-pool", "v6"],
   { revalidate: 1800, tags: ["fashion-news"] },
 );
 

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { PageHero } from "@/components/layout/page-shell";
 import { NewsPageContent } from "@/components/news/news-page-content";
 import { NewsPageSkeleton } from "@/components/news/news-page-skeleton";
 import { WarmNewsCacheTrigger } from "@/components/news/warm-news-cache";
@@ -13,23 +14,20 @@ export const metadata = createPageMetadata({
   path: "/news",
 });
 
-export default function NewsPage({
-  searchParams,
-}: {
-  searchParams?: { category?: string; page?: string };
-}) {
+export default function NewsPage() {
   return (
-    <div className="container py-8 space-y-5">
+    <>
       <WarmNewsCacheTrigger />
-      <Suspense
-        key={`${searchParams?.category ?? "all"}-${searchParams?.page ?? "1"}`}
-        fallback={<NewsPageSkeleton />}
-      >
-        <NewsPageContent
-          category={searchParams?.category}
-          page={searchParams?.page}
-        />
-      </Suspense>
-    </div>
+      <PageHero
+        eyebrow="FASHION NEWS"
+        title={"K패션·리테일·패션테크\n업계 소식"}
+        description="브랜드, 생산, 유통, 스타트업 뉴스를 큐레이션해 전해드립니다."
+      />
+      <div className="container py-10 md:py-14 pb-16 md:pb-20">
+        <Suspense fallback={<NewsPageSkeleton />}>
+          <NewsPageContent />
+        </Suspense>
+      </div>
+    </>
   );
 }

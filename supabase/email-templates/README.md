@@ -1,6 +1,6 @@
-# PACKLESS 이메일 템플릿
+# FACKLESS 이메일 템플릿
 
-Supabase Auth에서 발송하는 인증 이메일을 PACKLESS 브랜드에 맞게 디자인한 HTML 템플릿입니다.
+Supabase Auth에서 발송하는 인증 이메일을 FACKLESS 브랜드에 맞게 디자인한 HTML 템플릿입니다.
 
 ## 디자인 시스템
 
@@ -14,7 +14,7 @@ Supabase Auth에서 발송하는 인증 이메일을 PACKLESS 브랜드에 맞�
 | 버튼 배경 | `#277CFA` (브랜드 블루) |
 | 버튼 텍스트 | `#FFFFFF` |
 
-헤더 로고는 `{{ .SiteURL }}/logo-packless.png` 를 사용합니다. 사이트 루트(`public/logo-packless.png`)에 동일 파일이 배포되어 있어야 메일 클라이언트에서 이미지가 보입니다.
+헤더 로고는 `{{ .SiteURL }}/logo-fackless.png` 를 사용합니다. 사이트 루트(`public/logo-fackless.png`)에 동일 파일이 배포되어 있어야 메일 클라이언트에서 이미지가 보입니다.
 | 테두리 | `#E4E7EE` |
 | 카드 radius | `16px`, 버튼 radius `10px` |
 
@@ -64,12 +64,12 @@ Supabase Auth에서 발송하는 인증 이메일을 PACKLESS 브랜드에 맞�
 Dashboard → **Authentication** → **Email Templates** 상단 또는
 **Authentication** → **Settings** → **SMTP Settings** 에서:
 
-- **Sender name**: `PACKLESS`
-- **Sender email**: `noreply@packless.app` (커스텀 SMTP 설정 시)
+- **Sender name**: `FACKLESS`
+- **Sender email**: `noreply@fackless.app` (커스텀 SMTP 설정 시)
 - 기본 Supabase SMTP는 `noreply@mail.app.supabase.io` 로 발송되며, 발신자명은 변경할 수 있습니다.
 
 운영 단계에서는 [Resend](https://resend.com), [Postmark](https://postmarkapp.com), [SendGrid](https://sendgrid.com) 등을 커스텀 SMTP로 연결해
-도메인 인증(SPF/DKIM)을 마치면 `hello@packless.app` 같은 자체 도메인 발신이 가능합니다.
+도메인 인증(SPF/DKIM)을 마치면 `hello@fackless.app` 같은 자체 도메인 발신이 가능합니다.
 
 ## 미리보기
 

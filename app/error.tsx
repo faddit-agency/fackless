@@ -31,10 +31,10 @@ export default function GlobalRouteError({
           <p className="text-sm text-muted-foreground">
             일시적인 문제일 수 있어요. 잠시 후 다시 시도해주세요. 문제가 계속되면{" "}
             <a
-              href="mailto:hello@packless.app"
+              href="mailto:hello@fackless.app"
               className="underline font-medium text-foreground/80"
             >
-              hello@packless.app
+              hello@fackless.app
             </a>{" "}
             으로 알려주세요.
           </p>

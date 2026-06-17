@@ -18,13 +18,13 @@ export function SectionHeading({
   className,
 }: Props) {
   return (
-    <div className={cn("flex items-end justify-between gap-4 mb-5", className)}>
-      <div>
-        <h2 className="text-xl md:text-2xl font-bold tracking-tight">
+    <div className={cn("flex items-end justify-between gap-4 mb-6 md:mb-7", className)}>
+      <div className="space-y-1">
+        <h2 className="text-xl md:text-2xl font-bold tracking-tight leading-snug">
           {title}
         </h2>
         {description ? (
-          <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
         ) : null}
       </div>
       {moreHref ? (

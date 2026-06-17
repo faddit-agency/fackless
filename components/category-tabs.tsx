@@ -44,10 +44,10 @@ function CategoryLink({
     <Link
       href={href}
       className={cn(
-        "rounded-full border px-3 py-1.5 text-sm whitespace-nowrap transition",
+        "rounded-full px-4 py-2 text-sm whitespace-nowrap transition font-medium",
         active
-          ? "bg-primary text-primary-foreground border-primary"
-          : "hover:border-foreground/30 text-muted-foreground",
+          ? "bg-foreground text-background"
+          : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted",
       )}
     >
       {label}

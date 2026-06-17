@@ -4,7 +4,7 @@ export const FASHION_NEWS_TOTAL_COUNT = 30;
 /** 홈 메인 「패션 업계 뉴스」 — 4열 × 2행 */
 export const HOME_NEWS_DISPLAY_COUNT = 8;
 
-export const SITE_NAME = "PACKLESS";
+export const SITE_NAME = "FACKLESS";
 export const SITE_TAGLINE = "패션 브랜드 실무 커뮤니티";
 export const SITE_DESCRIPTION =
   "원단·공장·작업지시서·원가·브랜딩까지, 패션 브랜드를 만드는 사람들의 실무 허브.";
@@ -96,4 +96,4 @@ export const RESOURCE_TYPES = [
 export type ResourceType = (typeof RESOURCE_TYPES)[number]["value"];
 
 export const FADDIT_URL =
-  process.env.NEXT_PUBLIC_FADDIT_URL ?? "https://faddit.app";
+  process.env.NEXT_PUBLIC_FADDIT_URL ?? "https://faddit.co.kr";

@@ -1,4 +1,4 @@
-# PACKLESS / 패클스
+# FACKLESS / 패클스
 
 패션 브랜드 실무 커뮤니티 플랫폼입니다. 원단·공장·작업지시서·원가·브랜딩까지
 브랜드 운영자가 실제로 필요한 정보·자료·사람을 모으는 것을 목표로 합니다.
@@ -34,7 +34,7 @@ components/
   cards/                   # 게시글/자료 카드
   brand-logo.tsx           # 공통 로고 이미지
 public/
-  logo-packless.png        # 헤더·이메일(사이트 URL)에서 참조하는 워드마크
+  logo-fackless.png        # 헤더·이메일(사이트 URL)에서 참조하는 워드마크
 lib/
   supabase/                # 클라이언트, 서버, 미들웨어 클라이언트
   auth.ts                  # 현재 사용자/프로필 헬퍼
@@ -53,7 +53,7 @@ middleware.ts              # 인증·온보딩·관리자 라우트 가드
 1. https://supabase.com 에서 프로젝트 생성
 2. SQL Editor에서 다음을 순서대로 실행:
    - `supabase/migrations/0001_init.sql` (스키마/RLS)
-   - `supabase/migrations/0002_seed.sql` (카테고리·샘플 콘텐츠, 선택)
+   - `supabase/migrations/0002_seed.sql` (카테고리 구조 데이터, 선택)
    - `supabase/migrations/0003_email_signup.sql` (이메일 회원가입용 컬럼·트리거)
    - `supabase/migrations/0004_avatars_storage.sql` (프로필 이미지 Storage 버킷·정책)
    - `supabase/migrations/0005_resource_files_storage.sql` (자료 파일/썸네일 업로드 버킷·정책)
@@ -66,7 +66,7 @@ middleware.ts              # 인증·온보딩·관리자 라우트 가드
    - 개발 중에는 **Authentication → Providers → Email → Confirm email** 옵션을
      꺼두면 가입 직후 바로 로그인 상태가 됩니다.
 5. **Authentication → Email Templates** 에서 `supabase/email-templates/` 에 있는
-   PACKLESS 브랜드 HTML을 복사해 붙여넣어 주세요.
+   FACKLESS 브랜드 HTML을 복사해 붙여넣어 주세요.
    적용 방법은 `supabase/email-templates/README.md` 참고.
 
 ### 2. Kakao 로그인 설정
@@ -108,7 +108,7 @@ npm run dev
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase 프로젝트 URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key |
 | `SUPABASE_SERVICE_ROLE_KEY` | (선택) 관리자 작업·시드용 |
-| `NEXT_PUBLIC_SITE_URL` | 배포 URL (예: https://packless.app) |
+| `NEXT_PUBLIC_SITE_URL` | 배포 URL (예: https://fackless.app) |
 | `NEXT_PUBLIC_FADDIT_URL` | 패딧 외부 링크 |
 
 ## 데이터베이스 개요

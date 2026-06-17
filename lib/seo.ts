@@ -6,11 +6,11 @@ import {
 } from "@/lib/constants";
 
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://packless.app"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://fackless.app"
 ).replace(/\/$/, "");
 
 export const DEFAULT_OG_IMAGE_PATH = "/opengraph-image";
-export const BRAND_LOGO_PATH = "/logo-packless.png";
+export const BRAND_LOGO_PATH = "/logo-fackless.png";
 
 export const SEO_KEYWORDS = [
   "패션 브랜드",
@@ -24,7 +24,7 @@ export const SEO_KEYWORDS = [
   "브랜드 운영",
   "원가 계산",
   "패션 커뮤니티",
-  "PACKLESS",
+  "FACKLESS",
   "패클스",
 ];
 
@@ -185,7 +185,7 @@ export function organizationJsonLd() {
     url: SITE_URL,
     logo: absoluteUrl(BRAND_LOGO_PATH),
     description: SITE_DESCRIPTION,
-    email: "hello@packless.app",
+    email: "hello@fackless.app",
   };
 }
 

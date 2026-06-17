@@ -59,6 +59,30 @@ export interface PostListItem extends Post {
   author?: { user_id: string; nickname: string; avatar_url: string | null } | null;
 }
 
+async function attachAuthorsToPosts(
+  posts: PostListItem[],
+): Promise<PostListItem[]> {
+  const authorIds = [
+    ...new Set(posts.map((p) => p.author_id).filter(Boolean)),
+  ] as string[];
+  if (authorIds.length === 0) return posts;
+
+  const supabase = createPublicClient();
+  const { data: profiles } = await supabase
+    .from("profiles")
+    .select("user_id, nickname, avatar_url")
+    .in("user_id", authorIds);
+
+  const authorMap = new Map(
+    (profiles ?? []).map((p) => [p.user_id, p]),
+  );
+
+  return posts.map((post) => ({
+    ...post,
+    author: post.author_id ? authorMap.get(post.author_id) ?? null : null,
+  }));
+}
+
 async function fetchPosts(options: {
   type?: PostType;
   categorySlug?: string;
@@ -68,9 +92,7 @@ async function fetchPosts(options: {
   const supabase = createPublicClient();
   let query = supabase
     .from("posts")
-    .select(
-      `${POST_LIST_COLUMNS}, category:categories(id, name, slug), author:profiles!posts_author_id_fkey(user_id, nickname, avatar_url)`,
-    )
+    .select(`${POST_LIST_COLUMNS}, category:categories(id, name, slug)`)
     .eq("status", "published");
   if (options.type) query = query.eq("type", options.type);
   if (options.categorySlug) {
@@ -92,7 +114,7 @@ async function fetchPosts(options: {
     console.error("[getPosts]", error);
     return [];
   }
-  return (data as unknown as PostListItem[]) ?? [];
+  return attachAuthorsToPosts((data as unknown as PostListItem[]) ?? []);
 }
 
 export async function getPosts(options: {
@@ -120,9 +142,7 @@ export async function getPostBySlugOrId(
     const supabase = createClient();
     const { data, error } = await supabase
       .from("posts")
-      .select(
-        "*, category:categories(id, name, slug), author:profiles!posts_author_id_fkey(user_id, nickname, avatar_url, role_type, is_verified_expert)",
-      )
+      .select("*, category:categories(id, name, slug)")
       .or(`slug.eq.${identifier},id.eq.${identifier}`)
       .eq("status", "published")
       .maybeSingle();
@@ -130,7 +150,20 @@ export async function getPostBySlugOrId(
       console.error("[getPostBySlugOrId]", error);
       return null;
     }
-    return (data as unknown as PostListItem) ?? null;
+    const post = (data as unknown as PostListItem) ?? null;
+    if (!post) return null;
+    const [withAuthor] = await attachAuthorsToPosts([post]);
+    if (post.author_id) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("user_id, nickname, avatar_url, role_type, is_verified_expert")
+        .eq("user_id", post.author_id)
+        .maybeSingle();
+      if (profile) {
+        withAuthor.author = profile;
+      }
+    }
+    return withAuthor;
   }, null);
 }
 

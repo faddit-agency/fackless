@@ -51,27 +51,53 @@
   }
 }
 
-.prose-packless {
+.prose-fackless {
   @apply max-w-none text-foreground leading-relaxed text-[15px] md:text-base;
 }
-.prose-packless h2 {
+.prose-fackless h2 {
   @apply mt-8 mb-3 text-xl md:text-2xl font-bold;
 }
-.prose-packless h3 {
+.prose-fackless h3 {
   @apply mt-6 mb-2 text-lg font-semibold;
 }
-.prose-packless p {
+.prose-fackless p {
   @apply mb-4 text-[15px] md:text-base;
 }
-.prose-packless ul {
+.prose-fackless ul {
   @apply list-disc pl-5 mb-4 space-y-1;
 }
-.prose-packless ol {
+.prose-fackless ol {
   @apply list-decimal pl-5 mb-4 space-y-1;
 }
-.prose-packless code {
+.prose-fackless code {
   @apply rounded bg-muted px-1.5 py-0.5 text-[13px];
 }
-.prose-packless blockquote {
-  @apply border-l-4 border-brand pl-4 italic text-muted-foreground my-4;
+.prose-fackless blockquote {
+  @apply border-l-4 border-accent pl-4 italic text-muted-foreground my-4;
+}
+.prose-fackless a {
+  @apply text-accent underline underline-offset-2;
+}
+
+@layer components {
+  .page-hero {
+    @apply border-b bg-gradient-to-b from-brand-soft via-background to-background;
+  }
+  .page-hero-inner {
+    @apply container py-12 md:py-16 text-center space-y-4 max-w-3xl mx-auto;
+  }
+  .page-hero-title {
+    @apply text-2xl md:text-4xl font-bold tracking-tight leading-[1.25];
+  }
+  .page-hero-desc {
+    @apply text-sm md:text-base text-muted-foreground leading-relaxed;
+  }
+  .bootcamp-grid {
+    background-image: radial-gradient(circle, hsl(var(--foreground) / 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .bootcamp-grid-light {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
 }

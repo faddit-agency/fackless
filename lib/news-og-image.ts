@@ -75,8 +75,8 @@ export async function resolveArticleOgImage(url: string): Promise<string | null>
   return getCachedArticleOgImage(url);
 }
 
-const OG_BATCH_SIZE = 6;
-const OG_ENRICH_LIMIT = 30;
+const OG_BATCH_SIZE = 8;
+const OG_ENRICH_LIMIT = 20;
 
 export async function enrichItemsWithOgImages<
   T extends {

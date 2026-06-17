@@ -1,10 +1,9 @@
 import { PostCard } from "@/components/cards/post-card";
 import { ResourceCard } from "@/components/cards/resource-card";
-import { HomeNews } from "@/components/home/home-news";
 import { SectionHeading } from "@/components/section-heading";
 import { getPosts, getResources } from "@/lib/queries";
 
-export async function HomeFeeds() {
+export async function HomeDbFeeds() {
   const [articles, questions, resources] = await Promise.all([
     getPosts({ type: "article", limit: 4 }),
     getPosts({ type: "question", limit: 5 }),
@@ -42,8 +41,6 @@ export async function HomeFeeds() {
           )}
         </div>
       </section>
-
-      <HomeNews />
 
       <section>
         <SectionHeading

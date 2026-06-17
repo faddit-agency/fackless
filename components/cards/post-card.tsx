@@ -51,7 +51,7 @@ export function PostCard({ post, hrefBuilder }: Props) {
             {post.author.nickname}
           </span>
         ) : (
-          <span>PACKLESS</span>
+          <span>FACKLESS</span>
         )}
         <span className="inline-flex items-center gap-1">
           <Eye className="h-3.5 w-3.5" /> {formatNumber(post.view_count)}

@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-/** 정적 파일 `public/logo-packless.png` (브랜드 워드마크) */
-export const BRAND_LOGO_SRC = "/logo-packless.png";
+/** 정적 파일 `public/logo-fackless.png` (브랜드 워드마크) */
+export const BRAND_LOGO_SRC = "/logo-fackless.png";
 
 export function BrandLogo({
   className,
@@ -15,7 +15,7 @@ export function BrandLogo({
   return (
     <Image
       src={BRAND_LOGO_SRC}
-      alt="PACKLESS 패클스"
+      alt="FACKLESS 패클스"
       width={196}
       height={50}
       className={cn("h-[1.4rem] w-auto object-contain object-left", className)}

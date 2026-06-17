@@ -1,11 +1,10 @@
 import { CategoryTabs } from "@/components/category-tabs";
-import { PostCard } from "@/components/cards/post-card";
-import { LiveSearchInput } from "@/components/live-search-input";
+import { PageBody, PageHero } from "@/components/layout/page-shell";
+import { PostSearchList } from "@/components/lists/post-search-list";
 import { getCategories, getPosts } from "@/lib/queries";
+import { createPageMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
-
-import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "실무 콘텐츠",
@@ -17,7 +16,7 @@ export const metadata = createPageMetadata({
 export default async function ArticlesPage({
   searchParams,
 }: {
-  searchParams: { category?: string; q?: string };
+  searchParams: { category?: string };
 }) {
   const [categories, posts] = await Promise.all([
     getCategories("article"),
@@ -27,47 +26,28 @@ export default async function ArticlesPage({
       limit: 30,
     }),
   ]);
-  const query = (searchParams.q ?? "").trim().toLowerCase();
-  const filteredPosts = query
-    ? posts.filter((post) => {
-        const haystack =
-          `${post.title} ${post.excerpt ?? ""} ${post.category?.name ?? ""}`.toLowerCase();
-        return haystack.includes(query);
-      })
-    : posts;
 
   return (
-    <div className="container py-10">
-      <header className="mb-6 space-y-2">
-        <p className="text-xs font-semibold text-muted-foreground tracking-wider uppercase">
-          ARTICLES
-        </p>
-        <h1 className="text-2xl md:text-3xl font-bold">실무 콘텐츠</h1>
-        <p className="text-sm text-muted-foreground">
-          현장에서 바로 적용 가능한 패션 브랜드 실무 가이드.
-        </p>
-      </header>
-      <div className="mb-6">
+    <>
+      <PageHero
+        eyebrow="ARTICLES"
+        title={"현장에서 바로 쓰는\n패션 브랜드 실무 가이드"}
+        description="브랜드 운영, 생산, 원단·봉제, 작업지시서, 원가 계산까지 — 실무자가 직접 정리한 콘텐츠입니다."
+      />
+      <PageBody>
         <CategoryTabs
           basePath="/articles"
           categories={categories}
           activeSlug={searchParams.category}
         />
-      </div>
-      <LiveSearchInput
-        initialValue={searchParams.q ?? ""}
-        placeholder="실무 콘텐츠 검색"
-        className="mb-6"
-      />
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {filteredPosts.length === 0 ? (
-          <p className="col-span-full text-sm text-muted-foreground py-10 text-center">
-            아직 등록된 실무 콘텐츠가 없어요.
-          </p>
-        ) : (
-          filteredPosts.map((post) => <PostCard key={post.id} post={post} />)
-        )}
-      </div>
-    </div>
+        <PostSearchList
+          posts={posts}
+          variant="article"
+          placeholder="실무 콘텐츠 검색"
+          emptyMessage="아직 등록된 실무 콘텐츠가 없어요."
+          className="mb-2"
+        />
+      </PageBody>
+    </>
   );
 }

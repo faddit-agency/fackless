@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -107,15 +108,33 @@ export function SignupForm() {
           placeholder="커뮤니티에서 사용할 닉네임"
         />
       </Field>
-      <label className="flex items-start gap-2 text-sm cursor-pointer pt-1">
+      <div className="flex items-start gap-2 text-sm pt-1">
         <Checkbox
+          id="terms-agree"
           checked={agreed}
           onCheckedChange={(value) => setAgreed(value === true)}
         />
-        <span className="text-muted-foreground leading-relaxed">
-          이용약관 및 개인정보처리방침에 동의합니다. (필수)
-        </span>
-      </label>
+        <p className="text-muted-foreground leading-relaxed">
+          <Link
+            href="/policy/terms"
+            target="_blank"
+            className="text-foreground underline underline-offset-2 hover:text-accent"
+          >
+            이용약관
+          </Link>{" "}
+          및{" "}
+          <Link
+            href="/policy/privacy"
+            target="_blank"
+            className="text-foreground underline underline-offset-2 hover:text-accent"
+          >
+            개인정보처리방침
+          </Link>
+          <label htmlFor="terms-agree" className="cursor-pointer">
+            에 동의합니다. (필수)
+          </label>
+        </p>
+      </div>
       {status?.kind === "error" ? (
         <p className="text-sm text-destructive">{status.message}</p>
       ) : null}

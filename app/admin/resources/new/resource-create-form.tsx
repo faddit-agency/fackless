@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { RESOURCE_TYPES, ROLE_TYPES } from "@/lib/constants";
+import { FADDIT_URL, RESOURCE_TYPES, ROLE_TYPES } from "@/lib/constants";
 import type { Category } from "@/lib/database.types";
 import { createClient } from "@/lib/supabase/client";
 import { createResource } from "./actions";
@@ -18,9 +18,15 @@ const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 export function ResourceCreateForm({ categories }: { categories: Category[] }) {
   const [fileUrl, setFileUrl] = useState("");
   const [thumbnailUrl, setThumbnailUrl] = useState("");
+  const [resourceType, setResourceType] = useState("");
+  const [externalUrl, setExternalUrl] = useState("");
   const [uploadingFile, setUploadingFile] = useState(false);
   const [uploadingThumb, setUploadingThumb] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+
+  const isLinkType =
+    resourceType === "link" || resourceType === "faddit_template";
+  const canSubmit = isLinkType ? Boolean(fileUrl || externalUrl) : Boolean(fileUrl);
 
   const isUploading = uploadingFile || uploadingThumb;
   const uploadStateText = useMemo(() => {
@@ -80,7 +86,14 @@ export function ResourceCreateForm({ categories }: { categories: Category[] }) {
           <select
             name="resource_type"
             required
-            defaultValue=""
+            value={resourceType}
+            onChange={(e) => {
+              const next = e.target.value;
+              setResourceType(next);
+              if (next === "faddit_template" && !externalUrl) {
+                setExternalUrl(FADDIT_URL);
+              }
+            }}
             className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
           >
             <option value="" disabled>
@@ -95,7 +108,15 @@ export function ResourceCreateForm({ categories }: { categories: Category[] }) {
         </Field>
       </div>
 
-      <Field label="자료 파일 업로드" required hint="PDF/엑셀/ZIP 등 최대 25MB">
+      <Field
+        label={isLinkType ? "자료 파일 업로드 (선택)" : "자료 파일 업로드"}
+        required={!isLinkType}
+        hint={
+          isLinkType
+            ? "링크형·패딧 템플릿은 외부 URL만으로도 등록할 수 있습니다."
+            : "PDF/엑셀/ZIP 등 최대 25MB"
+        }
+      >
         <Input
           type="file"
           onChange={async (event) => {
@@ -164,8 +185,17 @@ export function ResourceCreateForm({ categories }: { categories: Category[] }) {
         </p>
       </Field>
 
-      <Field label="외부 링크 (선택)" hint="링크형 자료일 때만 입력하세요.">
-        <Input name="external_url" placeholder="https://..." />
+      <Field
+        label={isLinkType ? "외부 링크" : "외부 링크 (선택)"}
+        required={isLinkType && !fileUrl}
+        hint={isLinkType ? "패딧 템플릿은 faddit.co.kr 링크를 입력하세요." : "링크형 자료일 때만 입력하세요."}
+      >
+        <Input
+          name="external_url"
+          value={externalUrl}
+          onChange={(e) => setExternalUrl(e.target.value)}
+          placeholder={isLinkType ? FADDIT_URL : "https://..."}
+        />
       </Field>
 
       <div className="space-y-1.5">
@@ -206,7 +236,7 @@ export function ResourceCreateForm({ categories }: { categories: Category[] }) {
         </p>
       ) : null}
 
-      <SubmitButton disabled={isUploading || !fileUrl} />
+      <SubmitButton disabled={isUploading || !canSubmit || !resourceType} />
     </form>
   );
 }

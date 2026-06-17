@@ -16,12 +16,18 @@ export default async function AdminPostDetail({ params }: Props) {
   const supabase = createClient();
   const { data: post } = await supabase
     .from("posts")
-    .select(
-      "*, author:profiles!posts_author_id_fkey(nickname), category:categories(name)",
-    )
+    .select("*, category:categories(name)")
     .eq("id", params.id)
     .maybeSingle();
   if (!post) notFound();
+
+  const { data: author } = post.author_id
+    ? await supabase
+        .from("profiles")
+        .select("nickname")
+        .eq("user_id", post.author_id)
+        .maybeSingle()
+    : { data: null };
 
   return (
     <article className="space-y-6">
@@ -40,8 +46,7 @@ export default async function AdminPostDetail({ params }: Props) {
         </div>
         <h1 className="text-2xl font-bold">{post.title}</h1>
         <p className="text-xs text-muted-foreground">
-          작성자{" "}
-          {(post.author as { nickname?: string } | null)?.nickname ?? "—"}
+          작성자 {author?.nickname ?? "—"}
         </p>
       </header>
 

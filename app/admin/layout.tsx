@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import {
+  ClipboardList,
   FileText,
   GraduationCap,
   LayoutDashboard,
@@ -18,7 +19,8 @@ export const metadata = noIndexMetadata;
 const NAV = [
   { href: "/admin", label: "대시보드", icon: LayoutDashboard },
   { href: "/admin/users", label: "회원 관리", icon: Users },
-  { href: "/admin/posts", label: "게시글 관리", icon: FileText },
+  { href: "/admin/articles", label: "실무 콘텐츠", icon: FileText },
+  { href: "/admin/posts", label: "게시글 관리", icon: ClipboardList },
   { href: "/admin/resources", label: "자료실 관리", icon: PackageOpen },
   { href: "/admin/news-ads", label: "뉴스 광고 관리", icon: Megaphone },
   {

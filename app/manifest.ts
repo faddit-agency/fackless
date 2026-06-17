@@ -13,7 +13,7 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: "ko",
     icons: [
       {
-        src: "/logo-packless.png",
+        src: "/logo-fackless.png",
         sizes: "512x512",
         type: "image/png",
         purpose: "any",

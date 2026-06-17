@@ -18,13 +18,13 @@ export async function SiteHeader() {
   const profile = await getHeaderProfile();
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/80 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70">
-      <div className="container grid h-16 grid-cols-[auto,1fr,auto] items-center gap-4">
+    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <div className="container grid h-[4.25rem] grid-cols-[auto,1fr,auto] items-center gap-4">
         <BrandLogoLink priority />
 
         <HeaderNav items={NAV} />
 
-        <div className="flex items-center justify-end gap-2">
+        <div className="flex items-center justify-end gap-1.5">
           {profile ? (
             <div className="hidden md:block">
               <UserMenu profile={profile} />
@@ -35,7 +35,7 @@ export async function SiteHeader() {
                 asChild
                 variant="ghost"
                 size="sm"
-                className="hidden md:inline-flex"
+                className="hidden md:inline-flex font-medium"
               >
                 <Link href="/login">로그인</Link>
               </Button>
@@ -43,7 +43,7 @@ export async function SiteHeader() {
                 asChild
                 size="sm"
                 variant="accent"
-                className="hidden md:inline-flex"
+                className="hidden md:inline-flex rounded-full px-5"
               >
                 <Link href="/signup">회원가입</Link>
               </Button>

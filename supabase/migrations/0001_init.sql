@@ -1,4 +1,4 @@
--- PACKLESS / 패클스 초기 스키마
+-- FACKLESS / 패클스 초기 스키마
 -- 실행 위치: Supabase SQL Editor 또는 supabase CLI
 
 -- 1. Extensions ---------------------------------------------------------
@@ -314,7 +314,7 @@ begin
     new.raw_user_meta_data->>'nickname',
     new.raw_user_meta_data->>'name',
     split_part(coalesce(new.email, ''), '@', 1),
-    'packless_' || substr(new.id::text, 1, 6)
+    'fackless_' || substr(new.id::text, 1, 6)
   );
 
   insert into public.profiles (user_id, nickname, avatar_url, is_onboarded)

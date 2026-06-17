@@ -9,7 +9,7 @@ export function MarkdownContent({ content, className }: Props) {
   const html = renderMarkdown(content ?? "");
   return (
     <div
-      className={cn("prose-packless", className)}
+      className={cn("prose-fackless", className)}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

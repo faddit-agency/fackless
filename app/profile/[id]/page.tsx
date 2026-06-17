@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props) {
   const nickname = data?.nickname ?? "회원";
   return createPageMetadata({
     title: `${nickname} 님의 프로필`,
-    description: `${nickname}님의 PACKLESS 활동·게시글 프로필`,
+    description: `${nickname}님의 FACKLESS 활동·게시글 프로필`,
     path: `/profile/${params.id}`,
     noIndex: true,
   });

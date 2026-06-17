@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MarkdownContent } from "@/components/markdown-content";
+import { PostContent } from "@/components/post-content";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getPostBySlugOrId } from "@/lib/queries";
 import {
@@ -88,7 +89,15 @@ export default async function ArticleDetailPage({ params }: Props) {
           <p className="text-base text-muted-foreground">{post.excerpt}</p>
         ) : null}
       </div>
-      <MarkdownContent content={post.content} />
+      <PostContent
+        content={post.content}
+        contentFormat={
+          (post.metadata as { content_format?: string } | null)?.content_format as
+            | "html"
+            | "markdown"
+            | undefined
+        }
+      />
 
       {showFadditCta ? (
         <aside className="mt-10 rounded-2xl border bg-primary text-primary-foreground p-6 md:p-8 space-y-3">

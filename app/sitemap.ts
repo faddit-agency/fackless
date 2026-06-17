@@ -24,6 +24,8 @@ const STATIC_ROUTES: MetadataRoute.Sitemap = [
     priority: 0.7,
   },
   { url: `${SITE_URL}/bootcamp`, changeFrequency: "weekly", priority: 0.8 },
+  { url: `${SITE_URL}/policy/terms`, changeFrequency: "yearly", priority: 0.3 },
+  { url: `${SITE_URL}/policy/privacy`, changeFrequency: "yearly", priority: 0.3 },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

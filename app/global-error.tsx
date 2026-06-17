@@ -56,7 +56,7 @@ export default function GlobalError({
               letterSpacing: 0.5,
             }}
           >
-            PACKLESS
+            FACKLESS
           </div>
           <h1
             style={{
@@ -76,7 +76,7 @@ export default function GlobalError({
               color: "#475467",
             }}
           >
-            잠시 후 다시 시도해주세요. 문제가 반복되면 hello@packless.app 으로
+            잠시 후 다시 시도해주세요. 문제가 반복되면 hello@fackless.app 으로
             알려주세요.
           </p>
           {error.digest ? (

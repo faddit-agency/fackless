@@ -27,7 +27,7 @@ begin
     new.raw_user_meta_data->>'nickname',
     new.raw_user_meta_data->>'name',
     split_part(coalesce(new.email, ''), '@', 1),
-    'packless_' || substr(new.id::text, 1, 6)
+    'fackless_' || substr(new.id::text, 1, 6)
   );
   meta_username := nullif(new.raw_user_meta_data->>'username', '');
   meta_real_name := nullif(new.raw_user_meta_data->>'real_name', '');

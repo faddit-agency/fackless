@@ -17,7 +17,7 @@ export function HeaderNav({ items }: { items: HeaderNavItem[] }) {
   const pathname = usePathname();
 
   return (
-    <nav className="hidden md:flex items-center justify-center gap-1 text-sm">
+    <nav className="hidden md:flex items-center justify-center gap-0.5 text-[15px]">
       {items.map((item) => {
         const active = isActive(pathname, item.href);
         return (
@@ -26,8 +26,8 @@ export function HeaderNav({ items }: { items: HeaderNavItem[] }) {
             href={item.href}
             className={
               active
-                ? "px-3 py-2 rounded-md font-bold text-[#181818] bg-muted/60"
-                : "px-3 py-2 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition"
+                ? "px-4 py-2 font-bold text-foreground"
+                : "px-4 py-2 font-medium text-muted-foreground hover:text-foreground transition"
             }
           >
             {item.label}

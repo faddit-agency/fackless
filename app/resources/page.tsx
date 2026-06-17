@@ -1,11 +1,10 @@
 import { CategoryTabs } from "@/components/category-tabs";
-import { ResourceCard } from "@/components/cards/resource-card";
-import { LiveSearchInput } from "@/components/live-search-input";
+import { PageBody, PageHero } from "@/components/layout/page-shell";
+import { ResourceSearchList } from "@/components/lists/resource-search-list";
 import { getCategories, getResources } from "@/lib/queries";
+import { createPageMetadata } from "@/lib/seo";
 
 export const revalidate = 60;
-
-import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: "무료 자료실",
@@ -17,56 +16,33 @@ export const metadata = createPageMetadata({
 export default async function ResourcesPage({
   searchParams,
 }: {
-  searchParams: { category?: string; q?: string };
+  searchParams: { category?: string };
 }) {
   const [categories, resources] = await Promise.all([
     getCategories("resource"),
     getResources({ categorySlug: searchParams.category, limit: 40 }),
   ]);
-  const query = (searchParams.q ?? "").trim().toLowerCase();
-  const filteredResources = query
-    ? resources.filter((resource) => {
-        const haystack =
-          `${resource.title} ${resource.description ?? ""} ${resource.resource_type}`.toLowerCase();
-        return haystack.includes(query);
-      })
-    : resources;
 
   return (
-    <div className="container py-10">
-      <header className="mb-6 space-y-2">
-        <p className="text-xs font-semibold text-muted-foreground tracking-wider uppercase">
-          FREE RESOURCES
-        </p>
-        <h1 className="text-2xl md:text-3xl font-bold">무료 자료실</h1>
-        <p className="text-sm text-muted-foreground">
-          현장에서 그대로 쓸 수 있는 실무 템플릿을 무료로 받아보세요. 로그인 후
-          다운로드 가능합니다.
-        </p>
-      </header>
-      <div className="mb-6">
+    <>
+      <PageHero
+        eyebrow="FREE RESOURCES"
+        title={"공장에 바로 보낼\n실무 템플릿 모음"}
+        description="작업지시서, 원가계산, 생산 체크리스트 등 현장에서 그대로 쓰는 자료를 무료로 받아보세요."
+      />
+      <PageBody>
         <CategoryTabs
           basePath="/resources"
           categories={categories}
           activeSlug={searchParams.category}
         />
-      </div>
-      <LiveSearchInput
-        initialValue={searchParams.q ?? ""}
-        placeholder="자료실 검색"
-        className="mb-6"
-      />
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {filteredResources.length === 0 ? (
-          <p className="col-span-full text-sm text-muted-foreground py-10 text-center">
-            아직 등록된 자료가 없어요.
-          </p>
-        ) : (
-          filteredResources.map((resource) => (
-            <ResourceCard key={resource.id} resource={resource} />
-          ))
-        )}
-      </div>
-    </div>
+        <ResourceSearchList
+          resources={resources}
+          placeholder="자료실 검색"
+          emptyMessage="아직 등록된 자료가 없어요."
+          className="mb-2"
+        />
+      </PageBody>
+    </>
   );
 }
