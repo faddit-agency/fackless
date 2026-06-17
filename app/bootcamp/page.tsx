@@ -179,7 +179,7 @@ function HeroSection() {
           {HERO_PILLARS.map((item) => (
             <li
               key={item.title}
-              className="group rounded-2xl bg-background/80 p-6 backdrop-blur-sm transition hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)]"
+              className="group rounded-2xl bg-muted/40 p-6 transition hover:bg-muted/50 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)]"
             >
               <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-muted/50 transition group-hover:bg-accent/10">
                 <item.icon className="h-5 w-5 text-foreground" strokeWidth={1.5} />
