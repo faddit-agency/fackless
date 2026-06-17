@@ -1,9 +1,6 @@
 import Link from "next/link";
 import {
-  BookOpen,
   Download,
-  MessageCircleQuestion,
-  Newspaper,
   Sparkles,
   Users,
   Wrench,
@@ -35,27 +32,6 @@ export const metadata = createPageMetadata({
   path: "/",
 });
 
-const SERVICE_HIGHLIGHTS = [
-  {
-    icon: Newspaper,
-    title: "패션 업계 뉴스",
-    description: "K패션·리테일·패션테크 소식을 큐레이션해 전해드립니다.",
-    href: "/news",
-  },
-  {
-    icon: BookOpen,
-    title: "실무 콘텐츠",
-    description: "브랜드 운영·생산·원가 등 현장에서 바로 쓰는 가이드.",
-    href: "/articles",
-  },
-  {
-    icon: MessageCircleQuestion,
-    title: "커뮤니티 Q&A",
-    description: "원단·공장·작업지시서, 실무자에게 직접 질문하세요.",
-    href: "/community/questions",
-  },
-];
-
 const VALUE_PROPS = [
   {
     icon: Wrench,
@@ -80,7 +56,6 @@ export default function HomePage() {
       <JsonLd data={[organizationJsonLd(), webSiteJsonLd()]} />
       <WarmNewsCacheTrigger />
       <HeroSection />
-      <ServiceHighlightSection />
       <ValuePropSection />
       <div className="container space-y-20 md:space-y-24 py-16 md:py-20">
         <Suspense fallback={<HomeFeedsSkeleton />}>
@@ -124,20 +99,6 @@ function HeroSection() {
           <Button asChild size="xl" variant="outline" className="min-w-[160px]">
             <Link href="/resources">무료 자료실 둘러보기</Link>
           </Button>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ServiceHighlightSection() {
-  return (
-    <section className="section-surface-soft">
-      <div className="container py-14 md:py-16">
-        <div className="grid gap-4 md:grid-cols-3">
-          {SERVICE_HIGHLIGHTS.map((item) => (
-            <FeatureCard key={item.title} {...item} className="bg-background hover:bg-background" />
-          ))}
         </div>
       </div>
     </section>
