@@ -116,3 +116,25 @@ export async function updateArticle(formData: FormData) {
   revalidatePath("/articles");
   revalidatePath(`/admin/articles/${data.post_id}/edit`);
 }
+
+export async function deleteArticle(formData: FormData) {
+  const { supabase } = await ensureAdmin();
+  const postId = String(formData.get("post_id") ?? "");
+  if (!postId) return;
+
+  const { error } = await supabase
+    .from("posts")
+    .update({ status: "deleted" })
+    .eq("id", postId)
+    .eq("type", "article");
+
+  if (error) {
+    console.error("[deleteArticle]", error);
+    throw new Error("콘텐츠 삭제에 실패했습니다.");
+  }
+
+  revalidatePath("/admin/articles");
+  revalidatePath("/admin/posts");
+  revalidatePath("/articles");
+  redirect("/admin/articles");
+}

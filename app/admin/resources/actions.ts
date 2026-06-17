@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { ensureAdmin } from "@/lib/admin-auth";
 
-const schema = z
+const resourceSchema = z
   .object({
     title: z.string().min(2).max(140),
     description: z.string().max(2000).optional().or(z.literal("")),
@@ -34,10 +34,8 @@ const schema = z
     { message: "파일 또는 외부 링크 중 하나는 필요합니다.", path: ["file_url"] },
   );
 
-export async function createResource(formData: FormData) {
-  const { supabase } = await ensureAdmin();
-
-  const parsed = schema.safeParse({
+function parseResourceForm(formData: FormData) {
+  return resourceSchema.safeParse({
     title: formData.get("title"),
     description: formData.get("description") ?? "",
     category_id: formData.get("category_id") ?? "",
@@ -48,14 +46,10 @@ export async function createResource(formData: FormData) {
     target_roles: formData.getAll("target_roles").map((v) => String(v)),
     is_published: formData.get("is_published") === "true",
   });
+}
 
-  if (!parsed.success) {
-    throw new Error(parsed.error.issues[0]?.message ?? "입력값을 확인해주세요.");
-  }
-
-  const data = parsed.data;
-
-  const { error } = await supabase.from("resources").insert({
+function toResourceRow(data: z.infer<typeof resourceSchema>) {
+  return {
     title: data.title,
     description: data.description || null,
     category_id: data.category_id || null,
@@ -65,10 +59,66 @@ export async function createResource(formData: FormData) {
     thumbnail_url: data.thumbnail_url || null,
     target_roles: data.target_roles.length ? data.target_roles : null,
     is_published: data.is_published,
-  });
+  };
+}
+
+export async function createResource(formData: FormData) {
+  const { supabase } = await ensureAdmin();
+  const parsed = parseResourceForm(formData);
+
+  if (!parsed.success) {
+    throw new Error(parsed.error.issues[0]?.message ?? "입력값을 확인해주세요.");
+  }
+
+  const { error } = await supabase
+    .from("resources")
+    .insert(toResourceRow(parsed.data));
   if (error) {
     console.error("[createResource]", error);
     throw new Error("자료 등록에 실패했습니다.");
+  }
+
+  revalidatePath("/admin/resources");
+  revalidatePath("/resources");
+  redirect("/admin/resources");
+}
+
+export async function updateResource(formData: FormData) {
+  const { supabase } = await ensureAdmin();
+  const resourceId = String(formData.get("resource_id") ?? "");
+  if (!resourceId) return;
+
+  const parsed = parseResourceForm(formData);
+  if (!parsed.success) {
+    throw new Error(parsed.error.issues[0]?.message ?? "입력값을 확인해주세요.");
+  }
+
+  const { error } = await supabase
+    .from("resources")
+    .update(toResourceRow(parsed.data))
+    .eq("id", resourceId);
+
+  if (error) {
+    console.error("[updateResource]", error);
+    throw new Error("자료 수정에 실패했습니다.");
+  }
+
+  revalidatePath("/admin/resources");
+  revalidatePath("/resources");
+  revalidatePath(`/admin/resources/${resourceId}/edit`);
+  revalidatePath(`/resources/${resourceId}`);
+  redirect("/admin/resources");
+}
+
+export async function deleteResource(formData: FormData) {
+  const { supabase } = await ensureAdmin();
+  const resourceId = String(formData.get("resource_id") ?? "");
+  if (!resourceId) return;
+
+  const { error } = await supabase.from("resources").delete().eq("id", resourceId);
+  if (error) {
+    console.error("[deleteResource]", error);
+    throw new Error("자료 삭제에 실패했습니다.");
   }
 
   revalidatePath("/admin/resources");

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AdminDeleteForm } from "@/components/admin/admin-delete-form";
 import { Button } from "@/components/ui/button";
 import { ArticleEditorForm } from "../../article-editor-form";
+import { deleteArticle } from "../../actions";
 import { getCategories } from "@/lib/queries";
 import { createClient } from "@/lib/supabase/server";
 
@@ -45,7 +47,13 @@ export default async function EditArticlePage({ params }: Props) {
         mode="edit"
         post={post}
       />
-      <div className="flex justify-end">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <AdminDeleteForm
+          action={deleteArticle}
+          id={post.id}
+          idFieldName="post_id"
+          confirmMessage="이 콘텐츠를 삭제할까요? 삭제 후에는 공개 목록에서 숨겨집니다."
+        />
         <Button asChild variant="outline">
           <Link href="/admin/articles">목록으로</Link>
         </Button>

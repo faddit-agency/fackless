@@ -1,25 +1,32 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Loader2, Upload } from "lucide-react";
+import { Loader2, Save, Upload } from "lucide-react";
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { FADDIT_URL, RESOURCE_TYPES, ROLE_TYPES } from "@/lib/constants";
-import type { Category } from "@/lib/database.types";
+import type { Category, Resource, RoleType } from "@/lib/database.types";
 import { createClient } from "@/lib/supabase/client";
-import { createResource } from "./actions";
+import { createResource, updateResource } from "./actions";
 
 const MAX_FILE_SIZE = 25 * 1024 * 1024;
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
-export function ResourceCreateForm({ categories }: { categories: Category[] }) {
-  const [fileUrl, setFileUrl] = useState("");
-  const [thumbnailUrl, setThumbnailUrl] = useState("");
-  const [resourceType, setResourceType] = useState("");
-  const [externalUrl, setExternalUrl] = useState("");
+interface ResourceFormProps {
+  categories: Category[];
+  mode: "create" | "edit";
+  resource?: Resource;
+}
+
+export function ResourceForm({ categories, mode, resource }: ResourceFormProps) {
+  const action = mode === "create" ? createResource : updateResource;
+  const [fileUrl, setFileUrl] = useState(resource?.file_url ?? "");
+  const [thumbnailUrl, setThumbnailUrl] = useState(resource?.thumbnail_url ?? "");
+  const [resourceType, setResourceType] = useState(resource?.resource_type ?? "");
+  const [externalUrl, setExternalUrl] = useState(resource?.external_url ?? "");
   const [uploadingFile, setUploadingFile] = useState(false);
   const [uploadingThumb, setUploadingThumb] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -42,35 +49,50 @@ export function ResourceCreateForm({ categories }: { categories: Category[] }) {
     const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}.${ext}`;
     const filePath = `${folder}/${fileName}`;
 
-    const { error: uploadError } = await supabase.storage
+    const { error: storageError } = await supabase.storage
       .from("resource-files")
       .upload(filePath, file, {
         contentType: file.type || undefined,
         upsert: false,
       });
 
-    if (uploadError) throw uploadError;
+    if (storageError) throw storageError;
     const { data } = supabase.storage.from("resource-files").getPublicUrl(filePath);
     return data.publicUrl;
   };
 
+  const selectedRoles = new Set(resource?.target_roles ?? []);
+
   return (
-    <form action={createResource} className="space-y-5">
+    <form action={action} className="space-y-5">
+      {mode === "edit" && resource ? (
+        <input type="hidden" name="resource_id" value={resource.id} />
+      ) : null}
       <input type="hidden" name="file_url" value={fileUrl} />
       <input type="hidden" name="thumbnail_url" value={thumbnailUrl} />
 
       <Field label="제목" required>
-        <Input name="title" required maxLength={120} />
+        <Input
+          name="title"
+          required
+          maxLength={120}
+          defaultValue={resource?.title ?? ""}
+        />
       </Field>
 
       <Field label="설명">
-        <Textarea name="description" rows={4} />
+        <Textarea
+          name="description"
+          rows={4}
+          defaultValue={resource?.description ?? ""}
+        />
       </Field>
 
       <div className="grid md:grid-cols-2 gap-4">
         <Field label="카테고리">
           <select
             name="category_id"
+            defaultValue={resource?.category_id ?? ""}
             className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
           >
             <option value="">선택 안 함</option>
@@ -110,11 +132,13 @@ export function ResourceCreateForm({ categories }: { categories: Category[] }) {
 
       <Field
         label={isLinkType ? "자료 파일 업로드 (선택)" : "자료 파일 업로드"}
-        required={!isLinkType}
+        required={!isLinkType && mode === "create"}
         hint={
           isLinkType
             ? "링크형·패딧 템플릿은 외부 URL만으로도 등록할 수 있습니다."
-            : "PDF/엑셀/ZIP 등 최대 25MB"
+            : mode === "edit"
+              ? "새 파일을 올리지 않으면 기존 파일이 유지됩니다."
+              : "PDF/엑셀/ZIP 등 최대 25MB"
         }
       >
         <Input
@@ -145,7 +169,7 @@ export function ResourceCreateForm({ categories }: { categories: Category[] }) {
           }}
         />
         <p className="text-xs text-muted-foreground">
-          {fileUrl ? "업로드 완료됨" : "아직 파일이 업로드되지 않았습니다."}
+          {fileUrl ? "파일 연결됨" : "아직 파일이 연결되지 않았습니다."}
         </p>
       </Field>
 
@@ -181,7 +205,7 @@ export function ResourceCreateForm({ categories }: { categories: Category[] }) {
           }}
         />
         <p className="text-xs text-muted-foreground">
-          {thumbnailUrl ? "썸네일 업로드 완료됨" : "썸네일은 선택 사항입니다."}
+          {thumbnailUrl ? "썸네일 연결됨" : "썸네일은 선택 사항입니다."}
         </p>
       </Field>
 
@@ -207,6 +231,7 @@ export function ResourceCreateForm({ categories }: { categories: Category[] }) {
                 type="checkbox"
                 name="target_roles"
                 value={r.value}
+                defaultChecked={selectedRoles.has(r.value as RoleType)}
                 className="h-4 w-4"
               />
               {r.label}
@@ -219,11 +244,11 @@ export function ResourceCreateForm({ categories }: { categories: Category[] }) {
         <input
           type="checkbox"
           name="is_published"
-          defaultChecked
+          defaultChecked={resource?.is_published ?? true}
           value="true"
           className="h-4 w-4"
         />
-        바로 공개
+        공개
       </label>
 
       {uploadError ? (
@@ -236,12 +261,21 @@ export function ResourceCreateForm({ categories }: { categories: Category[] }) {
         </p>
       ) : null}
 
-      <SubmitButton disabled={isUploading || !canSubmit || !resourceType} />
+      <SubmitButton
+        disabled={isUploading || !canSubmit || !resourceType}
+        label={mode === "create" ? "등록" : "변경사항 저장"}
+      />
     </form>
   );
 }
 
-function SubmitButton({ disabled }: { disabled: boolean }) {
+function SubmitButton({
+  disabled,
+  label,
+}: {
+  disabled: boolean;
+  label: string;
+}) {
   const { pending } = useFormStatus();
   return (
     <div className="flex justify-end gap-2">
@@ -249,12 +283,16 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
         {pending ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" />
-            등록 중...
+            저장 중...
           </>
         ) : (
           <>
-            <Upload className="h-4 w-4" />
-            등록
+            {label === "등록" ? (
+              <Upload className="h-4 w-4" />
+            ) : (
+              <Save className="h-4 w-4" />
+            )}
+            {label}
           </>
         )}
       </Button>

@@ -116,7 +116,7 @@ function ValuePropSection() {
             <FeatureCard
               key={item.title}
               {...item}
-              className="bg-background text-center items-center hover:bg-background"
+              className="bg-muted/40 text-center items-center hover:bg-muted/50"
             />
           ))}
         </div>

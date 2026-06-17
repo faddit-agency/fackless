@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Plus } from "lucide-react";
+import { AdminDeleteForm } from "@/components/admin/admin-delete-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { deleteArticle } from "./actions";
 import { createClient } from "@/lib/supabase/server";
 import { formatRelativeTime } from "@/lib/utils";
 
@@ -42,6 +44,7 @@ export default async function AdminArticlesPage() {
               <th className="px-4 py-3">상태</th>
               <th className="px-4 py-3">조회</th>
               <th className="px-4 py-3">작성일</th>
+              <th className="px-4 py-3">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -67,12 +70,29 @@ export default async function AdminArticlesPage() {
                 <td className="px-4 py-3 text-xs text-muted-foreground">
                   {formatRelativeTime(post.created_at)}
                 </td>
+                <td className="px-4 py-3">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Button asChild variant="outline" size="sm">
+                      <Link href={`/admin/articles/${post.id}/edit`}>수정</Link>
+                    </Button>
+                    {post.status !== "deleted" ? (
+                      <AdminDeleteForm
+                        action={deleteArticle}
+                        id={post.id}
+                        idFieldName="post_id"
+                        label=""
+                        size="sm"
+                        confirmMessage={`"${post.title}" 콘텐츠를 삭제할까요?`}
+                      />
+                    ) : null}
+                  </div>
+                </td>
               </tr>
             ))}
             {(posts?.length ?? 0) === 0 ? (
               <tr>
                 <td
-                  colSpan={5}
+                  colSpan={6}
                   className="px-4 py-10 text-center text-sm text-muted-foreground"
                 >
                   등록된 실무 콘텐츠가 없습니다.

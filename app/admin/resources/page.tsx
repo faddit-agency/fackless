@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { AdminDeleteForm } from "@/components/admin/admin-delete-form";
 import { createClient } from "@/lib/supabase/server";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { deleteResource } from "./actions";
 import { formatNumber, formatRelativeTime } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -38,13 +40,17 @@ export default async function AdminResourcesPage() {
               <th className="px-4 py-3">상태</th>
               <th className="px-4 py-3">다운로드</th>
               <th className="px-4 py-3">등록일</th>
+              <th className="px-4 py-3">관리</th>
             </tr>
           </thead>
           <tbody>
             {resources.map((r) => (
               <tr key={r.id} className="border-t">
                 <td className="px-4 py-3 font-medium max-w-md truncate">
-                  <Link href={`/resources/${r.id}`} className="hover:underline">
+                  <Link
+                    href={`/admin/resources/${r.id}/edit`}
+                    className="hover:underline"
+                  >
                     {r.title}
                   </Link>
                 </td>
@@ -64,12 +70,26 @@ export default async function AdminResourcesPage() {
                 <td className="px-4 py-3 text-xs text-muted-foreground">
                   {formatRelativeTime(r.created_at)}
                 </td>
+                <td className="px-4 py-3">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Button asChild variant="outline" size="sm">
+                      <Link href={`/admin/resources/${r.id}/edit`}>수정</Link>
+                    </Button>
+                    <AdminDeleteForm
+                      action={deleteResource}
+                      id={r.id}
+                      idFieldName="resource_id"
+                      label=""
+                      confirmMessage={`"${r.title}" 자료를 삭제할까요?`}
+                    />
+                  </div>
+                </td>
               </tr>
             ))}
             {resources.length === 0 ? (
               <tr>
                 <td
-                  colSpan={5}
+                  colSpan={6}
                   className="px-4 py-10 text-center text-sm text-muted-foreground"
                 >
                   등록된 자료가 없습니다.

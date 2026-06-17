@@ -1,28 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z } from "zod";
-import { createClient } from "@/lib/supabase/server";
-
-async function ensureAdmin() {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login?redirectTo=/admin/news-ads");
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("is_admin")
-    .eq("user_id", user.id)
-    .maybeSingle();
-  if (!profile?.is_admin) {
-    throw new Error("관리자 권한이 필요합니다.");
-  }
-
-  return supabase;
-}
+import { ensureAdmin } from "@/lib/admin-auth";
 
 const createSchema = z.object({
   title: z.string().min(2).max(80),
@@ -34,7 +14,7 @@ const createSchema = z.object({
 });
 
 export async function createNewsAd(formData: FormData) {
-  const supabase = await ensureAdmin();
+  const { supabase } = await ensureAdmin();
 
   const { count } = await supabase
     .from("news_ads")
@@ -43,7 +23,7 @@ export async function createNewsAd(formData: FormData) {
     throw new Error("광고는 최대 5개까지 등록할 수 있습니다.");
   }
 
-  const parsed = createSchema.parse({
+  const parsed = createSchema.safeParse({
     title: formData.get("title"),
     subtitle: formData.get("subtitle") ?? "",
     link_url: formData.get("link_url"),
@@ -52,13 +32,17 @@ export async function createNewsAd(formData: FormData) {
     is_active: formData.get("is_active") === "true",
   });
 
+  if (!parsed.success) {
+    throw new Error(parsed.error.issues[0]?.message ?? "입력값을 확인해주세요.");
+  }
+
   const { error } = await supabase.from("news_ads").insert({
-    title: parsed.title,
-    subtitle: parsed.subtitle || null,
-    link_url: parsed.link_url,
-    image_url: parsed.image_url,
-    sort_order: parsed.sort_order,
-    is_active: parsed.is_active,
+    title: parsed.data.title,
+    subtitle: parsed.data.subtitle || null,
+    link_url: parsed.data.link_url,
+    image_url: parsed.data.image_url,
+    sort_order: parsed.data.sort_order,
+    is_active: parsed.data.is_active,
   });
 
   if (error) {
@@ -71,11 +55,11 @@ export async function createNewsAd(formData: FormData) {
 }
 
 export async function updateNewsAd(formData: FormData) {
-  const supabase = await ensureAdmin();
+  const { supabase } = await ensureAdmin();
   const id = String(formData.get("id") ?? "");
   if (!id) return;
 
-  const parsed = createSchema.parse({
+  const parsed = createSchema.safeParse({
     title: formData.get("title"),
     subtitle: formData.get("subtitle") ?? "",
     link_url: formData.get("link_url"),
@@ -84,15 +68,19 @@ export async function updateNewsAd(formData: FormData) {
     is_active: formData.get("is_active") === "true",
   });
 
+  if (!parsed.success) {
+    throw new Error(parsed.error.issues[0]?.message ?? "입력값을 확인해주세요.");
+  }
+
   const { error } = await supabase
     .from("news_ads")
     .update({
-      title: parsed.title,
-      subtitle: parsed.subtitle || null,
-      link_url: parsed.link_url,
-      image_url: parsed.image_url,
-      sort_order: parsed.sort_order,
-      is_active: parsed.is_active,
+      title: parsed.data.title,
+      subtitle: parsed.data.subtitle || null,
+      link_url: parsed.data.link_url,
+      image_url: parsed.data.image_url,
+      sort_order: parsed.data.sort_order,
+      is_active: parsed.data.is_active,
     })
     .eq("id", id);
 
@@ -106,7 +94,7 @@ export async function updateNewsAd(formData: FormData) {
 }
 
 export async function deleteNewsAd(formData: FormData) {
-  const supabase = await ensureAdmin();
+  const { supabase } = await ensureAdmin();
   const id = String(formData.get("id") ?? "");
   if (!id) return;
 
