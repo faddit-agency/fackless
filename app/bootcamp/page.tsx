@@ -198,7 +198,7 @@ function HeroSection() {
 
 function ProcessStrip() {
   return (
-    <section className="section-surface-soft">
+    <section>
       <div className="container py-8 md:py-10">
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-3 md:gap-x-0 md:justify-between">
           {PROCESS.map((item, index) => (
@@ -353,7 +353,7 @@ function CurriculumSection() {
 
 function BenefitsSection() {
   return (
-    <section className="rounded-3xl section-surface p-8 md:p-12 lg:p-14">
+    <section className="rounded-3xl bg-brand-soft/50 p-8 md:p-12 lg:p-14">
       <div className="grid gap-10 lg:grid-cols-[1fr,1.2fr] lg:items-start">
         <div className="space-y-4">
           <SectionLabel>BENEFITS</SectionLabel>

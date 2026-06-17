@@ -46,8 +46,7 @@ export default async function QuestionsPage({
           </Button>
         }
       />
-      <section className="section-surface-soft">
-        <PageBody>
+      <PageBody>
           <CategoryTabs
           basePath="/community/questions"
           categories={categories}
@@ -81,7 +80,6 @@ export default async function QuestionsPage({
           </Button>
         </div>
         </PageBody>
-      </section>
     </>
   );
 }

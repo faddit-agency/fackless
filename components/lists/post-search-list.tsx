@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { PostCard } from "@/components/cards/post-card";
 import { LiveSearchInput } from "@/components/live-search-input";
+import { getPostHref } from "@/lib/post-links";
 import type { PostListItem } from "@/lib/queries";
 
 type PostSearchVariant = "article" | "question";
@@ -59,7 +60,7 @@ export function PostSearchList({
               hrefBuilder={
                 variant === "question"
                   ? (p) => `/community/questions/${p.id}`
-                  : undefined
+                  : (p) => getPostHref(p)
               }
             />
           ))

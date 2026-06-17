@@ -3,6 +3,7 @@ import { Eye, MessageCircle, ThumbsUp, Pin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { PastelChip } from "@/components/ui/pastel-chip";
 import { CONTENT_CARD_CLASS } from "@/lib/chip-colors";
+import { getPostHref } from "@/lib/post-links";
 import { formatNumber, formatRelativeTime, truncate } from "@/lib/utils";
 import type { PostListItem } from "@/lib/queries";
 import { POST_TYPE_LABEL } from "@/lib/constants";
@@ -13,11 +14,7 @@ interface Props {
 }
 
 export function PostCard({ post, hrefBuilder }: Props) {
-  const href =
-    hrefBuilder?.(post) ??
-    (post.type === "article" || post.type === "news"
-      ? `/${post.type === "article" ? "articles" : "news"}/${post.slug ?? post.id}`
-      : `/community/${post.type}s/${post.id}`);
+  const href = hrefBuilder?.(post) ?? getPostHref(post);
 
   return (
     <Link href={href} className={CONTENT_CARD_CLASS}>

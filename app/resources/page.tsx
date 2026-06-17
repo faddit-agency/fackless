@@ -30,8 +30,7 @@ export default async function ResourcesPage({
         title={"공장에 바로 보낼\n실무 템플릿 모음"}
         description="작업지시서, 원가계산, 생산 체크리스트 등 현장에서 그대로 쓰는 자료를 무료로 받아보세요."
       />
-      <section className="section-surface-soft">
-        <PageBody>
+      <PageBody>
           <CategoryTabs
             basePath="/resources"
             categories={categories}
@@ -43,8 +42,7 @@ export default async function ResourcesPage({
             emptyMessage="아직 등록된 자료가 없어요."
             className="mb-2"
           />
-        </PageBody>
-      </section>
+      </PageBody>
     </>
   );
 }

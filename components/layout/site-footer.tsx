@@ -4,7 +4,7 @@ import { SITE_TAGLINE } from "@/lib/constants";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto section-surface-soft">
+    <footer className="mt-auto">
       <div className="container py-14 md:py-16 grid gap-10 md:grid-cols-4">
         <div className="space-y-4 md:col-span-1">
           <Link href="/" className="inline-flex">

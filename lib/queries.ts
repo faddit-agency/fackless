@@ -5,6 +5,7 @@ import {
   createPublicClient,
   hasSupabaseEnv,
 } from "@/lib/supabase/server";
+import { isUuid } from "@/lib/post-links";
 import type {
   Category,
   CategoryType,
@@ -139,13 +140,18 @@ export async function getPostBySlugOrId(
   identifier: string,
 ): Promise<PostListItem | null> {
   return safe(async () => {
-    const supabase = createClient();
-    const { data, error } = await supabase
+    const supabase = createPublicClient();
+    const decoded = decodeURIComponent(identifier);
+    let query = supabase
       .from("posts")
       .select("*, category:categories(id, name, slug)")
-      .or(`slug.eq.${identifier},id.eq.${identifier}`)
-      .eq("status", "published")
-      .maybeSingle();
+      .eq("status", "published");
+
+    query = isUuid(decoded)
+      ? query.eq("id", decoded)
+      : query.eq("slug", decoded);
+
+    const { data, error } = await query.maybeSingle();
     if (error) {
       console.error("[getPostBySlugOrId]", error);
       return null;

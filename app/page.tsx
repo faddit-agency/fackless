@@ -62,13 +62,11 @@ export default function HomePage() {
           <HomeDbFeeds />
         </Suspense>
       </div>
-      <section className="section-surface-soft">
-        <div className="container py-16 md:py-20">
+      <div className="container py-16 md:py-20">
           <Suspense fallback={<HomeNewsSkeleton />}>
             <HomeNews />
           </Suspense>
         </div>
-      </section>
       <div className="container space-y-20 md:space-y-24 py-16 md:py-20">
         <BootcampCTA />
         <FadditCTA />
@@ -107,7 +105,7 @@ function HeroSection() {
 
 function ValuePropSection() {
   return (
-    <section className="section-surface">
+    <section>
       <div className="container py-16 md:py-20 space-y-12">
         <MarketingSection
           title={"브랜드 실무,\n어디서부터 시작해야 할까요?"}
