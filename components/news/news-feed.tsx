@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { LiveSearchInput } from "@/components/live-search-input";
 import { NewsThumbnail } from "@/components/news/news-thumbnail";
+import { PastelChip } from "@/components/ui/pastel-chip";
 import type { ExternalFashionNewsItem } from "@/lib/external-fashion-news";
 
 /** 4열 그리드 기준: 20개 = 5행 × 4열 */
@@ -155,9 +156,9 @@ export function NewsFeed({ articles, categoryOptions }: NewsFeedProps) {
                         key={`${article.id}-${tag}`}
                         type="button"
                         onClick={() => selectCategory(article.category)}
-                        className="text-xs font-medium text-[#277CFA] hover:underline"
+                        className="inline-flex"
                       >
-                        {tag}
+                        <PastelChip label={tag} className="hover:opacity-90" />
                       </button>
                     ))}
                   </div>

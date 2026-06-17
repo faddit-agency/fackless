@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { Download, FileSpreadsheet, FileText, Figma, Link2 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { PastelChip } from "@/components/ui/pastel-chip";
 import type { Resource } from "@/lib/database.types";
-import { formatNumber } from "@/lib/utils";
+import { CONTENT_CARD_CLASS, getResourceTypeChipStyle } from "@/lib/chip-colors";
+import { cn, formatNumber } from "@/lib/utils";
 
 const ICONS = {
   pdf: FileText,
@@ -24,18 +25,25 @@ const TYPE_LABEL: Record<Resource["resource_type"], string> = {
 
 export function ResourceCard({ resource }: { resource: Resource }) {
   const Icon = ICONS[resource.resource_type] ?? FileText;
+  const iconChip = getResourceTypeChipStyle(resource.resource_type);
   return (
-    <Link
-      href={`/resources/${resource.id}`}
-      className="group block rounded-xl bg-background p-5 shadow-sm transition hover:shadow-md"
-    >
+    <Link href={`/resources/${resource.id}`} className={`group ${CONTENT_CARD_CLASS}`}>
       <div className="flex items-start gap-3">
-        <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-soft text-primary">
+        <span
+          className={cn(
+            "inline-flex h-10 w-10 items-center justify-center rounded-lg",
+            iconChip.bg,
+            iconChip.text,
+          )}
+        >
           <Icon className="h-5 w-5" />
         </span>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <Badge variant="soft">{TYPE_LABEL[resource.resource_type]}</Badge>
+            <PastelChip
+              label={TYPE_LABEL[resource.resource_type]}
+              resourceType={resource.resource_type}
+            />
             <span className="text-xs text-muted-foreground inline-flex items-center gap-1">
               <Download className="h-3 w-3" />
               {formatNumber(resource.download_count)}

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ArrowLeft, Download } from "lucide-react";
+import { PastelChip } from "@/components/ui/pastel-chip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -67,9 +68,12 @@ export default async function ResourceDetailPage({ params }: Props) {
         </Link>
       </Button>
 
-      <div className="rounded-2xl border bg-card p-6 md:p-8 space-y-4">
+      <div className="rounded-2xl bg-muted/40 p-6 md:p-8 space-y-4">
         <div className="flex items-center gap-2 flex-wrap">
-          <Badge variant="soft">{TYPE_LABEL[resource.resource_type]}</Badge>
+          <PastelChip
+            label={TYPE_LABEL[resource.resource_type]}
+            resourceType={resource.resource_type}
+          />
           <span className="text-xs text-muted-foreground inline-flex items-center gap-1">
             <Download className="h-3 w-3" />
             {formatNumber(resource.download_count)}회 다운로드

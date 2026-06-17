@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ArrowLeft, Eye, MessageCircle, ThumbsUp } from "lucide-react";
+import { PastelChip } from "@/components/ui/pastel-chip";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { UserAvatar } from "@/components/user-avatar";
@@ -105,13 +106,11 @@ export default async function QuestionDetailPage({ params }: Props) {
       <header className="space-y-4 border-b pb-6 mb-6">
         <div className="flex flex-wrap items-center gap-2">
           {post.category && "name" in post.category ? (
-            <Badge variant="soft">{(post.category as { name: string }).name}</Badge>
+            <PastelChip label={(post.category as { name: string }).name} />
           ) : null}
-          <Badge variant="outline">질문</Badge>
+          <PastelChip label="질문" />
           {tagRows?.map((t) => (
-            <Badge key={t.tag} variant="outline" className="text-[10px]">
-              #{t.tag}
-            </Badge>
+            <PastelChip key={t.tag} label={`#${t.tag}`} className="text-[10px]" />
           ))}
         </div>
         <h1 className="text-2xl md:text-3xl font-bold leading-[1.3]">

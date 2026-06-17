@@ -2,9 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { PastelChip } from "@/components/ui/pastel-chip";
 import { Button } from "@/components/ui/button";
-import { MarkdownContent } from "@/components/markdown-content";
 import { PostContent } from "@/components/post-content";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getPostBySlugOrId } from "@/lib/queries";
@@ -76,7 +75,7 @@ export default async function ArticleDetailPage({ params }: Props) {
       <div className="space-y-3 mb-6">
         <div className="flex items-center gap-2">
           {post.category?.name ? (
-            <Badge variant="soft">{post.category.name}</Badge>
+            <PastelChip label={post.category.name} />
           ) : null}
           <span className="text-xs text-muted-foreground">
             {formatRelativeTime(post.created_at)}

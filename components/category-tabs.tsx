@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Category } from "@/lib/database.types";
+import { getPastelChipStyle } from "@/lib/chip-colors";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -40,6 +41,8 @@ function CategoryLink({
   label: string;
   active: boolean;
 }) {
+  const chip = getPastelChipStyle(label);
+
   return (
     <Link
       href={href}
@@ -47,7 +50,7 @@ function CategoryLink({
         "rounded-full px-4 py-2 text-sm whitespace-nowrap transition font-medium",
         active
           ? "bg-foreground text-background"
-          : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted",
+          : cn(chip.bg, chip.text, "hover:opacity-90"),
       )}
     >
       {label}

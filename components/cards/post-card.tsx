@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Eye, MessageCircle, ThumbsUp, Pin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { PastelChip } from "@/components/ui/pastel-chip";
+import { CONTENT_CARD_CLASS } from "@/lib/chip-colors";
 import { formatNumber, formatRelativeTime, truncate } from "@/lib/utils";
 import type { PostListItem } from "@/lib/queries";
 import { POST_TYPE_LABEL } from "@/lib/constants";
@@ -18,10 +20,7 @@ export function PostCard({ post, hrefBuilder }: Props) {
       : `/community/${post.type}s/${post.id}`);
 
   return (
-    <Link
-      href={href}
-      className="block rounded-xl bg-background p-5 shadow-sm hover:shadow-md transition"
-    >
+    <Link href={href} className={CONTENT_CARD_CLASS}>
       <div className="flex items-center gap-2 mb-2">
         {post.is_pinned ? (
           <Badge variant="accent" className="gap-1">
@@ -29,9 +28,9 @@ export function PostCard({ post, hrefBuilder }: Props) {
           </Badge>
         ) : null}
         {post.category?.name ? (
-          <Badge variant="soft">{post.category.name}</Badge>
+          <PastelChip label={post.category.name} />
         ) : (
-          <Badge variant="outline">{POST_TYPE_LABEL[post.type]}</Badge>
+          <PastelChip label={POST_TYPE_LABEL[post.type]} />
         )}
         <span className="text-xs text-muted-foreground ml-auto">
           {formatRelativeTime(post.created_at)}
