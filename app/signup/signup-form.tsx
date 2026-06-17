@@ -114,7 +114,7 @@ export function SignupForm() {
           checked={agreed}
           onCheckedChange={(value) => setAgreed(value === true)}
         />
-        <p className="text-muted-foreground leading-relaxed">
+        <p className="text-muted-foreground leading-[1.3]">
           <Link
             href="/policy/terms"
             target="_blank"

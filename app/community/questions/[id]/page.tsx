@@ -88,7 +88,7 @@ export default async function QuestionDetailPage({ params }: Props) {
   const path = `/community/questions/${params.id}`;
 
   return (
-    <article className="container max-w-3xl py-10">
+    <article className="container py-10">
       <JsonLd
         data={breadcrumbJsonLd([
           { name: "홈", path: "/" },
@@ -114,7 +114,7 @@ export default async function QuestionDetailPage({ params }: Props) {
             </Badge>
           ))}
         </div>
-        <h1 className="text-2xl md:text-3xl font-bold leading-snug">
+        <h1 className="text-2xl md:text-3xl font-bold leading-[1.3]">
           {post.title}
         </h1>
         <div className="flex items-center gap-3 text-xs text-muted-foreground">
@@ -200,7 +200,7 @@ export default async function QuestionDetailPage({ params }: Props) {
                     {formatRelativeTime(comment.created_at)}
                   </span>
                 </div>
-                <p className="mt-3 text-sm leading-relaxed whitespace-pre-wrap">
+                <p className="mt-3 text-sm leading-[1.3] whitespace-pre-wrap">
                   {comment.content}
                 </p>
               </li>

@@ -99,16 +99,17 @@ export default function HomePage() {
 function HeroSection() {
   return (
     <section className="border-b bg-gradient-to-b from-brand-soft via-background to-background">
-      <div className="container py-16 md:py-24 text-center space-y-8 max-w-4xl mx-auto">
+      <div className="container py-16 md:py-24 text-center space-y-8">
         <p className="text-xs md:text-sm font-semibold tracking-[0.14em] uppercase text-muted-foreground">
           FACKLESS · {SITE_TAGLINE}
         </p>
-        <h1 className="text-3xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.2] whitespace-pre-line">
+        <h1 className="text-3xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.3] whitespace-pre-line">
           {"브랜드는 시작했지만,\n생산에서 막히는 사람들을 위한\n패션 브랜드 실무 커뮤니티"}
         </h1>
-        <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          원단·공장·작업지시서·원가·브랜딩까지, 실무자에게 실제로 도움이 되는
-          정보와 사람을 모았습니다.
+        <p className="text-base md:text-lg text-muted-foreground leading-[1.3]">
+          원단·공장·작업지시서·원가·브랜딩까지,
+          <br />
+          실무자에게 실제로 도움이 되는 정보와 사람을 모았습니다.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <Button asChild size="xl" variant="accent" className="min-w-[160px]">
@@ -143,7 +144,7 @@ function ValuePropSection() {
           title={"브랜드 실무,\n어디서부터 시작해야 할까요?"}
           description="패클스가 생산·원가·네트워킹까지 실무 여정을 쉽게 만들어 드립니다."
         />
-        <div className="grid gap-4 md:grid-cols-3 max-w-5xl mx-auto">
+        <div className="grid gap-4 md:grid-cols-3">
           {VALUE_PROPS.map((item) => (
             <FeatureCard key={item.title} {...item} className="text-center items-center" />
           ))}
@@ -166,10 +167,10 @@ function BootcampCTA() {
             <Sparkles className="h-3.5 w-3.5" />
             패클스 부트캠프
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold leading-snug">
+          <h2 className="text-2xl md:text-3xl font-bold leading-[1.3]">
             내 브랜드를 실제 생산 가능한 상태까지 만드는 6주 실전 과정
           </h2>
-          <p className="text-sm md:text-base text-primary-foreground/80 max-w-xl leading-relaxed">
+          <p className="text-sm md:text-base text-primary-foreground/80 max-w-xl leading-[1.3]">
             강의 + 실습 + 피드백 + 제작 연결까지, 브랜드를 진짜 시장에 내보낼
             준비를 함께 합니다.
           </p>
@@ -208,7 +209,7 @@ function FadditCTA() {
         <h2 className="text-xl md:text-2xl font-bold">
           작업지시서, 직접 만들어볼 시간이에요.
         </h2>
-        <p className="text-sm text-muted-foreground max-w-xl leading-relaxed">
+        <p className="text-sm text-muted-foreground max-w-xl leading-[1.3]">
           패클스 자료실에서 받은 템플릿을 패딧에서 바로 편집하고, 그대로 공장에
           전송할 수 있어요.
         </p>

@@ -148,17 +148,17 @@ function HeroSection() {
       />
 
       <div className="container relative py-20 md:py-28 lg:py-32">
-        <div className="mx-auto max-w-4xl text-center space-y-8">
+        <div className="text-center space-y-8">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background/80 px-4 py-1.5 text-xs font-semibold tracking-[0.14em] uppercase text-muted-foreground backdrop-blur-sm">
             <Sparkles className="h-3.5 w-3.5 text-accent" />
             FACKLESS BOOTCAMP
           </div>
 
-          <h1 className="text-[2rem] md:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.15] whitespace-pre-line">
+          <h1 className="text-[2rem] md:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.3] whitespace-pre-line">
             {"내 브랜드를\n실제 생산 가능한 상태까지"}
           </h1>
 
-          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg text-muted-foreground leading-[1.3]">
             강의 + 실습 + 피드백 + 제작 연결. 6주 동안 브랜드를 시장에 내보낼
             준비를 함께합니다.
           </p>
@@ -175,7 +175,7 @@ function HeroSection() {
           </div>
         </div>
 
-        <ul className="mx-auto mt-16 md:mt-20 grid max-w-4xl gap-4 md:grid-cols-3">
+        <ul className="mt-16 md:mt-20 grid gap-4 md:grid-cols-3">
           {HERO_PILLARS.map((item) => (
             <li
               key={item.title}
@@ -185,7 +185,7 @@ function HeroSection() {
                 <item.icon className="h-5 w-5 text-foreground" strokeWidth={1.5} />
               </span>
               <p className="mt-4 font-semibold tracking-tight">{item.title}</p>
-              <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">
+              <p className="mt-1.5 text-sm text-muted-foreground leading-[1.3]">
                 {item.desc}
               </p>
             </li>
@@ -227,12 +227,12 @@ function ProblemSection() {
     <section className="grid gap-10 lg:grid-cols-[1fr,1.1fr] lg:gap-16 items-start">
       <div className="space-y-5 lg:sticky lg:top-24">
         <SectionLabel>FOR YOU</SectionLabel>
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-[1.2]">
+        <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-[1.3]">
           브랜드는 시작했지만,
           <br />
           <span className="text-muted-foreground">진짜 어려운 건 그 다음.</span>
         </h2>
-        <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-md">
+        <p className="text-sm md:text-base text-muted-foreground leading-[1.3] max-w-md">
           아이디어에서 멈추지 않도록, 생산·원가·샘플까지 실무자와 함께
           밀어붙이는 6주 프로그램입니다.
         </p>
@@ -246,7 +246,7 @@ function ProblemSection() {
             <span className="shrink-0 text-2xl font-bold tabular-nums text-foreground/10 group-hover:text-accent/40 transition">
               {String(index + 1).padStart(2, "0")}
             </span>
-            <p className="text-base md:text-lg font-medium leading-snug pt-0.5">
+            <p className="text-base md:text-lg font-medium leading-[1.3] pt-0.5">
               {problem}
             </p>
           </li>
@@ -266,12 +266,12 @@ function ProgramSection() {
       <div className="relative grid gap-10 p-8 md:p-12 lg:p-16 lg:grid-cols-[1.1fr,1fr] lg:items-end">
         <div className="space-y-5">
           <SectionLabel className="text-primary-foreground/50">PROGRAM</SectionLabel>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-[1.2]">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-[1.3]">
             이론에서 끝나지 않는
             <br />
             6주 실전 과정
           </h2>
-          <p className="text-sm md:text-base text-primary-foreground/75 max-w-lg leading-relaxed">
+          <p className="text-sm md:text-base text-primary-foreground/75 max-w-lg leading-[1.3]">
             작업지시서 작성, 원가 계산, 샘플 의뢰까지 — 브랜드를 실제 생산
             가능한 상태로 만드는 모든 과정을 함께 진행합니다.
           </p>
@@ -306,7 +306,7 @@ function ProgramSection() {
 function CurriculumSection() {
   return (
     <section id="curriculum">
-      <div className="text-center max-w-2xl mx-auto space-y-4 mb-12 md:mb-16">
+      <div className="text-center space-y-4 mb-12 md:mb-16">
         <SectionLabel>CURRICULUM</SectionLabel>
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
           6주, 한 단계씩 쌓아가는 커리큘럼
@@ -316,7 +316,7 @@ function CurriculumSection() {
         </p>
       </div>
 
-      <ol className="relative mx-auto max-w-3xl">
+      <ol className="relative">
         <div
           aria-hidden
           className="absolute left-[1.125rem] md:left-6 top-3 bottom-3 w-px bg-border"
@@ -340,7 +340,7 @@ function CurriculumSection() {
               <h3 className="mt-1 text-lg md:text-xl font-bold tracking-tight">
                 {item.title}
               </h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+              <p className="mt-2 text-sm text-muted-foreground leading-[1.3]">
                 {item.detail}
               </p>
             </div>
@@ -357,12 +357,12 @@ function BenefitsSection() {
       <div className="grid gap-10 lg:grid-cols-[1fr,1.2fr] lg:items-start">
         <div className="space-y-4">
           <SectionLabel>BENEFITS</SectionLabel>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-[1.2]">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-[1.3]">
             수료 후에도
             <br />
             계속 쓰는 혜택
           </h2>
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
+          <p className="text-sm text-muted-foreground leading-[1.3] max-w-sm">
             템플릿·체크리스트·네트워크까지, 부트캠프 이후에도 브랜드 운영에
             바로 활용할 수 있습니다.
           </p>
@@ -380,7 +380,7 @@ function BenefitsSection() {
               <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
                 <Check className="h-3 w-3" strokeWidth={3} />
               </span>
-              <span className="text-sm md:text-[15px] font-medium leading-snug">
+              <span className="text-sm md:text-[15px] font-medium leading-[1.3]">
                 {benefit}
               </span>
             </li>
@@ -399,12 +399,12 @@ function ApplySection() {
         <div className="grid gap-8 lg:grid-cols-[1fr,1.1fr] lg:gap-12">
           <div className="space-y-4 lg:sticky lg:top-24 lg:self-start">
             <SectionLabel>APPLY</SectionLabel>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-[1.15]">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-[1.3]">
               지금 신청하고
               <br />
               6주 후를 준비하세요
             </h2>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-sm text-muted-foreground leading-[1.3]">
               신청서 검토 후 24~48시간 이내 개별 연락드립니다. 선착순으로
               모집하며, 정원 마감 시 대기자 등록을 안내합니다.
             </p>

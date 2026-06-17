@@ -34,7 +34,7 @@ export default async function NewsDetailPage({ params }: Props) {
   if (!post || post.type !== "news") notFound();
 
   return (
-    <article className="container max-w-3xl py-10">
+    <article className="container py-10">
       <Button asChild variant="ghost" size="sm" className="mb-4 -ml-2">
         <Link href="/news">
           <ArrowLeft className="h-4 w-4" /> 뉴스 목록
@@ -49,7 +49,7 @@ export default async function NewsDetailPage({ params }: Props) {
             {formatRelativeTime(post.created_at)}
           </span>
         </div>
-        <h1 className="text-2xl md:text-3xl font-bold leading-snug">
+        <h1 className="text-2xl md:text-3xl font-bold leading-[1.3]">
           {post.title}
         </h1>
         {post.excerpt ? (

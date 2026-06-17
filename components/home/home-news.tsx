@@ -53,7 +53,7 @@ export async function HomeNews() {
                   rel="noreferrer"
                   className="block hover:underline"
                 >
-                  <h3 className="line-clamp-2 text-[15px] font-bold tracking-tight leading-snug">
+                  <h3 className="line-clamp-2 text-[15px] font-bold tracking-tight leading-[1.3]">
                     {article.title}
                   </h3>
                 </Link>

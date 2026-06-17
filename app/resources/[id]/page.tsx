@@ -53,7 +53,7 @@ export default async function ResourceDetailPage({ params }: Props) {
   const path = `/resources/${resource.id}`;
 
   return (
-    <div className="container max-w-3xl py-10">
+    <div className="container py-10">
       <JsonLd
         data={breadcrumbJsonLd([
           { name: "홈", path: "/" },
@@ -78,7 +78,7 @@ export default async function ResourceDetailPage({ params }: Props) {
             {formatRelativeTime(resource.created_at)}
           </span>
         </div>
-        <h1 className="text-2xl md:text-3xl font-bold leading-snug">
+        <h1 className="text-2xl md:text-3xl font-bold leading-[1.3]">
           {resource.title}
         </h1>
         {resource.description ? (

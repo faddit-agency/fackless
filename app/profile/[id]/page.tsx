@@ -61,7 +61,7 @@ export default async function ProfilePage({ params }: Props) {
   ]);
 
   return (
-    <div className="container max-w-3xl py-10">
+    <div className="container py-10">
       <section className="rounded-2xl border bg-card p-6 md:p-8 flex flex-col md:flex-row md:items-start gap-6">
         <UserAvatar
           nickname={typedProfile.nickname}

@@ -20,7 +20,7 @@ export function PolicyDocument({
   hideHeader,
 }: PolicyDocumentProps) {
   return (
-    <div className="container max-w-3xl py-8 md:py-10 pb-14">
+    <div className="container py-8 md:py-10 pb-14">
       {!hideHeader ? (
         <header className="mb-10 space-y-3 border-b pb-8">
           <p className="text-xs font-semibold tracking-wider uppercase text-muted-foreground">
@@ -28,7 +28,7 @@ export function PolicyDocument({
           </p>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{title}</h1>
           {intro ? (
-            <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+            <p className="text-sm md:text-base text-muted-foreground leading-[1.3]">
               {intro}
             </p>
           ) : null}
@@ -39,7 +39,7 @@ export function PolicyDocument({
       )}
 
       {hideHeader && intro ? (
-        <p className="text-sm md:text-base text-muted-foreground leading-relaxed mb-8">
+        <p className="text-sm md:text-base text-muted-foreground leading-[1.3] mb-8">
           {intro}
         </p>
       ) : null}

@@ -17,8 +17,8 @@ export default function FeedbackComingSoon() {
         title={"작업지시서·디자인·샘플,\n피드백 받을 공간"}
         description="작업지시서·디자인·샘플·상세페이지에 대한 실무자 피드백을 받을 수 있는 공간을 준비하고 있어요."
       />
-      <PageBody narrow className="text-center space-y-5">
-        <p className="text-sm text-muted-foreground leading-relaxed">
+      <PageBody className="text-center space-y-5">
+        <p className="text-sm text-muted-foreground leading-[1.3]">
           곧 오픈 예정입니다. 그 전까지는 질문 게시판에서 실무 고민을 나눠보세요.
         </p>
         <div className="flex flex-wrap justify-center gap-2 pt-2">

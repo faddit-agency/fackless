@@ -37,7 +37,7 @@ export function PostCard({ post, hrefBuilder }: Props) {
           {formatRelativeTime(post.created_at)}
         </span>
       </div>
-      <h3 className="font-semibold text-[15px] md:text-base leading-snug">
+      <h3 className="font-semibold text-[15px] md:text-base leading-[1.3]">
         {post.title}
       </h3>
       {post.excerpt ? (

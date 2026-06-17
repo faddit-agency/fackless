@@ -10,7 +10,7 @@ export function SiteFooter() {
           <Link href="/" className="inline-flex">
             <BrandLogo className="h-[1.225rem]" />
           </Link>
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          <p className="text-sm text-muted-foreground leading-[1.3]">
             {SITE_TAGLINE}
           </p>
         </div>
@@ -49,7 +49,7 @@ export function SiteFooter() {
               개인정보처리방침
             </Link>
           </div>
-          <div className="text-[11px] text-muted-foreground leading-relaxed space-y-1">
+          <div className="text-[11px] text-muted-foreground leading-[1.3] space-y-1">
             <p>
               상호명: 패클스(FACKLESS) · 대표 이메일: hello@fackless.app · 문의:
               hello@fackless.app

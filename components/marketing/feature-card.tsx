@@ -23,10 +23,10 @@ export function FeatureCard({
         <Icon className="h-5 w-5" strokeWidth={1.75} />
       </span>
       <div className="space-y-2">
-        <h3 className="text-base md:text-lg font-bold tracking-tight leading-snug">
+        <h3 className="text-base md:text-lg font-bold tracking-tight leading-[1.3]">
           {title}
         </h3>
-        <p className="text-sm text-muted-foreground leading-relaxed">
+        <p className="text-sm text-muted-foreground leading-[1.3]">
           {description}
         </p>
       </div>
@@ -71,11 +71,11 @@ export function MarketingSection({
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="text-2xl md:text-4xl font-bold tracking-tight leading-[1.25] whitespace-pre-line">
+      <h2 className="text-2xl md:text-4xl font-bold tracking-tight leading-[1.3] whitespace-pre-line">
         {title}
       </h2>
       {description ? (
-        <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+        <p className="text-sm md:text-base text-muted-foreground max-w-none leading-[1.3]">
           {description}
         </p>
       ) : null}

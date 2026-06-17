@@ -24,7 +24,7 @@ export function PageHero({
       <div
         className={cn(
           "page-hero-inner",
-          centered ? "text-center" : "text-left max-w-none mx-0 items-start",
+          centered ? "text-center" : "text-left",
         )}
       >
         {eyebrow ? (
@@ -34,15 +34,7 @@ export function PageHero({
         ) : null}
         <h1 className="page-hero-title whitespace-pre-line">{title}</h1>
         {description ? (
-          <p
-            className={cn(
-              "page-hero-desc",
-              centered && "max-w-2xl mx-auto",
-              !centered && "max-w-2xl",
-            )}
-          >
-            {description}
-          </p>
+          <p className="page-hero-desc">{description}</p>
         ) : null}
         {action ? (
           <div className={cn("pt-2", centered && "flex justify-center")}>
@@ -57,18 +49,11 @@ export function PageHero({
 interface PageBodyProps {
   children: React.ReactNode;
   className?: string;
-  narrow?: boolean;
 }
 
-export function PageBody({ children, className, narrow }: PageBodyProps) {
+export function PageBody({ children, className }: PageBodyProps) {
   return (
-    <div
-      className={cn(
-        "container py-10 md:py-12 space-y-8",
-        narrow && "max-w-3xl",
-        className,
-      )}
-    >
+    <div className={cn("container py-10 md:py-12 space-y-8", className)}>
       {children}
     </div>
   );

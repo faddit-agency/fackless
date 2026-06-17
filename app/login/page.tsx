@@ -44,7 +44,7 @@ export default async function LoginPage({
           이메일로 가입
         </Link>
       </p>
-      <p className="text-[11px] text-muted-foreground text-center leading-relaxed">
+      <p className="text-[11px] text-muted-foreground text-center leading-[1.3]">
         가입 시 패클스의{" "}
         <Link href="/policy/terms" className="underline hover:text-foreground">
           이용약관

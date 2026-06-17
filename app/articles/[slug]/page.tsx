@@ -49,7 +49,7 @@ export default async function ArticleDetailPage({ params }: Props) {
   const description = toMetaDescription(post.excerpt ?? post.content);
 
   return (
-    <article className="container max-w-3xl py-10">
+    <article className="container py-10">
       <JsonLd
         data={[
           articleJsonLd({
@@ -82,7 +82,7 @@ export default async function ArticleDetailPage({ params }: Props) {
             {formatRelativeTime(post.created_at)}
           </span>
         </div>
-        <h1 className="text-2xl md:text-3xl font-bold leading-snug">
+        <h1 className="text-2xl md:text-3xl font-bold leading-[1.3]">
           {post.title}
         </h1>
         {post.excerpt ? (

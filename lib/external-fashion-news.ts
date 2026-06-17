@@ -19,15 +19,11 @@ export interface ExternalFashionNewsItem {
   tags: string[];
 }
 
-/** 한국어 패션·의류 뉴스 RSS (영문/해외 피드 제외) */
+/** 한국어 패션·의류 뉴스 RSS (일반 경제·정치 피드 제외) */
 const RSS_FEEDS = [
   {
     name: "한국면세뉴스 패션",
     url: "https://www.kdfnews.com/rss/S2N5.xml",
-  },
-  {
-    name: "연합뉴스 경제",
-    url: "https://www.yna.co.kr/rss/economy.xml",
   },
   {
     name: "연합뉴스 문화",
@@ -38,41 +34,90 @@ const RSS_FEEDS = [
     url: "https://www.yna.co.kr/rss/industry.xml",
   },
   {
-    name: "매일경제 경제",
-    url: "https://www.mk.co.kr/rss/30100041/",
-  },
-  {
     name: "무신사 뉴스",
     url: "https://fashioncord.github.io/musinsa/news.xml",
   },
 ];
 
-/** 패션·의류 도메인 키워드 (일반 경제·브랜드 뉴스 제외) */
+/** 패션·의류 핵심 키워드 (하나 이상 포함해야 노출) */
 const FASHION_KEYWORDS = [
   "패션",
   "의류",
+  "fashion",
+  "apparel",
   "K패션",
   "패션업계",
   "패션테크",
   "패션브랜드",
   "패션산업",
   "패션위크",
+  "패션스타트업",
   "패딧",
   "faddit",
   "의상",
   "봉제",
   "원단",
   "섬유",
+  "텍스타일",
   "런웨이",
   "작업지시서",
   "의류제조",
-  "패션스타트업",
   "룩북",
   "스타일링",
   "무신사",
   "동대문",
   "봉제공장",
   "의류브랜드",
+  "의류업",
+  "의류업계",
+  "패션쇼",
+  "컬렉션",
+  "디자이너 브랜드",
+  "스트릿패션",
+  "명품",
+  "리테일 패션",
+];
+
+/** 패션과 무관한 기사 제외 */
+const NON_FASHION_KEYWORDS = [
+  "부동산",
+  "아파트",
+  "주식",
+  "증권",
+  "코인",
+  "비트코인",
+  "금리",
+  "환율",
+  "대선",
+  "국회",
+  "정치",
+  "북한",
+  "반도체",
+  "2차전지",
+  "배터리",
+  "자동차",
+  "전기차",
+  "항공",
+  "조선",
+  "철강",
+  "석유",
+  "가스",
+  "원전",
+  "야구",
+  "축구",
+  "골프",
+  "올림픽",
+  "월드컵",
+  "KBO",
+  "프로야구",
+  "영화",
+  "드라마",
+  "예능",
+  "아이돌",
+  "K-pop",
+  "음악",
+  "게임",
+  "e스포츠",
 ];
 
 const KOREAN_MEDIA_HOSTS = [
@@ -208,6 +253,9 @@ function isKoreanArticle(item: { title: string; originalUrl: string }) {
 function isFashionArticle(item: { title: string; summary: string; originalUrl: string }) {
   if (CURATED_URLS.has(item.originalUrl)) return true;
   const text = `${item.title} ${item.summary}`.toLowerCase();
+  if (NON_FASHION_KEYWORDS.some((keyword) => text.includes(keyword.toLowerCase()))) {
+    return false;
+  }
   return FASHION_KEYWORDS.some((keyword) => text.includes(keyword.toLowerCase()));
 }
 
@@ -359,7 +407,7 @@ async function buildFashionNewsPool(): Promise<ExternalFashionNewsItem[]> {
 
 const getCachedFashionNewsPool = unstable_cache(
   buildFashionNewsPool,
-  ["external-fashion-news-pool", "v6"],
+  ["external-fashion-news-pool", "v7"],
   { revalidate: 1800, tags: ["fashion-news"] },
 );
 

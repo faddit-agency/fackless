@@ -19,7 +19,7 @@ export default async function NewQuestionPage() {
   const categories = await getCategories("question");
 
   return (
-    <div className="container max-w-2xl py-10">
+    <div className="container py-10">
       <header className="mb-6 space-y-1">
         <p className="text-xs font-semibold text-muted-foreground tracking-wider uppercase">
           QUESTION

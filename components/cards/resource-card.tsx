@@ -41,7 +41,7 @@ export function ResourceCard({ resource }: { resource: Resource }) {
               {formatNumber(resource.download_count)}
             </span>
           </div>
-          <h3 className="mt-2 font-semibold leading-snug line-clamp-2">
+          <h3 className="mt-2 font-semibold leading-[1.3] line-clamp-2">
             {resource.title}
           </h3>
           {resource.description ? (

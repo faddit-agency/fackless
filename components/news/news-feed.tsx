@@ -142,11 +142,11 @@ export function NewsFeed({ articles, categoryOptions }: NewsFeedProps) {
                     rel="noreferrer"
                     className="block hover:underline"
                   >
-                    <h2 className="line-clamp-2 text-[16px] md:text-[17px] font-bold tracking-tight leading-[1.35]">
+                    <h2 className="line-clamp-2 text-[16px] md:text-[17px] font-bold tracking-tight leading-[1.3]">
                       {article.title}
                     </h2>
                   </Link>
-                  <p className="line-clamp-2 text-[13px] text-muted-foreground leading-[1.5]">
+                  <p className="line-clamp-2 text-[13px] text-muted-foreground leading-[1.3]">
                     {article.summary}
                   </p>
                   <div className="flex flex-wrap gap-x-2.5 gap-y-1.5 pt-1">
