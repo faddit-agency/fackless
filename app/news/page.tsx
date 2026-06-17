@@ -23,11 +23,13 @@ export default function NewsPage() {
         title={"K패션·리테일·패션테크\n업계 소식"}
         description="브랜드, 생산, 유통, 스타트업 뉴스를 큐레이션해 전해드립니다."
       />
-      <div className="container py-10 md:py-14 pb-16 md:pb-20">
-        <Suspense fallback={<NewsPageSkeleton />}>
-          <NewsPageContent />
-        </Suspense>
-      </div>
+      <section className="section-surface-soft">
+        <div className="container py-10 md:py-14 pb-16 md:pb-20">
+          <Suspense fallback={<NewsPageSkeleton />}>
+            <NewsPageContent />
+          </Suspense>
+        </div>
+      </section>
     </>
   );
 }

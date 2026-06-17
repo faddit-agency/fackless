@@ -56,7 +56,8 @@ export default async function CommunityPage() {
         title={"브랜드 실무,\n함께 묻고 답하는 공간"}
         description="디자이너·패턴사·공장·브랜드 운영자가 모여 실무 정보를 나누는 패클스 커뮤니티입니다."
       />
-      <PageBody className="space-y-14">
+      <section className="section-surface-soft">
+        <PageBody className="space-y-14">
         <div className="grid gap-4 md:grid-cols-3">
           {BOARDS.map((board) => (
             <FeatureCard key={board.title} {...board} />
@@ -110,14 +111,15 @@ export default async function CommunityPage() {
             )}
           </div>
         </section>
-      </PageBody>
+        </PageBody>
+      </section>
     </>
   );
 }
 
 function EmptyHint({ message }: { message?: string }) {
   return (
-    <div className="rounded-2xl border border-dashed p-8 text-sm text-muted-foreground text-center md:col-span-2">
+    <div className="rounded-2xl bg-muted/40 p-8 text-sm text-muted-foreground text-center md:col-span-2">
       {message ?? "첫 번째 게시글의 주인공이 되어보세요."}
     </div>
   );

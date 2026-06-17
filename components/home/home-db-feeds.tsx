@@ -64,7 +64,7 @@ export async function HomeDbFeeds() {
 
 function EmptyHint({ message }: { message: string }) {
   return (
-    <div className="rounded-xl border border-dashed p-8 text-sm text-muted-foreground text-center md:col-span-2 xl:col-span-4 lg:col-span-2">
+    <div className="rounded-xl bg-muted/40 p-8 text-sm text-muted-foreground text-center md:col-span-2">
       {message}
     </div>
   );

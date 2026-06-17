@@ -34,7 +34,8 @@ export default async function ArticlesPage({
         title={"현장에서 바로 쓰는\n패션 브랜드 실무 가이드"}
         description="브랜드 운영, 생산, 원단·봉제, 작업지시서, 원가 계산까지 — 실무자가 직접 정리한 콘텐츠입니다."
       />
-      <PageBody>
+      <section className="section-surface-soft">
+        <PageBody>
         <CategoryTabs
           basePath="/articles"
           categories={categories}
@@ -47,7 +48,8 @@ export default async function ArticlesPage({
           emptyMessage="아직 등록된 실무 콘텐츠가 없어요."
           className="mb-2"
         />
-      </PageBody>
+        </PageBody>
+      </section>
     </>
   );
 }

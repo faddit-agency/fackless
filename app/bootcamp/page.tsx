@@ -129,7 +129,7 @@ export default function BootcampPage() {
 
 function HeroSection() {
   return (
-    <section className="relative border-b overflow-hidden">
+    <section className="relative overflow-hidden">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-soft via-background to-background"
@@ -179,9 +179,9 @@ function HeroSection() {
           {HERO_PILLARS.map((item) => (
             <li
               key={item.title}
-              className="group rounded-2xl border bg-card/80 p-6 backdrop-blur-sm transition hover:border-foreground/20 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)]"
+              className="group rounded-2xl bg-background/80 p-6 backdrop-blur-sm transition hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)]"
             >
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border bg-background transition group-hover:border-accent/30">
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-muted/50 transition group-hover:bg-accent/10">
                 <item.icon className="h-5 w-5 text-foreground" strokeWidth={1.5} />
               </span>
               <p className="mt-4 font-semibold tracking-tight">{item.title}</p>
@@ -198,7 +198,7 @@ function HeroSection() {
 
 function ProcessStrip() {
   return (
-    <section className="border-b bg-muted/30">
+    <section className="section-surface-soft">
       <div className="container py-8 md:py-10">
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-3 md:gap-x-0 md:justify-between">
           {PROCESS.map((item, index) => (
@@ -241,7 +241,7 @@ function ProblemSection() {
         {PROBLEMS.map((problem, index) => (
           <li
             key={problem}
-            className="group flex gap-5 rounded-2xl border bg-card p-5 md:p-6 transition hover:border-foreground/15"
+            className="group flex gap-5 rounded-2xl bg-muted/30 p-5 md:p-6 transition hover:bg-muted/45"
           >
             <span className="shrink-0 text-2xl font-bold tabular-nums text-foreground/10 group-hover:text-accent/40 transition">
               {String(index + 1).padStart(2, "0")}
@@ -333,7 +333,7 @@ function CurriculumSection() {
             >
               {item.week}
             </span>
-            <div className="rounded-2xl border bg-card p-5 md:p-6 transition hover:border-foreground/15 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+            <div className="rounded-2xl bg-background/90 p-5 md:p-6 transition hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
               <p className="text-[11px] font-semibold tracking-[0.12em] uppercase text-muted-foreground">
                 Week {item.week}
               </p>
@@ -353,7 +353,7 @@ function CurriculumSection() {
 
 function BenefitsSection() {
   return (
-    <section className="rounded-3xl border bg-brand-soft/50 p-8 md:p-12 lg:p-14">
+    <section className="rounded-3xl section-surface p-8 md:p-12 lg:p-14">
       <div className="grid gap-10 lg:grid-cols-[1fr,1.2fr] lg:items-start">
         <div className="space-y-4">
           <SectionLabel>BENEFITS</SectionLabel>
@@ -395,7 +395,7 @@ function ApplySection() {
   return (
     <section id="apply" className="relative">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-      <div className="rounded-3xl border bg-card p-6 md:p-10 lg:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.04)]">
+      <div className="rounded-3xl bg-background p-6 md:p-10 lg:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.04)]">
         <div className="grid gap-8 lg:grid-cols-[1fr,1.1fr] lg:gap-12">
           <div className="space-y-4 lg:sticky lg:top-24 lg:self-start">
             <SectionLabel>APPLY</SectionLabel>
@@ -419,7 +419,7 @@ function ApplySection() {
               </li>
             </ul>
           </div>
-          <div className="rounded-2xl border bg-muted/20 p-5 md:p-7">
+          <div className="rounded-2xl bg-muted/30 p-5 md:p-7">
             <BootcampApplyForm />
           </div>
         </div>

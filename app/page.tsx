@@ -86,9 +86,15 @@ export default function HomePage() {
         <Suspense fallback={<HomeFeedsSkeleton />}>
           <HomeDbFeeds />
         </Suspense>
-        <Suspense fallback={<HomeNewsSkeleton />}>
-          <HomeNews />
-        </Suspense>
+      </div>
+      <section className="section-surface-soft">
+        <div className="container py-16 md:py-20">
+          <Suspense fallback={<HomeNewsSkeleton />}>
+            <HomeNews />
+          </Suspense>
+        </div>
+      </section>
+      <div className="container space-y-20 md:space-y-24 py-16 md:py-20">
         <BootcampCTA />
         <FadditCTA />
       </div>
@@ -98,7 +104,7 @@ export default function HomePage() {
 
 function HeroSection() {
   return (
-    <section className="border-b bg-gradient-to-b from-brand-soft via-background to-background">
+    <section className="bg-gradient-to-b from-brand-soft via-background to-background">
       <div className="container py-16 md:py-24 text-center space-y-8">
         <p className="text-xs md:text-sm font-semibold tracking-[0.14em] uppercase text-muted-foreground">
           FACKLESS · {SITE_TAGLINE}
@@ -126,11 +132,13 @@ function HeroSection() {
 
 function ServiceHighlightSection() {
   return (
-    <section className="container py-14 md:py-16">
-      <div className="grid gap-4 md:grid-cols-3">
-        {SERVICE_HIGHLIGHTS.map((item) => (
-          <FeatureCard key={item.title} {...item} />
-        ))}
+    <section className="section-surface-soft">
+      <div className="container py-14 md:py-16">
+        <div className="grid gap-4 md:grid-cols-3">
+          {SERVICE_HIGHLIGHTS.map((item) => (
+            <FeatureCard key={item.title} {...item} className="bg-background hover:bg-background" />
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -138,7 +146,7 @@ function ServiceHighlightSection() {
 
 function ValuePropSection() {
   return (
-    <section className="border-y bg-muted/20">
+    <section className="section-surface">
       <div className="container py-16 md:py-20 space-y-12">
         <MarketingSection
           title={"브랜드 실무,\n어디서부터 시작해야 할까요?"}
@@ -146,7 +154,11 @@ function ValuePropSection() {
         />
         <div className="grid gap-4 md:grid-cols-3">
           {VALUE_PROPS.map((item) => (
-            <FeatureCard key={item.title} {...item} className="text-center items-center" />
+            <FeatureCard
+              key={item.title}
+              {...item}
+              className="bg-background text-center items-center hover:bg-background"
+            />
           ))}
         </div>
         <p className="text-center text-sm text-muted-foreground">
@@ -160,7 +172,7 @@ function ValuePropSection() {
 
 function BootcampCTA() {
   return (
-    <section className="overflow-hidden rounded-2xl border bg-primary text-primary-foreground">
+    <section className="overflow-hidden rounded-2xl bg-primary text-primary-foreground">
       <div className="grid gap-6 p-8 md:p-12 md:grid-cols-[1.4fr,1fr] items-center">
         <div className="space-y-4">
           <p className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase text-primary-foreground/70">
@@ -201,7 +213,7 @@ function BootcampCTA() {
 
 function FadditCTA() {
   return (
-    <section className="rounded-2xl border bg-brand-soft p-8 md:p-10 flex flex-col md:flex-row gap-6 md:items-center">
+    <section className="rounded-2xl bg-brand-soft p-8 md:p-10 flex flex-col md:flex-row gap-6 md:items-center">
       <div className="flex-1 space-y-2">
         <p className="text-xs font-semibold text-primary/80 tracking-wider uppercase">
           FADDIT × FACKLESS

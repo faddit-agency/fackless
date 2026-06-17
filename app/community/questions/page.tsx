@@ -46,8 +46,9 @@ export default async function QuestionsPage({
           </Button>
         }
       />
-      <PageBody>
-        <CategoryTabs
+      <section className="section-surface-soft">
+        <PageBody>
+          <CategoryTabs
           basePath="/community/questions"
           categories={categories}
           activeSlug={searchParams.category}
@@ -79,7 +80,8 @@ export default async function QuestionsPage({
             </Link>
           </Button>
         </div>
-      </PageBody>
+        </PageBody>
+      </section>
     </>
   );
 }

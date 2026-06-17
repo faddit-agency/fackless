@@ -16,7 +16,7 @@ export async function HomeNews() {
         moreHref="/news"
       />
       {articles.length === 0 ? (
-        <p className="text-sm text-muted-foreground text-center py-10 border border-dashed rounded-xl">
+        <p className="text-sm text-muted-foreground text-center py-10 bg-muted/30 rounded-xl">
           지금은 불러온 뉴스가 없습니다.{" "}
           <Link href="/news" className="font-semibold text-primary hover:underline">
             뉴스 페이지에서 확인하기
@@ -33,7 +33,7 @@ export async function HomeNews() {
                 href={article.originalUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="group block rounded-xl overflow-hidden bg-card border hover:shadow-sm transition"
+                className="group block rounded-xl overflow-hidden bg-background hover:shadow-sm transition"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                   <NewsThumbnail

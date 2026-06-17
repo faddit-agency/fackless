@@ -20,7 +20,7 @@ export function PostCard({ post, hrefBuilder }: Props) {
   return (
     <Link
       href={href}
-      className="block rounded-xl border bg-card p-5 hover:border-foreground/20 hover:shadow-sm transition"
+      className="block rounded-xl bg-background p-5 shadow-sm hover:shadow-md transition"
     >
       <div className="flex items-center gap-2 mb-2">
         {post.is_pinned ? (

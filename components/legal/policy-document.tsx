@@ -22,7 +22,7 @@ export function PolicyDocument({
   return (
     <div className="container py-8 md:py-10 pb-14">
       {!hideHeader ? (
-        <header className="mb-10 space-y-3 border-b pb-8">
+        <header className="mb-10 space-y-3 pb-8">
           <p className="text-xs font-semibold tracking-wider uppercase text-muted-foreground">
             FACKLESS
           </p>
@@ -53,7 +53,7 @@ export function PolicyDocument({
         ))}
       </article>
 
-      <footer className="mt-12 pt-6 border-t text-sm text-muted-foreground flex flex-wrap gap-x-4 gap-y-2">
+      <footer className="mt-12 pt-6 text-sm text-muted-foreground flex flex-wrap gap-x-4 gap-y-2">
         <Link href="/policy/terms" className="hover:text-foreground underline">
           이용약관
         </Link>

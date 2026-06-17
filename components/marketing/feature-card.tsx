@@ -34,7 +34,7 @@ export function FeatureCard({
   );
 
   const cardClass = cn(
-    "flex flex-col gap-4 rounded-2xl border bg-card p-6 md:p-7 transition hover:border-foreground/15 hover:shadow-sm",
+    "flex flex-col gap-4 rounded-2xl bg-muted/30 p-6 md:p-7 transition hover:bg-muted/45 hover:shadow-sm",
     className,
   );
 

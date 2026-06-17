@@ -4,7 +4,7 @@ import { SITE_TAGLINE } from "@/lib/constants";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto border-t bg-muted/20">
+    <footer className="mt-auto section-surface-soft">
       <div className="container py-14 md:py-16 grid gap-10 md:grid-cols-4">
         <div className="space-y-4 md:col-span-1">
           <Link href="/" className="inline-flex">
@@ -39,7 +39,7 @@ export function SiteFooter() {
           ]}
         />
       </div>
-      <div className="border-t bg-background">
+      <div className="bg-background/80">
         <div className="container py-5 space-y-3">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
             <Link href="/policy/terms" className="underline hover:text-foreground">

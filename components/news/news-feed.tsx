@@ -109,7 +109,7 @@ export function NewsFeed({ articles, categoryOptions }: NewsFeedProps) {
           className="max-w-lg"
         />
         {pagedArticles.length === 0 ? (
-          <p className="text-sm text-muted-foreground py-16 text-center border rounded-2xl">
+          <p className="text-sm text-muted-foreground py-16 text-center bg-muted/30 rounded-2xl">
             {normalizedQuery
               ? "검색 결과가 없습니다."
               : "지금은 불러온 뉴스가 없습니다. 잠시 후 다시 시도해주세요."}
@@ -122,7 +122,7 @@ export function NewsFeed({ articles, categoryOptions }: NewsFeedProps) {
                   href={article.originalUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="group block rounded-2xl overflow-hidden bg-card border border-transparent hover:border-foreground/10 hover:shadow-sm transition"
+                  className="group block rounded-2xl overflow-hidden bg-background hover:shadow-sm transition"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                     <NewsThumbnail

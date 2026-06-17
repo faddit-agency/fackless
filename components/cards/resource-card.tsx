@@ -27,7 +27,7 @@ export function ResourceCard({ resource }: { resource: Resource }) {
   return (
     <Link
       href={`/resources/${resource.id}`}
-      className="group block rounded-xl border bg-card p-5 transition hover:border-foreground/20 hover:shadow-sm"
+      className="group block rounded-xl bg-background p-5 shadow-sm transition hover:shadow-md"
     >
       <div className="flex items-start gap-3">
         <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-soft text-primary">
