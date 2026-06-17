@@ -1,6 +1,10 @@
 import Link from "next/link";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CategoryTabs } from "@/components/category-tabs";
 import { PageBody, PageHero } from "@/components/layout/page-shell";
+import { PostSearchList } from "@/components/lists/post-search-list";
+import { getCategories, getPosts } from "@/lib/queries";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -9,24 +13,69 @@ export const metadata = createPageMetadata({
   path: "/community/networking",
 });
 
-export default function NetworkingComingSoon() {
+export const revalidate = 60;
+
+export default async function NetworkingPage({
+  searchParams,
+}: {
+  searchParams: { category?: string };
+}) {
+  const [categories, posts] = await Promise.all([
+    getCategories("networking"),
+    getPosts({
+      type: "networking",
+      categorySlug: searchParams.category,
+      limit: 40,
+      pinnedFirst: true,
+    }),
+  ]);
+
   return (
     <>
       <PageHero
         eyebrow="NETWORKING"
         title={"디자이너·패턴사·공장,\n함께 일할 사람 찾기"}
-        description="브랜드를 함께 만들 동료, 협업 파트너, 공장·패턴사를 찾는 네트워킹 공간을 준비하고 있어요."
-      />
-      <PageBody className="text-center space-y-5">
-        <p className="text-sm text-muted-foreground leading-[1.3]">
-          곧 오픈 예정입니다. 커뮤니티 질문 게시판에서 먼저 연결해 보세요.
-        </p>
-        <div className="flex flex-wrap justify-center gap-2 pt-2">
-          <Button asChild variant="accent">
-            <Link href="/community/questions">질문 게시판</Link>
+        description="브랜드를 함께 만들 동료, 협업 파트너, 공장·패턴사를 찾는 네트워킹 게시판입니다."
+        align="left"
+        action={
+          <Button asChild variant="accent" className="hidden sm:inline-flex">
+            <Link href="/community/networking/new">
+              <Plus className="h-4 w-4" /> 글 작성
+            </Link>
           </Button>
-          <Button asChild variant="outline">
-            <Link href="/community">커뮤니티 홈</Link>
+        }
+      />
+      <PageBody>
+        <CategoryTabs
+          basePath="/community/networking"
+          categories={categories}
+          activeSlug={searchParams.category}
+        />
+        {posts.length === 0 ? (
+          <p className="text-sm text-muted-foreground text-center py-10">
+            아직 등록된 글이 없어요.{" "}
+            <Link
+              href="/community/networking/new"
+              className="font-semibold text-foreground underline underline-offset-2 hover:text-accent"
+            >
+              첫 글 작성하기
+            </Link>
+          </p>
+        ) : (
+          <PostSearchList
+            posts={posts}
+            variant="article"
+            placeholder="네트워킹 게시판 검색"
+            emptyMessage="검색 결과가 없습니다."
+            className="mb-2"
+            listClassName="grid gap-3"
+          />
+        )}
+        <div className="sm:hidden">
+          <Button asChild className="w-full" variant="accent">
+            <Link href="/community/networking/new">
+              <Plus className="h-4 w-4" /> 글 작성
+            </Link>
           </Button>
         </div>
       </PageBody>

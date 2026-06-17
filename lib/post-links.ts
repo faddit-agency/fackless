@@ -19,10 +19,10 @@ export function getPostHref(post: Pick<PostListItem, "id" | "slug" | "type">) {
     return `/community/questions/${post.id}`;
   }
   if (post.type === "feedback") {
-    return `/community/feedback`;
+    return `/community/feedback/${post.id}`;
   }
   if (post.type === "networking") {
-    return `/community/networking`;
+    return `/community/networking/${post.id}`;
   }
   return `/community/${post.type}s/${post.id}`;
 }
