@@ -7,6 +7,7 @@ import { LiveSearchInput } from "@/components/live-search-input";
 import { NewsThumbnail } from "@/components/news/news-thumbnail";
 import { PastelChip } from "@/components/ui/pastel-chip";
 import type { ExternalFashionNewsItem } from "@/lib/external-fashion-news";
+import { cn } from "@/lib/utils";
 
 /** 4열 그리드 기준: 20개 = 5행 × 4열 */
 const PAGE_SIZE = 20;
@@ -84,14 +85,20 @@ export function NewsFeed({ articles, categoryOptions }: NewsFeedProps) {
                   <button
                     type="button"
                     onClick={() => selectCategory(option.slug)}
-                    className={`inline-flex w-full items-center justify-between gap-3 rounded-full px-4 py-2.5 transition ${
+                    className={cn(
+                      "inline-flex w-full items-center justify-between gap-3 rounded-full px-4 py-2.5 transition font-medium",
                       active
-                        ? "bg-primary/10 text-primary font-semibold"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
-                    }`}
+                        ? "bg-foreground text-background"
+                        : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted",
+                    )}
                   >
                     {option.label}
-                    <span className="text-xs tabular-nums text-muted-foreground">
+                    <span
+                      className={cn(
+                        "text-xs tabular-nums",
+                        active ? "text-background/70" : "text-muted-foreground",
+                      )}
+                    >
                       {categoryCounts[option.slug]}
                     </span>
                   </button>
