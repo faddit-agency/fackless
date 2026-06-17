@@ -77,15 +77,15 @@ export default function HomePage() {
 
 function HeroSection() {
   return (
-    <section className="bg-gradient-to-b from-brand-soft via-background to-background">
+    <section className="bg-[#08132d] text-white">
       <div className="container py-16 md:py-24 text-center space-y-8">
-        <p className="text-xs md:text-sm font-semibold tracking-[0.14em] uppercase text-muted-foreground">
+        <p className="text-xs md:text-sm font-semibold tracking-[0.14em] uppercase text-white/70">
           FACKLESS · {SITE_TAGLINE}
         </p>
         <h1 className="text-3xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.3] whitespace-pre-line">
           {"브랜드는 시작했지만,\n생산에서 막히는 사람들을 위한\n패션 브랜드 실무 커뮤니티"}
         </h1>
-        <p className="text-base md:text-lg text-muted-foreground leading-[1.3]">
+        <p className="text-base md:text-lg text-white/75 leading-[1.3]">
           원단·공장·작업지시서·원가·브랜딩까지,
           <br />
           실무자에게 실제로 도움이 되는 정보와 사람을 모았습니다.
@@ -94,7 +94,12 @@ function HeroSection() {
           <Button asChild size="xl" variant="accent" className="min-w-[160px]">
             <Link href="/signup">무료로 가입하기</Link>
           </Button>
-          <Button asChild size="xl" variant="outline" className="min-w-[160px]">
+          <Button
+            asChild
+            size="xl"
+            variant="outline"
+            className="min-w-[160px] bg-transparent border-white/25 text-white hover:bg-white/10"
+          >
             <Link href="/resources">무료 자료실 둘러보기</Link>
           </Button>
         </div>

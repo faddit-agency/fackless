@@ -36,7 +36,7 @@ export default async function AdminBootcampPage() {
           </p>
         </div>
         <Button asChild variant="outline">
-          <Link href="/admin/bootcamp-applications/export.csv">CSV 다운로드</Link>
+          <Link href="/admin/bootcamp-applications/export">CSV 다운로드</Link>
         </Button>
       </header>
 
